@@ -91,18 +91,27 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   `meta.load-css` calls for `Button`/`LinkButton` styles. Don't import
   `LinkButton` directly and re-load its CSS per-component; go through the
   shared `Button` so the loading only happens in one place.
-- CTA button colors are a `colorScheme` prop (see
+- CTA buttons are a `colorScheme` prop (see
   `src/components/Button/Button.colorSchemes.ts`), not free hex fields in the
-  CMS schema. A hex pair can't carry hover/active states, and the real
-  hover on the as-is site is a faint grey shift, not the theme's default
-  blue — neither reproducible from just a background/text color pair. Add a
-  new named scheme there (with its own hover color) rather than adding a
-  new hex field when a section needs a different CTA treatment.
+  CMS schema — and padding, font-family, and letter-spacing live in that
+  same scheme definition, not in each consumer's own CSS. These are **not**
+  universal across schemes even though they look like they should be:
+  verified via prod devtools that `white` and `whiteOutline` use different
+  padding (4px/60px vs 8px/48px), different font-family (Nunito Sans vs
+  Nunito), and different letter-spacing (2px vs 1.06px). Only text-size and
+  text-weight (12px/800) are confirmed shared, and those stay in
+  `Button.module.scss`. A hex pair for colors alone also can't carry hover
+  states — the real `whiteOutline` hover is a solid `#252525` fill with
+  white text, not reproducible from a background/text pair. Add a new named
+  scheme (with its own full set: colors, hover colors, padding, font,
+  letter-spacing) rather than adding a one-off field or prop when a section
+  needs a different CTA treatment — don't assume any of these values
+  transfer from an existing scheme without checking the real site.
 - `letter-spacing` on a button label adds trailing space after the last
-  character, visually uncentering short labels inside a pill. Use
-  `Button`'s `letterSpacing` prop (wraps the label in its own span with a
-  compensating negative margin) instead of setting `letter-spacing`
-  directly on the button's own class.
+  character, visually uncentering short labels inside a pill. `Button`
+  compensates for this automatically (wraps the label in its own span with
+  a matching negative margin) using each scheme's own `letterSpacing`
+  value — this isn't something a consumer passes in.
 
 ## Build cache gotchas
 

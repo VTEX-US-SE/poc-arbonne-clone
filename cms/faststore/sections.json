@@ -112,6 +112,20 @@
           "enum": ["start", "center"],
           "default": "center"
         },
+        "badgeText": {
+          "title": "Badge Text (replaces Image with a colored circle; use \\n for line breaks, e.g. \"START\\nYOUR\\nBUSINESS\")",
+          "type": "string"
+        },
+        "badgeBackgroundColor": {
+          "title": "Badge Background Color (hex)",
+          "type": "string",
+          "default": "#dce8dc"
+        },
+        "badgeTextColor": {
+          "title": "Badge Text Color (hex)",
+          "type": "string",
+          "default": "#1a3d2e"
+        },
         "eyebrow": {
           "title": "Eyebrow (small text above headline)",
           "type": "string"
@@ -135,6 +149,16 @@
             "text": {
               "title": "Button Label",
               "type": "string"
+            },
+            "backgroundColor": {
+              "title": "Button Background Color (hex)",
+              "type": "string",
+              "default": "#ffffff"
+            },
+            "textColor": {
+              "title": "Button Text Color (hex)",
+              "type": "string",
+              "default": "#252525"
             }
           }
         }

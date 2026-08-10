@@ -120,8 +120,8 @@
           "title": "Body Text",
           "type": "string"
         },
-        "inlineLink": {
-          "title": "Inline Link (rendered right after Body Text, e.g. \"EARNINGS.ARBONNE.COM.\")",
+        "link": {
+          "title": "Link (rendered on its own line below Body Text, e.g. \"EARNINGS.ARBONNE.COM.\")",
           "type": "object",
           "properties": {
             "url": {

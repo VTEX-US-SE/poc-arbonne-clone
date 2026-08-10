@@ -8,9 +8,9 @@ export interface ImageTextSplitProps {
   eyebrow?: string
   headline?: string
   text?: string
-  // Inline link rendered after `text`, e.g. "For typical results:
-  // EARNINGS.ARBONNE.COM." -- separate from `cta`, which is the button below it.
-  inlineLink?: {
+  // Rendered on its own line below `text`, e.g. "EARNINGS.ARBONNE.COM." --
+  // separate from `cta`, which is the button below it.
+  link?: {
     url: string
     text: string
   }

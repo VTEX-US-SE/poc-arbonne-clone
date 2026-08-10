@@ -83,10 +83,12 @@
     max-width: 32rem;
   }
 
-  &__inlineLink {
+  &__link {
     --fs-link-text-color: #337ab7;
+    margin: 0 0 var(--fs-spacing-3);
     font-family: 'Nunito Sans', sans-serif;
-    font-size: inherit;
+    font-size: 1.25rem;
+    color: var(--fs-color-text);
   }
 
   &__cta {

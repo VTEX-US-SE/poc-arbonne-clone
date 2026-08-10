@@ -12,7 +12,7 @@ export default function ImageTextSplit({
   eyebrow,
   headline,
   text,
-  inlineLink,
+  link,
   cta,
 }: ImageTextSplitProps) {
   return (
@@ -35,21 +35,10 @@ export default function ImageTextSplit({
         {headline && (
           <h2 className={styles.imageTextSplit__headline}>{headline}</h2>
         )}
-        {text && (
-          <p className={styles.imageTextSplit__text}>
-            {text}
-            {inlineLink?.url && inlineLink?.text && (
-              <>
-                {' '}
-                <Link
-                  className={styles.imageTextSplit__inlineLink}
-                  href={inlineLink.url}
-                >
-                  {inlineLink.text}
-                </Link>
-                .
-              </>
-            )}
+        {text && <p className={styles.imageTextSplit__text}>{text}</p>}
+        {link?.url && link?.text && (
+          <p className={styles.imageTextSplit__link}>
+            <Link href={link.url}>{link.text}</Link>.
           </p>
         )}
         {cta?.url && cta?.text && (

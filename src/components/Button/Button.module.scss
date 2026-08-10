@@ -5,20 +5,9 @@
     @include meta.load-css('~@faststore/ui/src/components/atoms/Button/styles.scss');
     @include meta.load-css('~@faststore/ui/src/components/molecules/LinkButton/styles.scss');
 
-    // Every CTA on the as-is site is a pill button at 12px/800 weight --
-    // confirmed universal across both current color schemes via prod
-    // inspector, so it lives here rather than repeated per scheme. Padding,
-    // font-family, and letter-spacing genuinely differ per scheme (see
-    // Button.colorSchemes.ts) and are applied per-instance instead.
     text-decoration: none;
     --fs-button-border-radius: var(--fs-border-radius-pill);
-    --fs-button-text-size: 0.75rem; // 12px
+    --fs-button-text-size: 0.75rem;
     --fs-button-text-weight: 800;
-    // --fs-button-height defaults to a 48px accessibility touch-target
-    // minimum via min-height. Real buttons are 32-40px, and the library
-    // forces line-height to exactly equal font-size (no natural leading),
-    // so height can't be derived from padding + line-height either -- each
-    // scheme sets its own measured height explicitly (see
-    // Button.colorSchemes.ts) rather than relying on a shared default here.
   }
 }

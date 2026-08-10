@@ -5,6 +5,11 @@ import { BUTTON_COLOR_SCHEMES } from './Button.colorSchemes'
 import styles from './Button.module.scss'
 import type { ButtonProps } from './Button.types'
 
+/**
+ * Brand CTA button. Wraps `@faststore/ui`'s `LinkButton`, applying colors,
+ * padding, font, letter-spacing, and height from a named `colorScheme`
+ * (see `Button.colorSchemes.ts`) instead of accepting raw style props.
+ */
 export default function Button({
   variant = 'primary',
   size = 'regular',

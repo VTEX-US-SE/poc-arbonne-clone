@@ -4,6 +4,11 @@ import Button from '../Button/Button'
 import styles from './ImageTextSplit.module.scss'
 import type { ImageTextSplitProps } from './ImageTextSplit.types'
 
+/**
+ * Two-column layout: an image on one side, a text block (eyebrow/headline/
+ * text/link/CTA) on the other. `imagePosition` mirrors the layout left/right,
+ * `textAlign` controls the text block's own alignment.
+ */
 export default function ImageTextSplit({
   image,
   imageAlt = '',

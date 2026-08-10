@@ -2,6 +2,13 @@ import Button from '../Button/Button'
 import styles from './HeroBanner.module.scss'
 import type { HeroBannerProps } from './HeroBanner.types'
 
+/**
+ * Full-width promo banner: art-directed mobile/desktop background image,
+ * an eyebrow/headline/subheadline/text stack, and an optional CTA. Content
+ * position (`left`/`center`/`right`) and CTA color scheme are configurable
+ * per instance so this one component covers every full-bleed hero variant
+ * on the homepage.
+ */
 export default function HeroBanner({
   desktopImage,
   mobileImage,

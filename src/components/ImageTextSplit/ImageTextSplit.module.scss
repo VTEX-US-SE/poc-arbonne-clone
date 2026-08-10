@@ -62,8 +62,6 @@
   &__headline {
     margin: var(--fs-spacing-1) 0;
     font-family: 'Bebas Neue', sans-serif;
-    // No mobile capture available -- 1.75rem is an interim guess. 2.25rem
-    // (36px) at >=tablet matches the captured desktop size exactly.
     font-size: 1.75rem;
     font-weight: 400;
     line-height: 1.15;
@@ -77,7 +75,7 @@
   &__text {
     margin: var(--fs-spacing-3) 0;
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 1.25rem; // 20px, matches the Figma capture (was 16px)
+    font-size: 1.25rem;
     font-weight: var(--fs-text-weight-regular);
     color: var(--fs-color-text);
     max-width: 32rem;

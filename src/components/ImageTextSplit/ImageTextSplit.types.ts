@@ -8,8 +8,6 @@ export interface ImageTextSplitProps {
   eyebrow?: string
   headline?: string
   text?: string
-  // Rendered on its own line below `text`, e.g. "EARNINGS.ARBONNE.COM." --
-  // separate from `cta`, which is the button below it.
   link?: {
     url: string
     text: string

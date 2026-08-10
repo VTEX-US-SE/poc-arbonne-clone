@@ -1,4 +1,4 @@
-import HeroBanner from '../../../components/sections/HeroBanner/HeroBanner'
+import HeroBanner from '../../../components/HeroBanner/HeroBanner'
 
 export default {
   HeroBanner,

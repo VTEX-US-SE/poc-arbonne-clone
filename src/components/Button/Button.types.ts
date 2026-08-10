@@ -1,8 +1,5 @@
-import type { AnchorHTMLAttributes } from 'react'
+import type { LinkButtonProps } from '@faststore/ui'
 
-export interface ButtonProps
-  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'type'> {
+export interface ButtonProps extends LinkButtonProps {
   href: string
-  variant?: 'primary' | 'secondary' | 'tertiary'
-  size?: 'small' | 'regular'
 }

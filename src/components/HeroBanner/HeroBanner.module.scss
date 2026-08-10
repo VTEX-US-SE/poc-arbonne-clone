@@ -1,3 +1,5 @@
+@use '@faststore/ui/src/styles/base/utilities' as u;
+
 .section {
   position: relative;
   display: flex;
@@ -5,7 +7,7 @@
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  min-height: 320px;
+  min-height: var(--fs-spacing-13);
 }
 
 .imageMobile,
@@ -15,7 +17,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
+  z-index: var(--fs-z-index-default);
 }
 
 .imageMobile {
@@ -26,7 +28,7 @@
   display: none;
 }
 
-@media (min-width: 768px) {
+@include u.media('>=tablet') {
   .imageMobile {
     display: none;
   }
@@ -38,45 +40,49 @@
 
 .content {
   position: relative;
-  z-index: 1;
+  z-index: var(--fs-z-index-top);
   max-width: 40rem;
-  padding: 2rem 1rem;
+  padding: var(--fs-spacing-5) var(--fs-spacing-3);
 }
 
 .eyebrow {
   margin: 0;
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: var(--fs-text-size-1);
+  font-weight: var(--fs-text-weight-bold);
   letter-spacing: 0.15em;
+  color: var(--fs-color-text);
 }
 
 .headline {
-  margin: 0.25rem 0;
-  font-size: 3rem;
-  font-weight: 800;
+  margin: var(--fs-spacing-0) 0;
+  font-size: var(--fs-text-size-8);
+  font-weight: var(--fs-text-weight-black);
   line-height: 1.1;
+  color: var(--fs-color-text-display);
 }
 
 .subheadline {
-  margin: 0.5rem 0;
-  font-size: 1rem;
-  font-weight: 700;
+  margin: var(--fs-spacing-1) 0;
+  font-size: var(--fs-text-size-1);
+  font-weight: var(--fs-text-weight-bold);
   letter-spacing: 0.05em;
+  color: var(--fs-color-text);
 }
 
 .text {
-  margin: 1rem 0;
-  font-size: 0.95rem;
+  margin: var(--fs-spacing-3) 0;
+  font-size: var(--fs-text-size-2);
+  color: var(--fs-color-text-light);
 }
 
 .cta {
   display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.75rem 2rem;
-  background-color: #fff;
-  color: #252525;
-  font-weight: 700;
+  margin-top: var(--fs-spacing-1);
+  padding: var(--fs-spacing-2) var(--fs-spacing-5);
+  background-color: var(--fs-color-neutral-0);
+  color: var(--fs-color-text);
+  font-weight: var(--fs-text-weight-bold);
   letter-spacing: 0.05em;
   text-decoration: none;
-  border-radius: 999px;
+  border-radius: var(--fs-border-radius-pill);
 }

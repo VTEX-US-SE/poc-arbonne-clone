@@ -31,6 +31,12 @@
           "type": "string",
           "default": "#efefef"
         },
+        "contentPosition": {
+          "title": "Content Position",
+          "type": "string",
+          "enum": ["left", "center", "right"],
+          "default": "center"
+        },
         "eyebrow": {
           "title": "Eyebrow (small text above headline)",
           "type": "string"
@@ -41,6 +47,67 @@
         },
         "subheadline": {
           "title": "Subheadline",
+          "type": "string"
+        },
+        "text": {
+          "title": "Body Text",
+          "type": "string"
+        },
+        "cta": {
+          "title": "Call to Action",
+          "type": "object",
+          "properties": {
+            "url": {
+              "title": "Link URL",
+              "type": "string"
+            },
+            "text": {
+              "title": "Button Label",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "ImageTextSplit",
+    "scopes": ["global"],
+    "schema": {
+      "title": "[ARB] Image/Text Split",
+      "description": "Two-column layout with an image on one side and a text block on the other",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "image": {
+          "title": "Image",
+          "type": "string",
+          "widget": {
+            "ui:widget": "media-gallery"
+          }
+        },
+        "imageAlt": {
+          "title": "Image Alt Text",
+          "type": "string"
+        },
+        "imagePosition": {
+          "title": "Image Position",
+          "type": "string",
+          "enum": ["left", "right"],
+          "default": "left"
+        },
+        "textAlign": {
+          "title": "Text Alignment",
+          "type": "string",
+          "enum": ["start", "center"],
+          "default": "center"
+        },
+        "eyebrow": {
+          "title": "Eyebrow (small text above headline)",
+          "type": "string"
+        },
+        "headline": {
+          "title": "Headline",
           "type": "string"
         },
         "text": {

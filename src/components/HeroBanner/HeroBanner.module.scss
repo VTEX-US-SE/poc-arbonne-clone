@@ -37,6 +37,14 @@
     }
   }
 
+  &[data-content-position='left'] {
+    justify-content: flex-start;
+  }
+
+  &[data-content-position='right'] {
+    justify-content: flex-end;
+  }
+
   &__content {
     position: relative;
     z-index: var(--fs-z-index-top);

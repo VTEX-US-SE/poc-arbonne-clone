@@ -1,0 +1,71 @@
+@use '@faststore/ui/src/styles/base/utilities' as u;
+
+.imageTextSplit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: var(--fs-spacing-5) var(--fs-spacing-3);
+
+    &[data-text-align='center'] {
+      align-items: center;
+      text-align: center;
+    }
+
+    &[data-text-align='start'] {
+      align-items: flex-start;
+      text-align: start;
+    }
+  }
+
+  @include u.media('>=tablet') {
+    flex-direction: row;
+
+    &[data-image-position='right'] {
+      flex-direction: row-reverse;
+    }
+
+    &__image,
+    &__content {
+      width: 50%;
+    }
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: var(--fs-text-size-1);
+    font-weight: var(--fs-text-weight-bold);
+    letter-spacing: 0.15em;
+    color: var(--fs-color-text);
+  }
+
+  &__headline {
+    margin: var(--fs-spacing-1) 0;
+    font-size: var(--fs-text-size-6);
+    font-weight: var(--fs-text-weight-black);
+    line-height: 1.1;
+    color: var(--fs-color-text-display);
+  }
+
+  &__text {
+    margin: var(--fs-spacing-3) 0;
+    font-size: var(--fs-text-size-2);
+    color: var(--fs-color-text-light);
+    max-width: 32rem;
+  }
+
+  &__cta {
+    margin-top: var(--fs-spacing-1);
+  }
+}

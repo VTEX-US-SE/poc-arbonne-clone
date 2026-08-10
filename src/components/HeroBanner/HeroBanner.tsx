@@ -7,6 +7,7 @@ export default function HeroBanner({
   mobileImage,
   imageAlt = '',
   backgroundColor = '#efefef',
+  contentPosition = 'center',
   eyebrow,
   headline,
   subheadline,
@@ -14,7 +15,11 @@ export default function HeroBanner({
   cta,
 }: HeroBannerProps) {
   return (
-    <section className={styles.heroBanner} style={{ backgroundColor }}>
+    <section
+      className={styles.heroBanner}
+      style={{ backgroundColor }}
+      data-content-position={contentPosition}
+    >
       {mobileImage && (
         <img
           className={styles.heroBanner__imageMobile}

@@ -13,20 +13,30 @@ export default function HeroBanner({
   cta,
 }: HeroBannerProps) {
   return (
-    <section className={styles.section} style={{ backgroundColor }}>
+    <section className={styles.heroBanner} style={{ backgroundColor }}>
       {mobileImage && (
-        <img className={styles.imageMobile} src={mobileImage} alt={imageAlt} />
+        <img
+          className={styles.heroBanner__imageMobile}
+          src={mobileImage}
+          alt={imageAlt}
+        />
       )}
       {desktopImage && (
-        <img className={styles.imageDesktop} src={desktopImage} alt={imageAlt} />
+        <img
+          className={styles.heroBanner__imageDesktop}
+          src={desktopImage}
+          alt={imageAlt}
+        />
       )}
-      <div className={styles.content}>
-        {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
-        {headline && <h1 className={styles.headline}>{headline}</h1>}
-        {subheadline && <h3 className={styles.subheadline}>{subheadline}</h3>}
-        {text && <p className={styles.text}>{text}</p>}
+      <div className={styles.heroBanner__content}>
+        {eyebrow && <p className={styles.heroBanner__eyebrow}>{eyebrow}</p>}
+        {headline && <h1 className={styles.heroBanner__headline}>{headline}</h1>}
+        {subheadline && (
+          <h3 className={styles.heroBanner__subheadline}>{subheadline}</h3>
+        )}
+        {text && <p className={styles.heroBanner__text}>{text}</p>}
         {cta?.url && cta?.text && (
-          <a className={styles.cta} href={cta.url}>
+          <a className={styles.heroBanner__cta} href={cta.url}>
             {cta.text}
           </a>
         )}

@@ -1,6 +1,7 @@
 module.exports = {
   contentSource: {
-    type: 'CMS',
+    type: "CMS",
+    project: "arbonne-poc",
   },
   seo: {
     title: "Arbonne",
@@ -93,10 +94,12 @@ module.exports = {
     nodeVersion: 24,
     cypressVersion: 12,
     enableFaststoreMyAccount: false,
-    optimizedFonts: true, 
+    optimizedFonts: true,
   },
 
   vtexHeadlessCms: {
-    webhookUrls: ["https://arbonnepoc.myvtex.com/cms-releases/webhook-releases"],
+    webhookUrls: [
+      "https://arbonnepoc.myvtex.com/cms-releases/webhook-releases",
+    ],
   },
 };

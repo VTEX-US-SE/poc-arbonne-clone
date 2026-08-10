@@ -6,7 +6,7 @@ for the VTEX account **`arbonnepoc`**, scaffolded from
 
 - **VTEX Admin:** https://arbonnepoc.myvtex.com/admin
 - **Hosting:** VTEX WebOps (Storefront > FastStore WebOps in Admin), built/deployed from this
-  repo's `main` branch — not Vercel.
+  repo's `main` branch.
 - **CMS Store ID:** `arbonne-poc` (must match `contentSource.project` in `discovery.config.js`)
 
 ## Getting started
@@ -44,8 +44,8 @@ built-in sections.
    `<Name>.types.ts` alongside it.
 2. Register it in `src/components/index.tsx`:
    ```tsx
-   import MySection from './MySection/MySection'
-   export default { MySection }
+   import MySection from "./MySection/MySection";
+   export default { MySection };
    ```
 3. Add a matching entry to `cms/faststore/sections.json` — the `name` field must exactly match
    the registry key above. Prefix the schema `title` with `[ARB]`.

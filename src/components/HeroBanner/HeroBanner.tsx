@@ -1,3 +1,5 @@
+import { LinkButton } from '@faststore/ui'
+
 import styles from './HeroBanner.module.scss'
 import type { HeroBannerProps } from './HeroBanner.types'
 
@@ -36,9 +38,9 @@ export default function HeroBanner({
         )}
         {text && <p className={styles.heroBanner__text}>{text}</p>}
         {cta?.url && cta?.text && (
-          <a className={styles.heroBanner__cta} href={cta.url}>
+          <LinkButton className={styles.heroBanner__cta} href={cta.url}>
             {cta.text}
-          </a>
+          </LinkButton>
         )}
       </div>
     </section>

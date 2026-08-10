@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "name": "RichText",
+    "scopes": ["global"],
+    "schema": {
+      "title": "Rich Text",
+      "description": "A simple heading + paragraph block",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      }
+    }
+  }
+]

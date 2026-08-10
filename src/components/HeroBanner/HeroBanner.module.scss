@@ -61,6 +61,9 @@
   &__content {
     position: relative;
     z-index: var(--fs-z-index-top);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 34rem; // ~544px, matches the captured content column width
     padding: var(--fs-spacing-5) var(--fs-spacing-3);
   }
@@ -111,7 +114,7 @@
   &__cta {
     margin-top: var(--fs-spacing-1);
     font-family: 'Nunito Sans', sans-serif;
-    letter-spacing: 0.125rem; // 2px
+    white-space: nowrap;
     --fs-button-text-size: 0.75rem; // 12px
     --fs-button-text-weight: 800;
   }

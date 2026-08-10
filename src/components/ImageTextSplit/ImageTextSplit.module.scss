@@ -92,7 +92,7 @@
   &__cta {
     margin-top: var(--fs-spacing-1);
     font-family: 'Nunito Sans', sans-serif;
-    letter-spacing: 0.125rem;
+    white-space: nowrap;
     --fs-button-text-size: 0.75rem;
     --fs-button-text-weight: 800;
   }

@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react'
 import { Link } from '@faststore/ui'
 
 import Button from '../Button/Button'
@@ -57,13 +56,8 @@ export default function ImageTextSplit({
           <Button
             className={styles.imageTextSplit__cta}
             href={cta.url}
-            style={
-              {
-                '--fs-button-primary-bkg-color':
-                  cta.backgroundColor ?? '#ffffff',
-                '--fs-button-primary-text-color': cta.textColor ?? '#252525',
-              } as CSSProperties
-            }
+            letterSpacing="0.125rem"
+            colorScheme={cta.colorScheme}
           >
             {cta.text}
           </Button>

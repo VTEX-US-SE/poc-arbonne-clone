@@ -1,3 +1,5 @@
+import type { ButtonColorScheme } from '../Button/Button.colorSchemes'
+
 export interface ImageTextSplitProps {
   image?: string
   imageAlt?: string
@@ -15,7 +17,6 @@ export interface ImageTextSplitProps {
   cta?: {
     url: string
     text: string
-    backgroundColor?: string
-    textColor?: string
+    colorScheme?: ButtonColorScheme
   }
 }

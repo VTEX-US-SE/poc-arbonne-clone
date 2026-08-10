@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react'
-
 import Button from '../Button/Button'
 import styles from './HeroBanner.module.scss'
 import type { HeroBannerProps } from './HeroBanner.types'
@@ -47,13 +45,8 @@ export default function HeroBanner({
           <Button
             className={styles.heroBanner__cta}
             href={cta.url}
-            style={
-              {
-                '--fs-button-primary-bkg-color':
-                  cta.backgroundColor ?? '#ffffff',
-                '--fs-button-primary-text-color': cta.textColor ?? '#252525',
-              } as CSSProperties
-            }
+            letterSpacing="0.125rem"
+            colorScheme={cta.colorScheme}
           >
             {cta.text}
           </Button>

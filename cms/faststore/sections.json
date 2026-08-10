@@ -65,15 +65,11 @@
               "title": "Button Label",
               "type": "string"
             },
-            "backgroundColor": {
-              "title": "Button Background Color (hex)",
+            "colorScheme": {
+              "title": "Button Color Scheme",
               "type": "string",
-              "default": "#ffffff"
-            },
-            "textColor": {
-              "title": "Button Text Color (hex)",
-              "type": "string",
-              "default": "#252525"
+              "enum": ["white"],
+              "default": "white"
             }
           }
         }
@@ -150,15 +146,11 @@
               "title": "Button Label",
               "type": "string"
             },
-            "backgroundColor": {
-              "title": "Button Background Color (hex)",
+            "colorScheme": {
+              "title": "Button Color Scheme",
               "type": "string",
-              "default": "#ffffff"
-            },
-            "textColor": {
-              "title": "Button Text Color (hex)",
-              "type": "string",
-              "default": "#252525"
+              "enum": ["white"],
+              "default": "white"
             }
           }
         }

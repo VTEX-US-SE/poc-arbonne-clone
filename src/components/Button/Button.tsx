@@ -35,6 +35,7 @@ export default function Button({
           '--fs-button-primary-border-color-hover': scheme.hoverBackgroundColor,
           '--fs-button-border-width': borderWidth,
           '--fs-button-padding': scheme.padding,
+          '--fs-button-height': scheme.height,
           fontFamily: scheme.fontFamily,
           ...style,
         } as CSSProperties

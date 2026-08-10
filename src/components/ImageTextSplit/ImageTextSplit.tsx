@@ -38,7 +38,7 @@ export default function ImageTextSplit({
         {text && <p className={styles.imageTextSplit__text}>{text}</p>}
         {link?.url && link?.text && (
           <p className={styles.imageTextSplit__link}>
-            <Link href={link.url}>{link.text}</Link>.
+            <Link href={link.url}>{link.text}</Link>
           </p>
         )}
         {cta?.url && cta?.text && (

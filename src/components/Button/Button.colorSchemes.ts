@@ -12,6 +12,10 @@ export const BUTTON_COLOR_SCHEMES = {
     padding: '0.25rem 3.75rem', // 4px 60px, verified via prod inspector
     fontFamily: "'Nunito Sans', sans-serif",
     letterSpacing: '0.125rem', // 2px
+    // The library forces line-height to exactly equal font-size (zero
+    // leading), so height can't be derived from padding + line-height like
+    // a normal element -- set explicitly to the measured value instead.
+    height: '2.025rem', // 32.4px, verified via prod inspector
   },
   whiteOutline: {
     backgroundColor: '#ffffff',
@@ -26,6 +30,7 @@ export const BUTTON_COLOR_SCHEMES = {
     padding: '0.5rem 3rem', // 8px 48px, verified via prod inspector
     fontFamily: "'Nunito', sans-serif", // "Nunito Extrabold" per prod inspector
     letterSpacing: '1.06px', // verified via Figma capture data
+    height: '2.5rem', // 40px, verified via prod inspector (181.56 x 40)
   },
 } as const
 

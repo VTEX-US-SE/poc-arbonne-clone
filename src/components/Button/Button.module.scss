@@ -14,5 +14,11 @@
     --fs-button-border-radius: var(--fs-border-radius-pill);
     --fs-button-text-size: 0.75rem; // 12px
     --fs-button-text-weight: 800;
+    // The library forces a 48px min-height (accessibility touch-target
+    // default) that overrides our own padding math entirely -- real
+    // buttons on the as-is site are 32-40px tall (per prod inspector), so
+    // let height come from padding + line-height like a normal element
+    // instead of being floored at 48px.
+    --fs-button-height: auto;
   }
 }

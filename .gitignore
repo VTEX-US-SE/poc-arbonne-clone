@@ -28,11 +28,15 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# WebOps deprecated this for production use -- configure secrets/build
+# settings directly in FastStore WebOps Settings instead. Local-dev only.
+vtex.env
+
 # vercel
 .vercel
 
 # typescript
-*.tsbuildinfo
+*.tsbuildinfoy
 
 # faststore
 /.faststore

@@ -1,29 +1,9 @@
 [
   {
-    "name": "RichText",
-    "scopes": ["global"],
-    "schema": {
-      "title": "Rich Text",
-      "description": "A simple heading + paragraph block",
-      "type": "object",
-      "required": [],
-      "properties": {
-        "title": {
-          "title": "Title",
-          "type": "string"
-        },
-        "text": {
-          "title": "Text",
-          "type": "string"
-        }
-      }
-    }
-  },
-  {
     "name": "HeroBanner",
     "scopes": ["global"],
     "schema": {
-      "title": "Hero Banner",
+      "title": "[ARB] Hero Banner",
       "description": "Full-width promo banner with image, headline stack, and CTA",
       "type": "object",
       "required": [],

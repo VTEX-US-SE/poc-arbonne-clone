@@ -1,13 +1,23 @@
 @use '@faststore/ui/src/styles/base/utilities' as u;
 
 .heroBanner {
+  // Figma "Strawberry Stash" capture: real text color is #252525, not the
+  // placeholder theme's neutral tokens. Scoped override so the rest of the
+  // component keeps referencing var(--fs-color-text*) as usual.
+  --fs-color-text: #252525;
+  --fs-color-text-display: #252525;
+
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  min-height: var(--fs-spacing-13);
+  min-height: 18rem;
+
+  @include u.media('>=tablet') {
+    min-height: 34.375rem; // 550px, matches the captured desktop hero height
+  }
 
   &__imageMobile,
   &__imageDesktop {
@@ -48,41 +58,58 @@
   &__content {
     position: relative;
     z-index: var(--fs-z-index-top);
-    max-width: 40rem;
+    max-width: 34rem; // ~544px, matches the captured content column width
     padding: var(--fs-spacing-5) var(--fs-spacing-3);
   }
 
   &__eyebrow {
     margin: 0;
-    font-size: var(--fs-text-size-1);
-    font-weight: var(--fs-text-weight-bold);
-    letter-spacing: 0.15em;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.125rem; // 18px
+    font-weight: 900;
+    letter-spacing: 0.25rem; // ~4px
     color: var(--fs-color-text);
   }
 
   &__headline {
-    margin: var(--fs-spacing-0) 0;
-    font-size: var(--fs-text-size-8);
-    font-weight: var(--fs-text-weight-black);
-    line-height: 1.1;
+    margin: var(--fs-spacing-1) 0;
+    font-family: 'Bebas Neue', sans-serif;
+    // No mobile capture available (scout flagged this gap) -- 4rem is an
+    // interim guess, not a verified value. 6.875rem (110px) at >=tablet
+    // matches the captured desktop size exactly.
+    font-size: 4rem;
+    font-weight: 400;
+    line-height: 1;
     color: var(--fs-color-text-display);
+
+    @include u.media('>=tablet') {
+      font-size: 6.875rem;
+    }
   }
 
   &__subheadline {
     margin: var(--fs-spacing-1) 0;
-    font-size: var(--fs-text-size-1);
-    font-weight: var(--fs-text-weight-bold);
-    letter-spacing: 0.05em;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 900;
+    letter-spacing: 0.25rem;
     color: var(--fs-color-text);
   }
 
   &__text {
     margin: var(--fs-spacing-3) 0;
+    font-family: 'Nunito Sans', sans-serif;
     font-size: var(--fs-text-size-2);
-    color: var(--fs-color-text-light);
+    font-weight: var(--fs-text-weight-regular);
+    line-height: 1.56;
+    color: var(--fs-color-text);
   }
 
   &__cta {
     margin-top: var(--fs-spacing-1);
+    font-family: 'Nunito Sans', sans-serif;
+    letter-spacing: 0.125rem; // 2px
+    --fs-button-text-size: 0.75rem; // 12px
+    --fs-button-text-weight: 800;
   }
 }

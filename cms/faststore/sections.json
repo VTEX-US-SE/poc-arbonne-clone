@@ -64,6 +64,16 @@
             "text": {
               "title": "Button Label",
               "type": "string"
+            },
+            "backgroundColor": {
+              "title": "Button Background Color (hex)",
+              "type": "string",
+              "default": "#ffffff"
+            },
+            "textColor": {
+              "title": "Button Text Color (hex)",
+              "type": "string",
+              "default": "#252525"
             }
           }
         }

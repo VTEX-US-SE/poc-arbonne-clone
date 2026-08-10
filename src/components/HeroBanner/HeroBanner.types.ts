@@ -11,5 +11,7 @@ export interface HeroBannerProps {
   cta?: {
     url: string
     text: string
+    backgroundColor?: string
+    textColor?: string
   }
 }

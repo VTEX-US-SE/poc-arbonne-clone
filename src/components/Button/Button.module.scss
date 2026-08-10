@@ -4,5 +4,11 @@
   .button {
     @include meta.load-css('~@faststore/ui/src/components/atoms/Button/styles.scss');
     @include meta.load-css('~@faststore/ui/src/components/molecules/LinkButton/styles.scss');
+
+    // Every CTA on the as-is site is a pill button -- brand-wide choice,
+    // not a per-section one, so it lives here instead of being repeated
+    // in every component that uses Button.
+    text-decoration: none;
+    --fs-button-border-radius: var(--fs-border-radius-pill);
   }
 }

@@ -36,7 +36,8 @@ export default function Button({
       style={
         {
           '--fs-button-primary-bkg-color': scheme.backgroundColor,
-          '--fs-button-primary-bkg-color-hover': hoverBackgroundColor,
+          '--fs-button-primary-bkg-color-hover':
+            hoverBackgroundColor ?? scheme.backgroundColor,
           '--fs-button-primary-text-color': scheme.textColor,
           '--fs-button-primary-text-color-hover': hoverTextColor,
           '--fs-button-primary-border-color': borderColor,

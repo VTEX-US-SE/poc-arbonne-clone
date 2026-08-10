@@ -112,6 +112,15 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   compensates for this automatically (wraps the label in its own span with
   a matching negative margin) using each scheme's own `letterSpacing`
   value — this isn't something a consumer passes in.
+- No `box-sizing: border-box` reset applies anywhere in this app's global
+  styles (checked — it genuinely doesn't exist, not just hard to find).
+  `Button.module.scss` sets it explicitly on `.button` because mixing an
+  explicit `height` with `padding` under the browser's default
+  `content-box` makes them **add together** instead of `height` including
+  the padding — a scheme's declared height silently became height +
+  padding + border in the actual render (40px height read as ~58px). Any
+  future component that sets both an explicit `height`/`width` and
+  `padding` needs its own `box-sizing: border-box`, or the same bug repeats.
 
 ## Build cache gotchas
 

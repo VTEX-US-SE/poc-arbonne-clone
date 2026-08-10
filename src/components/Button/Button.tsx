@@ -16,6 +16,10 @@ export default function Button({
   ...otherProps
 }: ButtonProps) {
   const scheme = BUTTON_COLOR_SCHEMES[colorScheme]
+  const borderColor = 'borderColor' in scheme ? scheme.borderColor : undefined
+  const borderWidth = 'borderWidth' in scheme ? scheme.borderWidth : undefined
+  const hoverTextColor =
+    'hoverTextColor' in scheme ? scheme.hoverTextColor : undefined
 
   return (
     <LinkButton
@@ -27,6 +31,10 @@ export default function Button({
           '--fs-button-primary-bkg-color': scheme.backgroundColor,
           '--fs-button-primary-bkg-color-hover': scheme.hoverBackgroundColor,
           '--fs-button-primary-text-color': scheme.textColor,
+          '--fs-button-primary-text-color-hover': hoverTextColor,
+          '--fs-button-primary-border-color': borderColor,
+          '--fs-button-primary-border-color-hover': scheme.hoverBackgroundColor,
+          '--fs-button-border-width': borderWidth,
           ...style,
         } as CSSProperties
       }

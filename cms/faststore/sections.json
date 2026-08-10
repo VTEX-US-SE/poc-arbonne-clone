@@ -68,7 +68,7 @@
             "colorScheme": {
               "title": "Button Color Scheme",
               "type": "string",
-              "enum": ["white"],
+              "enum": ["white", "whiteOutline"],
               "default": "white"
             }
           }
@@ -149,7 +149,7 @@
             "colorScheme": {
               "title": "Button Color Scheme",
               "type": "string",
-              "enum": ["white"],
+              "enum": ["white", "whiteOutline"],
               "default": "white"
             }
           }

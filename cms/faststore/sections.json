@@ -18,5 +18,70 @@
         }
       }
     }
+  },
+  {
+    "name": "HeroBanner",
+    "scopes": ["global"],
+    "schema": {
+      "title": "Hero Banner",
+      "description": "Full-width promo banner with image, headline stack, and CTA",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "desktopImage": {
+          "title": "Desktop Image",
+          "type": "string",
+          "widget": {
+            "ui:widget": "media-gallery"
+          }
+        },
+        "mobileImage": {
+          "title": "Mobile Image",
+          "type": "string",
+          "widget": {
+            "ui:widget": "media-gallery"
+          }
+        },
+        "imageAlt": {
+          "title": "Image Alt Text",
+          "type": "string"
+        },
+        "backgroundColor": {
+          "title": "Background Color (hex)",
+          "type": "string",
+          "default": "#efefef"
+        },
+        "eyebrow": {
+          "title": "Eyebrow (small text above headline)",
+          "type": "string"
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string"
+        },
+        "subheadline": {
+          "title": "Subheadline",
+          "type": "string"
+        },
+        "text": {
+          "title": "Body Text",
+          "type": "string"
+        },
+        "cta": {
+          "title": "Call to Action",
+          "type": "object",
+          "properties": {
+            "url": {
+              "title": "Link URL",
+              "type": "string"
+            },
+            "text": {
+              "title": "Button Label",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
   }
 ]

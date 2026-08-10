@@ -10,7 +10,6 @@ export default function Button({
   size = 'regular',
   className,
   colorScheme = 'white',
-  letterSpacing,
   children,
   style,
   ...otherProps
@@ -35,18 +34,21 @@ export default function Button({
           '--fs-button-primary-border-color': borderColor,
           '--fs-button-primary-border-color-hover': scheme.hoverBackgroundColor,
           '--fs-button-border-width': borderWidth,
+          '--fs-button-padding': scheme.padding,
+          fontFamily: scheme.fontFamily,
           ...style,
         } as CSSProperties
       }
       {...otherProps}
     >
-      {letterSpacing ? (
-        <span style={{ letterSpacing, marginRight: `-${letterSpacing}` }}>
-          {children}
-        </span>
-      ) : (
-        children
-      )}
+      <span
+        style={{
+          letterSpacing: scheme.letterSpacing,
+          marginRight: `-${scheme.letterSpacing}`,
+        }}
+      >
+        {children}
+      </span>
     </LinkButton>
   )
 }

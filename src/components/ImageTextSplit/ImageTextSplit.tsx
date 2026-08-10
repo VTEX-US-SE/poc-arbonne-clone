@@ -45,8 +45,7 @@ export default function ImageTextSplit({
           <Button
             className={styles.imageTextSplit__cta}
             href={cta.url}
-            letterSpacing="0.125rem"
-            colorScheme={cta.colorScheme}
+            colorScheme={cta.colorScheme ?? 'whiteOutline'}
           >
             {cta.text}
           </Button>

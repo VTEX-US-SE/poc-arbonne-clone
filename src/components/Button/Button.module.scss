@@ -5,12 +5,14 @@
     @include meta.load-css('~@faststore/ui/src/components/atoms/Button/styles.scss');
     @include meta.load-css('~@faststore/ui/src/components/molecules/LinkButton/styles.scss');
 
-    // Every CTA on the as-is site is a pill button with generous side
-    // padding -- brand-wide choice, not a per-section one, so it lives here
-    // instead of being repeated in every component that uses Button.
-    // Verified via prod inspector: padding: 4px 60px.
+    // Every CTA on the as-is site is a pill button at 12px/800 weight --
+    // confirmed universal across both current color schemes via prod
+    // inspector, so it lives here rather than repeated per scheme. Padding,
+    // font-family, and letter-spacing genuinely differ per scheme (see
+    // Button.colorSchemes.ts) and are applied per-instance instead.
     text-decoration: none;
     --fs-button-border-radius: var(--fs-border-radius-pill);
-    --fs-button-padding: 0.25rem 3.75rem;
+    --fs-button-text-size: 0.75rem; // 12px
+    --fs-button-text-weight: 800;
   }
 }

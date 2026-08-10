@@ -150,7 +150,7 @@
               "title": "Button Color Scheme",
               "type": "string",
               "enum": ["white", "whiteOutline"],
-              "default": "white"
+              "default": "whiteOutline"
             }
           }
         }

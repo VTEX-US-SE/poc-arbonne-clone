@@ -45,7 +45,6 @@ export default function HeroBanner({
           <Button
             className={styles.heroBanner__cta}
             href={cta.url}
-            letterSpacing="0.125rem"
             colorScheme={cta.colorScheme}
           >
             {cta.text}

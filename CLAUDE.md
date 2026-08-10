@@ -49,6 +49,16 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
 
 ## SCSS conventions
 
+- Every custom section's root class includes the shared spacing mixin, so
+  stacked sections get a consistent 24px gap without each component
+  reinventing it:
+  ```scss
+  @use '../../styles/mixins';
+  .mySection {
+    @include mixins.section-spacing;
+    ...
+  }
+  ```
 - Use FastStore's design tokens instead of hardcoded values: `--fs-color-*`,
   `--fs-spacing-*`, `--fs-text-*`, `--fs-z-index-*`, `--fs-border-radius-*`
   (defined in `@faststore/ui/src/styles/base/tokens.scss`).

@@ -1,6 +1,9 @@
 @use '@faststore/ui/src/styles/base/utilities' as u;
+@use '../../styles/mixins';
 
 .heroBanner {
+  @include mixins.section-spacing;
+
   // Figma "Strawberry Stash" capture: real text color is #252525, not the
   // placeholder theme's neutral tokens. Scoped override so the rest of the
   // component keeps referencing var(--fs-color-text*) as usual.

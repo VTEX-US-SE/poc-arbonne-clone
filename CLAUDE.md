@@ -108,13 +108,22 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
 
 `.faststore/` is a generated build cache/scaffold, regenerated from `src/` and
 `discovery.config.js` on file changes. Its incremental watcher has missed
-changes at least twice (a moved/renamed file, and the components registry
-after a location fix) while every other file synced fine. If something in
-`src/` isn't reflected in the running app and it's not an obvious code bug:
-```
-rm -rf .faststore
-```
-then restart `yarn dev`. Don't spend long debugging the watcher itself.
+changes a couple of times (a moved/renamed file, and the components registry
+after a location fix) while every other file synced fine.
+
+**Never delete `.faststore` while `yarn dev` is running.** Its live file
+watcher expects that directory to persist and gets incrementally updated by
+it — yanking it out mid-session causes `ENOENT: .faststore/src/pages`
+crashes and an Internal Server Error on every request until restarted. This
+happened repeatedly from reflexively wiping the cache after every small
+edit; don't do that. Only clear it when there's an actual, confirmed
+staleness symptom (a change genuinely not reflected after a normal
+fast-refresh), and even then:
+1. Ask the user to stop `yarn dev` first (or confirm it's already stopped).
+2. `rm -rf .faststore`
+3. Have them start `yarn dev` again fresh.
+
+Never run step 2 without confirming step 1 happened.
 
 ## Interactive commands need a real terminal
 

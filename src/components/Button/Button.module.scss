@@ -10,5 +10,13 @@
     --fs-button-border-radius: var(--fs-border-radius-pill);
     --fs-button-text-size: 0.75rem;
     --fs-button-text-weight: 800;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &[data-color-scheme='whiteOutline']:hover {
+      opacity: 1;
+    }
   }
 }

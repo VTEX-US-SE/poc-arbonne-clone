@@ -2,11 +2,18 @@ export const BUTTON_COLOR_SCHEMES = {
   white: {
     backgroundColor: '#ffffff',
     textColor: '#252525',
-    hoverBackgroundColor: '#f1f2f3',
     padding: '0.25rem 3.75rem',
     fontFamily: "'Nunito Sans', sans-serif",
     letterSpacing: '0.125rem',
     height: '2.025rem',
+  },
+  green: {
+    backgroundColor: '#0b4d45',
+    textColor: '#ffffff',
+    padding: '0.25rem 3.75rem',
+    fontFamily: "'Nunito Sans', sans-serif",
+    letterSpacing: '0.125rem',
+    height: '2.25rem',
   },
   whiteOutline: {
     backgroundColor: '#ffffff',

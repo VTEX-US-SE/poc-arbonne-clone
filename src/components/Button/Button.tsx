@@ -22,6 +22,8 @@ export default function Button({
   const scheme = BUTTON_COLOR_SCHEMES[colorScheme]
   const borderColor = 'borderColor' in scheme ? scheme.borderColor : undefined
   const borderWidth = 'borderWidth' in scheme ? scheme.borderWidth : undefined
+  const hoverBackgroundColor =
+    'hoverBackgroundColor' in scheme ? scheme.hoverBackgroundColor : undefined
   const hoverTextColor =
     'hoverTextColor' in scheme ? scheme.hoverTextColor : undefined
 
@@ -30,14 +32,15 @@ export default function Button({
       variant={variant}
       size={size}
       className={[styles.button, className].filter(Boolean).join(' ')}
+      data-color-scheme={colorScheme}
       style={
         {
           '--fs-button-primary-bkg-color': scheme.backgroundColor,
-          '--fs-button-primary-bkg-color-hover': scheme.hoverBackgroundColor,
+          '--fs-button-primary-bkg-color-hover': hoverBackgroundColor,
           '--fs-button-primary-text-color': scheme.textColor,
           '--fs-button-primary-text-color-hover': hoverTextColor,
           '--fs-button-primary-border-color': borderColor,
-          '--fs-button-primary-border-color-hover': scheme.hoverBackgroundColor,
+          '--fs-button-primary-border-color-hover': hoverBackgroundColor,
           '--fs-button-border-width': borderWidth,
           '--fs-button-padding': scheme.padding,
           '--fs-button-height': scheme.height,

@@ -34,7 +34,6 @@ export default function HeroBanner({
           '--fs-color-text-display': textColor,
         } as CSSProperties
       }
-      data-content-position={contentPosition}
     >
       {mobileImage && (
         <img
@@ -50,22 +49,29 @@ export default function HeroBanner({
           alt={imageAlt}
         />
       )}
-      <div className={styles.heroBanner__content}>
-        {eyebrow && <p className={styles.heroBanner__eyebrow}>{eyebrow}</p>}
-        {headline && <h1 className={styles.heroBanner__headline}>{headline}</h1>}
-        {subheadline && (
-          <h3 className={styles.heroBanner__subheadline}>{subheadline}</h3>
-        )}
-        {text && <p className={styles.heroBanner__text}>{text}</p>}
-        {cta?.url && cta?.text && (
-          <Button
-            className={styles.heroBanner__cta}
-            href={cta.url}
-            colorScheme={cta.colorScheme}
-          >
-            {cta.text}
-          </Button>
-        )}
+      <div
+        className={styles.heroBanner__contentWrapper}
+        data-content-position={contentPosition}
+      >
+        <div className={styles.heroBanner__content}>
+          {eyebrow && <p className={styles.heroBanner__eyebrow}>{eyebrow}</p>}
+          {headline && (
+            <h1 className={styles.heroBanner__headline}>{headline}</h1>
+          )}
+          {subheadline && (
+            <h3 className={styles.heroBanner__subheadline}>{subheadline}</h3>
+          )}
+          {text && <p className={styles.heroBanner__text}>{text}</p>}
+          {cta?.url && cta?.text && (
+            <Button
+              className={styles.heroBanner__cta}
+              href={cta.url}
+              colorScheme={cta.colorScheme}
+            >
+              {cta.text}
+            </Button>
+          )}
+        </div>
       </div>
     </section>
   )

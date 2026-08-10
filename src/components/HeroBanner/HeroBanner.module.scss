@@ -5,9 +5,6 @@
   @include mixins.section-spacing;
 
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
   overflow: hidden;
   min-height: 18rem;
@@ -44,17 +41,26 @@
     }
   }
 
-  &[data-content-position='left'] {
-    justify-content: flex-start;
-  }
+  &__contentWrapper {
+    position: absolute;
+    inset: 0;
+    z-index: var(--fs-z-index-top);
+    max-width: 75rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  &[data-content-position='right'] {
-    justify-content: flex-end;
+    &[data-content-position='left'] {
+      justify-content: flex-start;
+    }
+
+    &[data-content-position='right'] {
+      justify-content: flex-end;
+    }
   }
 
   &__content {
-    position: relative;
-    z-index: var(--fs-z-index-top);
     display: flex;
     flex-direction: column;
     align-items: center;

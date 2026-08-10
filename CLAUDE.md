@@ -69,13 +69,14 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
 - Prefer `@faststore/ui`/`@faststore/components` (`Link`, `LinkButton`, `Button`,
   `Price`, `Icon`, etc.) over hand-rolled markup + CSS for anything they already
   cover. Most of these ship CSS keyed to `data-fs-*` attributes rather than
-  importable classnames, and that CSS is **not** globally bundled — load it
-  explicitly in your component's SCSS the same way core does:
-  ```scss
-  @use 'sass:meta';
-  @include meta.load-css('~@faststore/ui/src/components/atoms/Button/styles.scss');
-  ```
-  Forgetting this means the component renders with no styling at all.
+  importable classnames, and that CSS is **not** globally bundled — it must be
+  loaded explicitly via `meta.load-css` wherever used, or the component renders
+  unstyled.
+- For buttons specifically, use `src/components/Button/Button.tsx` — a thin
+  wrapper around `@faststore/ui`'s `LinkButton` that already owns the
+  `meta.load-css` calls for `Button`/`LinkButton` styles. Don't import
+  `LinkButton` directly and re-load its CSS per-component; go through the
+  shared `Button` so the loading only happens in one place.
 
 ## Build cache gotchas
 

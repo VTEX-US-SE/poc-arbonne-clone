@@ -64,6 +64,9 @@ built-in sections.
   not flat sibling classes.
 - Per-instance CMS-editable values (e.g. a background color field) are legitimately inline
   styles — don't force those into SCSS/tokens.
+- Reuse `@faststore/ui`/`@faststore/components` instead of hand-rolling markup they already
+  cover. For buttons, use `src/components/Button/Button.tsx` rather than importing
+  `LinkButton` directly — it already handles loading the design system's CSS.
 
 ## Notes for AI agents
 

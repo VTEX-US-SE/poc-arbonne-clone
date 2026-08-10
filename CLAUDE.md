@@ -66,6 +66,16 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   Referenced in JSX as `styles.heroBanner__headline`.
 - CMS-editable values (e.g. a per-instance background color) are legitimately
   inline styles, not tokens — don't force those into SCSS.
+- Prefer `@faststore/ui`/`@faststore/components` (`Link`, `LinkButton`, `Button`,
+  `Price`, `Icon`, etc.) over hand-rolled markup + CSS for anything they already
+  cover. Most of these ship CSS keyed to `data-fs-*` attributes rather than
+  importable classnames, and that CSS is **not** globally bundled — load it
+  explicitly in your component's SCSS the same way core does:
+  ```scss
+  @use 'sass:meta';
+  @include meta.load-css('~@faststore/ui/src/components/atoms/Button/styles.scss');
+  ```
+  Forgetting this means the component renders with no styling at all.
 
 ## Build cache gotchas
 

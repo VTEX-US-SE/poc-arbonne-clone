@@ -6,18 +6,22 @@ FastStore storefront POC for VTEX account `arbonnepoc`, scaffolded from
 
 ## CMS architecture
 
-- `discovery.config.js` uses `contentSource: { type: 'CMS', project: 'arbonne-poc' }`
-  — the **legacy** VBase-based CMS, not the newer Content Platform (`type: 'CP'`).
-  CP was tried first and abandoned: it uploads to a separate schema registry
-  that never surfaced in the WebOps-provisioned Headless CMS Admin screen.
-- `project: 'arbonne-poc'` **must** match the CMS Store ID configured in
-  VTEX Admin (Storefront > FastStore WebOps > project setup). If omitted,
-  it silently defaults to `'faststore'`, which queries a different/empty
-  CMS builder bucket and crashes `getStaticProps` (`page` resolves to
-  `undefined`). Verify with:
-  ```
-  curl -s "https://arbonnepoc.myvtex.com/_v/cms/api/<project>/home"
-  ```
+- `discovery.config.js` uses `contentSource: { type: 'CMS' }` — the **legacy**
+  VBase-based CMS, not the newer Content Platform (`type: 'CP'`). CP was tried
+  first and abandoned: it uploads to a separate schema registry that never
+  surfaced in the WebOps-provisioned Headless CMS Admin screen.
+- **Do not set `contentSource.project`.** Leave it unset so it defaults to
+  `'faststore'`. There is a second CMS project called `arbonne-poc` (created
+  during initial WebOps onboarding) — it was a mistake, has since been
+  archived in VTEX Admin, and is **not** what's live on production. Setting
+  `project: 'arbonne-poc'` was tried and caused `yarn cms-sync`'s merge step
+  to silently write to a different `.faststore/cms/<project>/` output than
+  the one actually reflecting prod, so custom sections stopped appearing —
+  not the field itself, that resolves and merges fine; the project ID being
+  wrong is what mattered. If you ever add a `project` value here, verify
+  which CMS project is actually live in Admin first, and check the merged
+  output at `.faststore/cms/<project>/sections.json` (not just the sync
+  command's exit code) before trusting it.
 - `cms/faststore/content-types.json` and `cms/faststore/sections.json` are the
   legacy schema files. Sync with `yarn cms-sync` (must run in a real
   interactive terminal — see below).

@@ -1,7 +1,6 @@
 module.exports = {
   contentSource: {
     type: "CMS",
-    project: "arbonne-poc",
   },
   seo: {
     title: "Arbonne",

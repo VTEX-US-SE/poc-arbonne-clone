@@ -4,9 +4,6 @@
 .heroBanner {
   @include mixins.section-spacing;
 
-  --fs-color-text: #252525;
-  --fs-color-text-display: #252525;
-
   position: relative;
   display: flex;
   align-items: center;

@@ -5,6 +5,7 @@ export interface HeroBannerProps {
   mobileImage?: string
   imageAlt?: string
   backgroundColor?: string
+  textColor?: string
   contentPosition?: 'left' | 'center' | 'right'
   eyebrow?: string
   headline?: string

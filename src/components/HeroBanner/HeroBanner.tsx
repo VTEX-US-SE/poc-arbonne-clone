@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 import Button from '../Button/Button'
 import styles from './HeroBanner.module.scss'
 import type { HeroBannerProps } from './HeroBanner.types'
@@ -14,6 +16,7 @@ export default function HeroBanner({
   mobileImage,
   imageAlt = '',
   backgroundColor = '#efefef',
+  textColor = '#252525',
   contentPosition = 'center',
   eyebrow,
   headline,
@@ -24,7 +27,13 @@ export default function HeroBanner({
   return (
     <section
       className={styles.heroBanner}
-      style={{ backgroundColor }}
+      style={
+        {
+          backgroundColor,
+          '--fs-color-text': textColor,
+          '--fs-color-text-display': textColor,
+        } as CSSProperties
+      }
       data-content-position={contentPosition}
     >
       {mobileImage && (

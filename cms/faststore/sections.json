@@ -112,20 +112,6 @@
           "enum": ["start", "center"],
           "default": "center"
         },
-        "badgeText": {
-          "title": "Badge Text (replaces Image with a colored circle; use \\n for line breaks, e.g. \"START\\nYOUR\\nBUSINESS\")",
-          "type": "string"
-        },
-        "badgeBackgroundColor": {
-          "title": "Badge Background Color (hex)",
-          "type": "string",
-          "default": "#dce8dc"
-        },
-        "badgeTextColor": {
-          "title": "Badge Text Color (hex)",
-          "type": "string",
-          "default": "#1a3d2e"
-        },
         "eyebrow": {
           "title": "Eyebrow (small text above headline)",
           "type": "string"
@@ -137,6 +123,20 @@
         "text": {
           "title": "Body Text",
           "type": "string"
+        },
+        "inlineLink": {
+          "title": "Inline Link (rendered right after Body Text, e.g. \"EARNINGS.ARBONNE.COM.\")",
+          "type": "object",
+          "properties": {
+            "url": {
+              "title": "Link URL",
+              "type": "string"
+            },
+            "text": {
+              "title": "Link Text",
+              "type": "string"
+            }
+          }
         },
         "cta": {
           "title": "Call to Action",

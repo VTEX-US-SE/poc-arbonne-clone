@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { Link } from '@faststore/ui'
 
 import Button from '../Button/Button'
 import styles from './ImageTextSplit.module.scss'
@@ -9,12 +10,10 @@ export default function ImageTextSplit({
   imageAlt = '',
   imagePosition = 'left',
   textAlign = 'center',
-  badgeText,
-  badgeBackgroundColor = '#dce8dc',
-  badgeTextColor = '#1a3d2e',
   eyebrow,
   headline,
   text,
+  inlineLink,
   cta,
 }: ImageTextSplitProps) {
   return (
@@ -22,28 +21,12 @@ export default function ImageTextSplit({
       className={styles.imageTextSplit}
       data-image-position={imagePosition}
     >
-      {badgeText ? (
-        <div
-          className={styles.imageTextSplit__badge}
-          style={{ backgroundColor: badgeBackgroundColor }}
-        >
-          <p
-            className={styles.imageTextSplit__badgeText}
-            style={{ color: badgeTextColor }}
-          >
-            {badgeText.split('\n').map((line, i) => (
-              <span key={i}>{line}</span>
-            ))}
-          </p>
-        </div>
-      ) : (
-        image && (
-          <img
-            className={styles.imageTextSplit__image}
-            src={image}
-            alt={imageAlt}
-          />
-        )
+      {image && (
+        <img
+          className={styles.imageTextSplit__image}
+          src={image}
+          alt={imageAlt}
+        />
       )}
       <div
         className={styles.imageTextSplit__content}
@@ -53,7 +36,23 @@ export default function ImageTextSplit({
         {headline && (
           <h2 className={styles.imageTextSplit__headline}>{headline}</h2>
         )}
-        {text && <p className={styles.imageTextSplit__text}>{text}</p>}
+        {text && (
+          <p className={styles.imageTextSplit__text}>
+            {text}
+            {inlineLink?.url && inlineLink?.text && (
+              <>
+                {' '}
+                <Link
+                  className={styles.imageTextSplit__inlineLink}
+                  href={inlineLink.url}
+                >
+                  {inlineLink.text}
+                </Link>
+                .
+              </>
+            )}
+          </p>
+        )}
         {cta?.url && cta?.text && (
           <Button
             className={styles.imageTextSplit__cta}

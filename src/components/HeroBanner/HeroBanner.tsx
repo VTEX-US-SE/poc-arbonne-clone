@@ -1,19 +1,5 @@
 import styles from './HeroBanner.module.scss'
-
-export interface HeroBannerProps {
-  desktopImage?: string
-  mobileImage?: string
-  imageAlt?: string
-  backgroundColor?: string
-  eyebrow?: string
-  headline?: string
-  subheadline?: string
-  text?: string
-  cta?: {
-    url: string
-    text: string
-  }
-}
+import type { HeroBannerProps } from './HeroBanner.types'
 
 export default function HeroBanner({
   desktopImage,

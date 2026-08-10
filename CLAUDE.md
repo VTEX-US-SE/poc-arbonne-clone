@@ -91,6 +91,18 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   `meta.load-css` calls for `Button`/`LinkButton` styles. Don't import
   `LinkButton` directly and re-load its CSS per-component; go through the
   shared `Button` so the loading only happens in one place.
+- CTA button colors are a `colorScheme` prop (see
+  `src/components/Button/Button.colorSchemes.ts`), not free hex fields in the
+  CMS schema. A hex pair can't carry hover/active states, and the real
+  hover on the as-is site is a faint grey shift, not the theme's default
+  blue — neither reproducible from just a background/text color pair. Add a
+  new named scheme there (with its own hover color) rather than adding a
+  new hex field when a section needs a different CTA treatment.
+- `letter-spacing` on a button label adds trailing space after the last
+  character, visually uncentering short labels inside a pill. Use
+  `Button`'s `letterSpacing` prop (wraps the label in its own span with a
+  compensating negative margin) instead of setting `letter-spacing`
+  directly on the button's own class.
 
 ## Build cache gotchas
 

@@ -1,0 +1,25 @@
+@use '../../styles/mixins';
+
+.sectionHeader {
+  @include mixins.section-spacing;
+
+  text-align: center;
+  padding: 0 var(--fs-spacing-3);
+
+  &__headline {
+    margin: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 400;
+    color: var(--fs-color-text);
+  }
+
+  &__text {
+    margin: var(--fs-spacing-3) auto 0;
+    max-width: 60rem;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: var(--fs-text-weight-regular);
+    color: var(--fs-color-text);
+  }
+}

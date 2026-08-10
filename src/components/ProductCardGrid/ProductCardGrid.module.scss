@@ -1,0 +1,73 @@
+@use 'sass:meta';
+@use '../../styles/mixins';
+
+.productCardGrid {
+  @include mixins.section-spacing;
+  @include meta.load-css('~@faststore/ui/src/components/atoms/Link/styles.scss');
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--fs-spacing-5);
+  max-width: 75rem;
+  margin-inline: auto;
+  padding: 0 var(--fs-spacing-3);
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  &__title {
+    margin: var(--fs-spacing-3) 0 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: var(--fs-text-weight-bold);
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #252525;
+  }
+
+  &__subtitle {
+    margin: var(--fs-spacing-1) 0 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #252525;
+  }
+
+  &__description {
+    margin: var(--fs-spacing-2) 0 0;
+    max-width: 28rem;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.2px;
+    color: #252525;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fs-spacing-1);
+    margin-top: var(--fs-spacing-3);
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.125rem;
+    text-transform: uppercase;
+    color: #252525;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

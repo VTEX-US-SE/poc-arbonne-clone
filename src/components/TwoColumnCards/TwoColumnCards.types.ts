@@ -1,4 +1,4 @@
-export interface ProductCard {
+export interface Card {
   image?: string
   imageAlt?: string
   title?: string
@@ -10,6 +10,9 @@ export interface ProductCard {
   }
 }
 
-export interface ProductCardGridProps {
-  cards?: ProductCard[]
+export interface TwoColumnCardsProps {
+  headline?: string
+  text?: string
+  textColor?: string
+  cards?: Card[]
 }

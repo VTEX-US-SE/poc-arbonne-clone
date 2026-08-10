@@ -1,11 +1,13 @@
 import HeroBanner from './HeroBanner/HeroBanner'
 import ImageTextSplit from './ImageTextSplit/ImageTextSplit'
-import ProductCardGrid from './ProductCardGrid/ProductCardGrid'
+import LegalDisclaimer from './LegalDisclaimer/LegalDisclaimer'
 import SectionHeader from './SectionHeader/SectionHeader'
+import TwoColumnCards from './TwoColumnCards/TwoColumnCards'
 
 export default {
   HeroBanner,
   ImageTextSplit,
   SectionHeader,
-  ProductCardGrid,
+  TwoColumnCards,
+  LegalDisclaimer,
 }

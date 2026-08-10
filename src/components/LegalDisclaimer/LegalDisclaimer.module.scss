@@ -1,0 +1,21 @@
+@use '../../styles/mixins';
+
+.legalDisclaimer {
+  @include mixins.section-spacing;
+
+  max-width: 62rem;
+  margin-inline: auto;
+  padding: var(--fs-spacing-2) var(--fs-spacing-4);
+  border: 1px solid #333333;
+  border-radius: 4px;
+
+  &__text {
+    margin: 0;
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: var(--fs-text-weight-bold);
+    letter-spacing: 0.2px;
+    color: #252525;
+  }
+}

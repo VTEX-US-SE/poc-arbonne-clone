@@ -188,14 +188,27 @@
     }
   },
   {
-    "name": "ProductCardGrid",
+    "name": "TwoColumnCards",
     "scopes": ["global"],
     "schema": {
-      "title": "[ARB] Product Card Grid",
-      "description": "Responsive grid of product/promo cards with image, title, subtitle, description, and a text link",
+      "title": "[ARB] Two Column Cards",
+      "description": "Optional headline/subtitle above a responsive grid of cards with image, title, subtitle, description, and a text link",
       "type": "object",
       "required": [],
       "properties": {
+        "headline": {
+          "title": "Headline",
+          "type": "string"
+        },
+        "text": {
+          "title": "Subtitle Text",
+          "type": "string"
+        },
+        "textColor": {
+          "title": "Text Color (hex)",
+          "type": "string",
+          "default": "#252525"
+        },
         "cards": {
           "title": "Cards",
           "type": "array",
@@ -243,6 +256,22 @@
               }
             }
           }
+        }
+      }
+    }
+  },
+  {
+    "name": "LegalDisclaimer",
+    "scopes": ["global"],
+    "schema": {
+      "title": "[ARB] Legal Disclaimer",
+      "description": "Bordered, centered legal/regulatory footnote box (e.g. the FDA disclaimer)",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
         }
       }
     }

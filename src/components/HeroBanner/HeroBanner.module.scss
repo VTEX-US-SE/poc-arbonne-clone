@@ -1,26 +1,20 @@
-@use '@faststore/ui/src/styles/base/utilities' as u;
 @use '../../styles/mixins';
 
 .heroBanner {
   @include mixins.section-spacing;
 
+  --fs-color-text: #252525;
+  --fs-color-text-display: #252525;
+
   position: relative;
   text-align: center;
-  overflow: hidden;
-  min-height: 18rem;
-
-  @include u.media('>=tablet') {
-    min-height: 34.375rem;
-  }
 
   &__imageMobile,
   &__imageDesktop {
-    position: absolute;
-    inset: 0;
+    display: block;
     width: 100%;
-    height: 100%;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
-    z-index: var(--fs-z-index-default);
   }
 
   &__imageMobile {
@@ -31,33 +25,10 @@
     display: none;
   }
 
-  @include u.media('>=tablet') {
-    &__imageMobile {
-      display: none;
-    }
-
-    &__imageDesktop {
-      display: block;
-    }
-  }
-
   &__contentWrapper {
-    position: absolute;
-    inset: 0;
-    z-index: var(--fs-z-index-top);
-    max-width: 75rem;
-    margin: 0 auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-
-    &[data-content-position='left'] {
-      justify-content: flex-start;
-    }
-
-    &[data-content-position='right'] {
-      justify-content: flex-end;
-    }
   }
 
   &__content {
@@ -66,6 +37,44 @@
     align-items: center;
     max-width: 34rem;
     padding: var(--fs-spacing-5) var(--fs-spacing-3);
+  }
+
+  @media (min-width: 64rem) {
+    overflow: hidden;
+    min-height: 34.375rem;
+
+    &__imageMobile {
+      display: none;
+    }
+
+    &__imageDesktop {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      object-fit: cover;
+      z-index: var(--fs-z-index-default);
+    }
+
+    &__contentWrapper {
+      position: absolute;
+      inset: 0;
+      z-index: var(--fs-z-index-top);
+      max-width: 75rem;
+      margin: 0 auto;
+      flex-direction: row;
+      justify-content: center;
+
+      &[data-content-position='left'] {
+        justify-content: flex-start;
+      }
+
+      &[data-content-position='right'] {
+        justify-content: flex-end;
+      }
+    }
   }
 
   &__eyebrow {
@@ -85,7 +94,7 @@
     line-height: 1;
     color: var(--fs-color-text-display);
 
-    @include u.media('>=tablet') {
+    @media (min-width: 64rem) {
       font-size: 6.875rem;
     }
   }

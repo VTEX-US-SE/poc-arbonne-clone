@@ -62,13 +62,23 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
 - Use FastStore's design tokens instead of hardcoded values: `--fs-color-*`,
   `--fs-spacing-*`, `--fs-text-*`, `--fs-z-index-*`, `--fs-border-radius-*`
   (defined in `@faststore/ui/src/styles/base/tokens.scss`).
-- Use the breakpoint mixin instead of raw media queries:
+- The as-is site's actual mobile/desktop switch is at **1024px**, not
+  `@faststore/ui`'s named `tablet` breakpoint (768px) — confirmed via prod
+  screenshots (HeroBanner overlay-vs-stacked layout, ImageTextSplit
+  row-vs-column) switching well above 768px. Use a raw media query,
+  not the mixin:
   ```scss
-  @use '@faststore/ui/src/styles/base/utilities' as u;
-  @include u.media('>=tablet') { ... }
+  @media (min-width: 64rem) { ... }
   ```
-  Breakpoints: `phone` (320px), `phonemid` (375px), `tablet` (768px),
-  `notebook` (1280px), `desktop` (1440px).
+  Don't reach for `u.media('>=tablet')` out of habit — none of the
+  named breakpoints (`phone` 320px, `phonemid` 375px, `tablet` 768px,
+  `notebook` 1280px, `desktop` 1440px) match this site's real 1024px
+  switch-point.
+- Full-bleed-image sections (HeroBanner) don't overlay content on the image
+  below 1024px — image and content stack as two normal blocks instead
+  (content gets its own solid backgroundColor fill below the image), and
+  only switch to absolute-overlay-within-a-1200px-zone at 1024px+.
+  Confirmed via prod screenshots, not assumed from the desktop layout.
 - Nest all of a component's styles under a single BEM root class, not flat
   sibling classes:
   ```scss

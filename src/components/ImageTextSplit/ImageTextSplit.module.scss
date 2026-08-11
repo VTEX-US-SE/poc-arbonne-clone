@@ -1,5 +1,4 @@
 @use 'sass:meta';
-@use '@faststore/ui/src/styles/base/utilities' as u;
 @use '../../styles/mixins';
 
 .imageTextSplit {
@@ -40,7 +39,7 @@
     }
   }
 
-  @include u.media('>=tablet') {
+  @media (min-width: 64rem) {
     flex-direction: row;
 
     &[data-image-position='right'] {
@@ -70,7 +69,7 @@
     line-height: 1.15;
     color: var(--fs-color-text-display);
 
-    @include u.media('>=tablet') {
+    @media (min-width: 64rem) {
       font-size: 2.25rem;
     }
   }

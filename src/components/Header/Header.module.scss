@@ -5,7 +5,11 @@
     "~@faststore/ui/src/components/atoms/Icon/styles.scss"
   );
 
-  position: relative;
+  // Sticky at every breakpoint now. On desktop, scrolling also collapses
+  // &__nav away (see &__nav below) so the sticky bar shrinks down to just
+  // the compact logo/utility row instead of staying full-height.
+  position: sticky;
+  top: 0;
   // Just needs to clear ordinary page sections (which never set z-index),
   // not compete with body-portaled overlays like Modal -- those use
   // --fs-z-index-highest (3), so this must stay below that.
@@ -48,14 +52,14 @@
 
   &__mobileTabBar {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: var(--fs-z-index-top);
     box-sizing: border-box;
     width: 100%;
-    padding: 0.5rem 0.5rem 1.25rem;
+    padding: 0.5rem 1rem 1.25rem;
     background-color: var(--arb-color-white);
     border-top: 1px solid rgba(37, 37, 37, 0.1);
   }
@@ -69,7 +73,7 @@
     border: none;
     padding: 0;
     font-family: var(--arb-font-body);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     color: var(--arb-color-text);
     text-decoration: none;
     cursor: pointer;
@@ -77,8 +81,8 @@
 
   &__mobileTabIcon {
     display: block;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
     object-fit: contain;
   }
 
@@ -109,6 +113,25 @@
     &__nav {
       display: block;
       position: relative;
+    }
+
+    // Collapses on scroll (see &[data-scrolled] below) instead of just
+    // hiding outright, for the transition. This targets &__navList itself,
+    // not &__nav -- &__nav also contains &__panelWrapper, which is
+    // absolutely positioned to deliberately overflow below the nav's own
+    // box; overflow:hidden on &__nav would clip that dropdown away too.
+    &__navList {
+      max-height: 3rem;
+      overflow: hidden;
+      opacity: 1;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+    }
+
+    &[data-scrolled] &__navList {
+      max-height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 

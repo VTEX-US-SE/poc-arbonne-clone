@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Icon } from '@faststore/ui'
 
 import CountrySelectorModal from '../CountrySelectorModal/CountrySelectorModal'
@@ -14,7 +14,9 @@ import type { HeaderProps } from './Header.types'
  * from this component's own `navItems` CMS field, edited directly in
  * Admin -- vtex.mega-menu, originally targeted for this data, turned out
  * to be deprecated/unmaintained by VTEX with a non-functional admin UI.
- * Desktop only for now -- no mobile nav yet.
+ * Sticky at every breakpoint; on desktop, scrolling also collapses the
+ * nav row away (see `isScrolled` below and Header.module.scss) so the
+ * sticky bar shrinks to just the compact logo/utility row.
  */
 export default function Header({
   logo,
@@ -33,6 +35,16 @@ export default function Header({
   const [selectedCountryIndex, setSelectedCountryIndex] = useState(() =>
     Math.max(countryOptions.findIndex((option) => option.active), 0)
   )
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10)
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const openItem = openIndex !== null ? navItems[openIndex] : undefined
   const banner = openItem?.banner
@@ -40,7 +52,11 @@ export default function Header({
 
   return (
     <>
-      <header className={styles.header} data-arb-header>
+      <header
+        className={styles.header}
+        data-arb-header
+        data-scrolled={isScrolled || undefined}
+      >
         <div className={styles.header__topRow}>
           {logo?.src && (
             <a className={styles.header__logo} href={logo.url ?? '/'}>
@@ -168,6 +184,7 @@ export default function Header({
           <nav
             className={styles.header__mobileTabBar}
             aria-label="Mobile navigation"
+            data-arb-mobile-tabbar
           >
             {mobileNavItems.map((item, index) => {
               const icon = item.icon && (

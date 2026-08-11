@@ -68,6 +68,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    // Equal-width columns instead of content-based sizing -- at narrow
+    // widths, space-between let short labels (e.g. "Shop") crowd out
+    // long ones (e.g. "Healthy Living"), forcing an uneven/mid-word wrap.
+    // min-width:0 overrides flex's default auto, which otherwise blocks
+    // wrapping from kicking in at all.
+    flex: 1;
+    min-width: 0;
     gap: 0.25rem;
     background: none;
     border: none;
@@ -76,7 +83,12 @@
     font-size: 0.875rem;
     color: var(--arb-color-text);
     text-decoration: none;
+    text-align: center;
     cursor: pointer;
+
+    span {
+      text-wrap: balance;
+    }
   }
 
   &__mobileTabIcon {

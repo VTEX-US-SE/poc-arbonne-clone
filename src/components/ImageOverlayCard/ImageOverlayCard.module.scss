@@ -1,0 +1,105 @@
+@use "../../styles/mixins";
+
+.imageOverlayCard {
+  @include mixins.section-spacing;
+
+  &__card {
+    box-sizing: border-box;
+    position: relative;
+    z-index: var(--fs-z-index-top);
+    width: calc(100% - 2 * var(--fs-spacing-3));
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: var(--fs-spacing-5) var(--fs-spacing-4);
+    text-align: center;
+  }
+
+  &__accent {
+    display: block;
+    width: 3.75rem;
+    height: 0.1875rem;
+    margin: 0 auto var(--fs-spacing-3);
+  }
+
+  &__headline {
+    margin: 0;
+    font-family: var(--arb-font-display);
+    font-size: 2.5rem;
+    font-weight: 400;
+    line-height: 1.28;
+    color: #252525;
+    white-space: pre-line;
+  }
+
+  &__text {
+    margin: 1.5625rem 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 1.25rem;
+    font-weight: var(--fs-text-weight-regular);
+    line-height: 1.25;
+    letter-spacing: 0.0125rem;
+    color: #252525;
+  }
+
+  &__image {
+    display: block;
+    width: calc(100% - 2 * var(--fs-spacing-3));
+    max-width: 34rem;
+    margin: var(--fs-spacing-4) auto 0;
+    margin-top: 0;
+    aspect-ratio: 600 / 585;
+    object-fit: cover;
+  }
+
+  @media (min-width: 64rem) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 75rem;
+    margin-inline: auto;
+
+    &__card {
+      width: 36.5625rem;
+      max-width: none;
+      margin: 0;
+      padding: 4rem 3.5rem;
+      text-align: left;
+    }
+
+    &__accent {
+      margin: 0 0 var(--fs-spacing-3);
+    }
+
+    &__headline {
+      font-size: 4rem;
+    }
+
+    &__text {
+      max-width: 28.375rem;
+    }
+
+    &__image {
+      width: 37.5rem;
+      max-width: none;
+      margin: 0;
+      aspect-ratio: 600 / 585;
+      object-fit: cover;
+    }
+
+    // DOM order is card-then-image (needed for mobile stacking above), so
+    // this row-reverse condition is flipped relative to ImageTextSplit's
+    // (image-then-content) convention: 'left' means the image ends up
+    // visually first/left.
+    &[data-image-position="left"] {
+      flex-direction: row-reverse;
+    }
+
+    &[data-image-position="left"] &__card {
+      margin-left: -6rem;
+    }
+
+    &[data-image-position="right"] &__card {
+      margin-right: -6rem;
+    }
+  }
+}

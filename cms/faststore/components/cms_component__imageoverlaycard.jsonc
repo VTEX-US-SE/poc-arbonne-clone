@@ -1,0 +1,54 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "ImageOverlayCard",
+  "$componentTitle": "[ARB] Image Overlay Card",
+  "title": "[ARB] Image Overlay Card",
+  "description": "Image with a text card overlapping it (stacked on mobile, card first)",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "image": {
+      "title": "Image",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": true,
+          "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+        }
+      }
+    },
+    "imageAlt": {
+      "title": "Image Alt Text",
+      "type": "string"
+    },
+    "imagePosition": {
+      "title": "Image Position",
+      "type": "string",
+      "enum": ["left", "right"],
+      "default": "left"
+    },
+    "cardBackgroundColor": {
+      "title": "Card Background Color (hex)",
+      "type": "string",
+      "default": "#faf6f4"
+    },
+    "accentColor": {
+      "title": "Accent Bar Color (hex)",
+      "type": "string",
+      "default": "#df9c8a"
+    },
+    "headline": {
+      "title": "Headline",
+      "type": "string"
+    },
+    "text": {
+      "title": "Body Text",
+      "type": "string"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

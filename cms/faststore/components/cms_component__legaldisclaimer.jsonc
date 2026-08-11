@@ -1,0 +1,19 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "LegalDisclaimer",
+  "$componentTitle": "[ARB] Legal Disclaimer",
+  "title": "[ARB] Legal Disclaimer",
+  "description": "Bordered, centered legal/regulatory footnote box (e.g. the FDA disclaimer)",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "text": {
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

@@ -1,0 +1,39 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "ProductShowcases",
+  "$componentTitle": "[ARB] Product Showcases",
+  "title": "[ARB] Product Showcases",
+  "description": "Tabbed product grid; each tab pulls a VTEX collection",
+  "type": "object",
+  "required": ["tabs"],
+  "properties": {
+    "tabs": {
+      "title": "Tabs",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "collectionId"],
+        "properties": {
+          "label": {
+            "title": "Tab Label",
+            "type": "string"
+          },
+          "collectionId": {
+            "title": "Collection ID",
+            "description": "VTEX collection (product cluster) ID, e.g. 138",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "numberOfItems": {
+      "title": "Products per Tab",
+      "type": "number",
+      "default": 4
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

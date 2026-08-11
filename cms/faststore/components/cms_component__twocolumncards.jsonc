@@ -1,0 +1,80 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "TwoColumnCards",
+  "$componentTitle": "[ARB] Two Column Cards",
+  "title": "[ARB] Two Column Cards",
+  "description": "Optional headline/subtitle above a responsive grid of cards with image, title, subtitle, description, and a text link",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "headline": {
+      "title": "Headline",
+      "type": "string"
+    },
+    "text": {
+      "title": "Subtitle Text",
+      "type": "string"
+    },
+    "textColor": {
+      "title": "Text Color (hex)",
+      "type": "string",
+      "default": "#252525"
+    },
+    "cards": {
+      "title": "Cards",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "title": "Card",
+        "type": "object",
+        "properties": {
+          "image": {
+            "title": "Image",
+            "type": "string",
+            "widget": {
+              "ui:widget": "media-gallery",
+              "restrictMediaTypes": {
+                "video": true,
+                "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+              }
+            }
+          },
+          "imageAlt": {
+            "title": "Image Alt Text",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "subtitle": {
+            "title": "Subtitle",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "link": {
+            "title": "Link",
+            "type": "object",
+            "properties": {
+              "url": {
+                "title": "Link URL",
+                "type": "string"
+              },
+              "text": {
+                "title": "Link Text",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

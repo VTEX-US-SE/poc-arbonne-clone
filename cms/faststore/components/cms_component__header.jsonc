@@ -1,0 +1,269 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "Header",
+  "$componentTitle": "[ARB] Header",
+  "title": "[ARB] Header",
+  "description": "Site-wide header. Place inside \"Global Header Sections\". Nav items/columns are edited directly below (the Mega Menu app is deprecated/unmaintained by VTEX and its admin UI doesn't work).",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "logo": {
+      "title": "Logo",
+      "type": "object",
+      "properties": {
+        "src": {
+          "title": "Image",
+          "type": "string",
+          "widget": {
+            "ui:widget": "media-gallery",
+            "restrictMediaTypes": {
+              "video": true,
+              "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+            }
+          }
+        },
+        "alt": {
+          "title": "Alt Text",
+          "type": "string"
+        },
+        "url": {
+          "title": "Link URL",
+          "type": "string",
+          "default": "/"
+        }
+      }
+    },
+    "navItems": {
+      "title": "Navigation Items",
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "title": "Nav Item",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "title": "Label",
+            "type": "string"
+          },
+          "slug": {
+            "title": "URL Slug",
+            "type": "string"
+          },
+          "menu": {
+            "title": "Columns (leave empty to make this a plain link instead of a dropdown)",
+            "type": "array",
+            "items": {
+              "title": "Column",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "title": "Column Header / Link Label",
+                  "description": "Rendered as a bold column header if it has its own Links below, or as a plain link itself if not.",
+                  "type": "string"
+                },
+                "slug": {
+                  "title": "URL Slug (used only if there are no Links below)",
+                  "type": "string"
+                },
+                "menu": {
+                  "title": "Links",
+                  "type": "array",
+                  "items": {
+                    "title": "Link",
+                    "type": "object",
+                    "required": ["name"],
+                    "properties": {
+                      "name": {
+                        "title": "Label",
+                        "type": "string"
+                      },
+                      "slug": {
+                        "title": "URL Slug",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "banner": {
+            "title": "Promo Banner (shown beside this item's dropdown columns)",
+            "type": "object",
+            "properties": {
+              "image": {
+                "title": "Image",
+                "type": "string",
+                "widget": {
+                  "ui:widget": "media-gallery",
+                  "restrictMediaTypes": {
+                    "video": true,
+                    "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+                  }
+                }
+              },
+              "imageAlt": {
+                "title": "Image Alt Text",
+                "type": "string"
+              },
+              "eyebrow": {
+                "title": "Eyebrow (above headline)",
+                "type": "string"
+              },
+              "headline": {
+                "title": "Headline",
+                "type": "string"
+              },
+              "subtitle": {
+                "title": "Subtitle (below headline)",
+                "type": "string"
+              },
+              "text": {
+                "title": "Body Text",
+                "type": "string"
+              },
+              "ctaText": {
+                "title": "CTA Text",
+                "type": "string"
+              },
+              "ctaUrl": {
+                "title": "CTA URL",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "loginUrl": {
+      "title": "Login URL",
+      "type": "string",
+      "default": "#"
+    },
+    "otpLoginUrl": {
+      "title": "One-Time-Code Login URL",
+      "type": "string",
+      "default": "#"
+    },
+    "createAccountText": {
+      "title": "Create Account Description",
+      "type": "string",
+      "default": "To create an account, add an account type to your cart and proceed through the checkout process."
+    },
+    "accountCards": {
+      "title": "Account Type Cards",
+      "type": "array",
+      "items": {
+        "title": "Account Card",
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "subtitle": {
+            "title": "Subtitle",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "price": {
+            "title": "Price Label",
+            "type": "string"
+          },
+          "addToCartUrl": {
+            "title": "Add to Cart URL",
+            "type": "string"
+          },
+          "learnMoreUrl": {
+            "title": "Learn More URL",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "countryOptions": {
+      "title": "Country/Language Options (visual only, no locale switching yet)",
+      "type": "array",
+      "items": {
+        "title": "Option",
+        "type": "object",
+        "required": ["label"],
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "flag": {
+            "title": "Flag Image",
+            "type": "string",
+            "widget": {
+              "ui:widget": "media-gallery",
+              "restrictMediaTypes": {
+                "video": true,
+                "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+              }
+            }
+          },
+          "active": {
+            "title": "Active",
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "mobileNavItems": {
+      "title": "Mobile Bottom Tab Bar (independent of Navigation Items -- type each in manually)",
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "title": "Tab",
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "Function",
+            "description": "Link: goes to a URL. Modal: opens Login or Country/Language. Menu: opens the full-screen category menu.",
+            "type": "string",
+            "enum": ["link", "modal", "menu"],
+            "enumNames": ["Link", "Modal", "Menu"],
+            "default": "link"
+          },
+          "icon": {
+            "title": "Icon",
+            "type": "string",
+            "widget": {
+              "ui:widget": "media-gallery",
+              "restrictMediaTypes": {
+                "video": true,
+                "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+              }
+            }
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "url": {
+            "title": "URL (used when Function is Link)",
+            "type": "string"
+          },
+          "modal": {
+            "title": "Modal (used when Function is Modal)",
+            "type": "string",
+            "enum": ["login", "country"],
+            "enumNames": ["Login", "Country/Language"]
+          }
+        }
+      }
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

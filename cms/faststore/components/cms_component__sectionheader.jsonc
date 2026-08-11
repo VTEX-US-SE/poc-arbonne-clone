@@ -1,0 +1,28 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "SectionHeader",
+  "$componentTitle": "[ARB] Section Header",
+  "title": "[ARB] Section Header",
+  "description": "Centered headline + subtitle text block, no image or CTA",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "headline": {
+      "title": "Headline",
+      "type": "string"
+    },
+    "text": {
+      "title": "Subtitle Text",
+      "type": "string"
+    },
+    "textColor": {
+      "title": "Text Color (hex)",
+      "type": "string",
+      "default": "#252525"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

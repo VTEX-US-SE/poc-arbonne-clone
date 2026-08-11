@@ -19,22 +19,24 @@ yarn build    # production build
 
 ## CMS content
 
-This project uses VTEX's **legacy Headless CMS** (`contentSource: { type: 'CMS' }` in
-`discovery.config.js`), not the newer Content Platform. Schema lives in:
+This project uses VTEX's **Content Platform** (`contentSource: { type: 'CP', project:
+'arbonne-poc' }` in `discovery.config.js`). Schema lives in:
 
-- `cms/faststore/content-types.json` — page types (e.g. `landingPage`)
-- `cms/faststore/sections.json` — reusable section schemas
+- `cms/faststore/components/*.jsonc` — one file per section, keyed by `$componentKey`
+- `cms/faststore/pages/*.jsonc` — page content types (e.g. `landingPage`)
 
-After editing either file, sync to VTEX:
+After editing either directory, sync to VTEX:
 
 ```bash
 yarn cms-sync
 ```
 
 Run this in your own terminal, not through an agent/CI pipe — it has interactive prompts
-(e.g. confirming schema overrides) that don't survive being piped.
+(store ID, schema version, override confirmations) that don't survive being piped. At the
+store ID prompt enter **`arbonne-poc`**; the default `faststore` is wrong for this account.
+See `CLAUDE.md` for why that value has to match `contentSource.project`.
 
-Custom sections are prefixed **`[ARB]`** in their `sections.json` title (e.g. `[ARB] Hero
+Custom sections are prefixed **`[ARB]`** in their `$componentTitle` (e.g. `[ARB] Hero
 Banner`) so they're easy to spot in the Admin section picker, separate from FastStore's
 built-in sections.
 
@@ -44,11 +46,11 @@ built-in sections.
    `<Name>.types.ts` alongside it.
 2. Register it in `src/components/index.tsx`:
    ```tsx
-   import MySection from "./MySection/MySection";
-   export default { MySection };
+   import MySection from './MySection/MySection'
+   export default { MySection }
    ```
-3. Add a matching entry to `cms/faststore/sections.json` — the `name` field must exactly match
-   the registry key above. Prefix the schema `title` with `[ARB]`.
+3. Add `cms/faststore/components/cms_component__<name>.jsonc` — its `$componentKey` must
+   exactly match the registry key above. Prefix `$componentTitle` with `[ARB]`.
 4. `yarn cms-sync`, then add the section to a page in Admin.
 
 ## Styling

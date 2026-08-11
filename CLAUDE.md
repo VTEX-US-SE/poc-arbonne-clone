@@ -4,27 +4,42 @@ FastStore storefront POC for VTEX account `arbonnepoc`, scaffolded from
 `vtex-sites/starter.store`. Hosted via VTEX WebOps (not Vercel), GitHub repo
 `brightdome/arbonne-poc`.
 
-## CMS architecture
+## CMS architecture — Content Platform (CP)
 
-- `discovery.config.js` uses `contentSource: { type: 'CMS' }` — the **legacy**
-  VBase-based CMS, not the newer Content Platform (`type: 'CP'`). CP was tried
-  first and abandoned: it uploads to a separate schema registry that never
-  surfaced in the WebOps-provisioned Headless CMS Admin screen.
-- **Do not set `contentSource.project`.** Leave it unset so it defaults to
-  `'faststore'`. There is a second CMS project called `arbonne-poc` (created
-  during initial WebOps onboarding) — it was a mistake, has since been
-  archived in VTEX Admin, and is **not** what's live on production. Setting
-  `project: 'arbonne-poc'` was tried and caused `yarn cms-sync`'s merge step
-  to silently write to a different `.faststore/cms/<project>/` output than
-  the one actually reflecting prod, so custom sections stopped appearing —
-  not the field itself, that resolves and merges fine; the project ID being
-  wrong is what mattered. If you ever add a `project` value here, verify
-  which CMS project is actually live in Admin first, and check the merged
-  output at `.faststore/cms/<project>/sections.json` (not just the sync
-  command's exit code) before trusting it.
-- `cms/faststore/content-types.json` and `cms/faststore/sections.json` are the
-  legacy schema files. Sync with `yarn cms-sync` (must run in a real
-  interactive terminal — see below).
+Migrated off the legacy VBase CMS. `discovery.config.js` now uses
+`contentSource: { type: 'CP', project: 'arbonne-poc' }`.
+
+- **Three separate places must all say `arbonne-poc`**, and each fails
+  differently and silently if wrong:
+  | Where                           | Value         | Meaning                                            |
+  | ------------------------------- | ------------- | -------------------------------------------------- |
+  | `yarn cms-sync` store ID prompt | `arbonne-poc` | which store the schema uploads to                  |
+  | `contentSource.project`         | `arbonne-poc` | the `{storeId}` path segment at runtime            |
+  | `api.storeId`                   | `arbonnepoc`  | the VTEX **account** (no hyphen) — different thing |
+- **`contentSource.project` is the CP store ID, not a CMS project name.**
+  Under the old `type: 'CMS'` this field selected a CMS project and setting
+  it broke sync — the reverse rule used to be documented here. Under CP it
+  is read at `@faststore/core/src/server/content/service.ts` as
+  `contentSource.project ?? 'faststore'` and becomes the `{storeId}` in
+  `/api/content-platform/data/{account}/{storeId}/...`. `faststore` is not
+  a store on this account, and that path returns **HTTP 200 with
+  `{"entries":[]}`** rather than a 404 — so the symptom is a silently blank
+  page with nothing in the logs, not an error.
+- The store ID is **not** guessable and **not** the account name. Read it
+  from Admin → Content → Stores, or:
+  `GET https://api.vtexcommercestable.com.br/api/content-platform/manage/arbonnepoc/stores`
+  The CLI's own prompt defaults to `faststore`, which is wrong here — do not
+  just press Enter.
+- Schema lives in `cms/faststore/components/*.jsonc` (one file per section,
+  keyed by `$componentKey`) and `cms/faststore/pages/*.jsonc`. Each
+  `$componentKey` must exactly match its key in `src/components/index.tsx`.
+- `yarn cms-sync` runs `vtex content generate-schema` → `upload-schema`
+  (must run in a real interactive terminal — see below). It prompts for a
+  schema version; versions are immutable, so bump on every re-upload.
+  It deletes the generated `cms/faststore/schema.json` afterwards — that
+  file is a build artifact, never commit it.
+- Content **entries** live in the CP data plane and are not in this repo.
+  Migrating schema does not migrate content.
 
 ## Component registry — do not nest under `customizations`
 
@@ -39,11 +54,11 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   warning, or a blank page).
 - Components live flat under `src/components/<Name>/<Name>.tsx` — no `sections`
   subfolder.
-- Each section's `name` in `cms/faststore/sections.json` must exactly match its
-  key in the `src/components/index.tsx` registry.
-- Prefix custom section titles in `sections.json` with `[ARB]` (e.g.
-  `"title": "[ARB] Hero Banner"`) so they're easy to spot in the Admin section
-  picker, distinct from FastStore's built-in sections.
+- Each section's `$componentKey` in `cms/faststore/components/*.jsonc` must
+  exactly match its key in the `src/components/index.tsx` registry.
+- Prefix custom section titles with `[ARB]` (e.g. `"$componentTitle": "[ARB]
+Hero Banner"`) so they're easy to spot in the Admin section picker, distinct
+  from FastStore's built-in sections.
 - Give each component a dedicated `<Name>.types.ts` exporting its props
   interface, imported via `import type`.
 
@@ -65,10 +80,10 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
 - The three brand font-families are our own tokens, not FastStore's:
   `--arb-font-display` (Bebas Neue), `--arb-font-heading` (Nunito),
   `--arb-font-body` (Nunito Sans). Never write a literal `font-family:
-  'Bebas Neue', ...` in a component — reference the token so a future
+'Bebas Neue', ...` in a component — reference the token so a future
   brand font change happens in one place. Works the same way from
   inline JS styles (e.g. `Button.colorSchemes.ts`) as `fontFamily:
-  'var(--arb-font-body)'` since these are genuinely global custom
+'var(--arb-font-body)'` since these are genuinely global custom
   properties (no per-component import needed).
 - These tokens (and any future global custom property/theme override)
   belong in `src/themes/custom-theme.scss`'s `.theme {}` block, wired up
@@ -144,6 +159,17 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   compensates for this automatically (wraps the label in its own span with
   a matching negative margin) using each scheme's own `letterSpacing`
   value — this isn't something a consumer passes in.
+- `Button` passes `fontSize` by overriding the `--fs-button-text-size`
+  **variable**, not as a plain `fontSize` style, and `textDecoration` is a
+  scoped `[data-color-scheme='greenLink'] [data-fs-button-wrapper]` rule in
+  `Button.module.scss` rather than a scheme field. Both for the same reason:
+  `@faststore/ui` sets those properties directly on its own inner
+  `[data-fs-button-wrapper]` element, so a plain inline style on the outer
+  element never reaches the text — it gets shadowed by the inner element's
+  own explicit rule. CSS custom properties _do_ cascade to descendants,
+  which is why the variable route works; `textDecoration` has no such
+  variable, hence the scoped selector. Don't "simplify" either one back
+  into a plain inline style.
 - No `box-sizing: border-box` reset applies anywhere in this app's global
   styles (checked — it genuinely doesn't exist, not just hard to find).
   `Button.module.scss` sets it explicitly on `.button` because mixing an
@@ -169,6 +195,7 @@ happened repeatedly from reflexively wiping the cache after every small
 edit; don't do that. Only clear it when there's an actual, confirmed
 staleness symptom (a change genuinely not reflected after a normal
 fast-refresh), and even then:
+
 1. Ask the user to stop `yarn dev` first (or confirm it's already stopped).
 2. `rm -rf .faststore`
 3. Have them start `yarn dev` again fresh.

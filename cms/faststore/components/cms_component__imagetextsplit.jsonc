@@ -1,0 +1,88 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "ImageTextSplit",
+  "$componentTitle": "[ARB] Image/Text Split",
+  "title": "[ARB] Image/Text Split",
+  "description": "Two-column layout with an image on one side and a text block on the other",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "image": {
+      "title": "Image",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": true,
+          "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+        }
+      }
+    },
+    "imageAlt": {
+      "title": "Image Alt Text",
+      "type": "string"
+    },
+    "imagePosition": {
+      "title": "Image Position",
+      "type": "string",
+      "enum": ["left", "right"],
+      "default": "left"
+    },
+    "textAlign": {
+      "title": "Text Alignment",
+      "type": "string",
+      "enum": ["start", "center"],
+      "default": "center"
+    },
+    "eyebrow": {
+      "title": "Eyebrow (small text above headline)",
+      "type": "string"
+    },
+    "headline": {
+      "title": "Headline",
+      "type": "string"
+    },
+    "text": {
+      "title": "Body Text",
+      "type": "string"
+    },
+    "link": {
+      "title": "Link (rendered on its own line below Body Text, e.g. \"EARNINGS.ARBONNE.COM.\")",
+      "type": "object",
+      "properties": {
+        "url": {
+          "title": "Link URL",
+          "type": "string"
+        },
+        "text": {
+          "title": "Link Text",
+          "type": "string"
+        }
+      }
+    },
+    "cta": {
+      "title": "Call to Action",
+      "type": "object",
+      "properties": {
+        "url": {
+          "title": "Link URL",
+          "type": "string"
+        },
+        "text": {
+          "title": "Button Label",
+          "type": "string"
+        },
+        "colorScheme": {
+          "title": "Button Color Scheme",
+          "type": "string",
+          "enum": ["white", "green", "whiteOutline"],
+          "default": "whiteOutline"
+        }
+      }
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

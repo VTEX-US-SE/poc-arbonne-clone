@@ -1,0 +1,119 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "Footer",
+  "$componentTitle": "[ARB] Footer",
+  "title": "[ARB] Footer",
+  "description": "Site-wide footer: link columns, social icons, compliance badge, legal bar. Place inside the \"Global Footer Sections\" content instance.",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "linkColumns": {
+      "title": "Link Columns",
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "title": "Column",
+        "type": "object",
+        "properties": {
+          "title": {
+            "title": "Column Title",
+            "type": "string"
+          },
+          "links": {
+            "title": "Links",
+            "type": "array",
+            "items": {
+              "title": "Link",
+              "type": "object",
+              "required": ["text", "url"],
+              "properties": {
+                "text": {
+                  "title": "Text",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "URL",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "socialLinks": {
+      "title": "Social Links (render under the last column)",
+      "type": "array",
+      "items": {
+        "title": "Social Link",
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "icon": {
+            "title": "Icon",
+            "type": "string",
+            "widget": {
+              "ui:widget": "media-gallery",
+              "restrictMediaTypes": {
+                "video": true,
+                "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+              }
+            }
+          },
+          "alt": {
+            "title": "Alt Text",
+            "type": "string"
+          },
+          "url": {
+            "title": "URL",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "bCorpBadgeImage": {
+      "title": "B Corp Badge Image",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": true,
+          "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+        }
+      }
+    },
+    "bCorpBadgeAlt": {
+      "title": "B Corp Badge Alt Text",
+      "type": "string",
+      "default": "Certified B Corporation"
+    },
+    "legalLinks": {
+      "title": "Legal Links",
+      "type": "array",
+      "items": {
+        "title": "Link",
+        "type": "object",
+        "required": ["text", "url"],
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "url": {
+            "title": "URL",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "copyrightText": {
+      "title": "Copyright Text",
+      "type": "string",
+      "default": "© 2026 Arbonne International, LLC"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

@@ -1,0 +1,50 @@
+{
+  "landingPage": {
+    "$extends": ["#/components/base-page-template"],
+    "$singleton": false,
+    "type": "object",
+    "title": "Landing Page",
+    "properties": {
+      "seo": {
+        "title": "Settings",
+        "description": "Search Engine Optimization options",
+        "type": "object",
+        "widget": {
+          "ui:ObjectFieldTemplate": "GoogleSeoPreview"
+        },
+        "required": ["slug", "title", "description"],
+        "properties": {
+          "slug": {
+            "title": "Path",
+            "type": "string",
+            "default": "/"
+          },
+          "title": {
+            "title": "Default page title",
+            "description": "Display this title when no other title is available",
+            "type": "string",
+            "default": "Arbonne"
+          },
+          "description": {
+            "title": "Meta tag description",
+            "type": "string",
+            "default": "Arbonne - Premium beauty, wellness, and nutrition products."
+          },
+          "canonical": {
+            "title": "Canonical url for the page",
+            "type": "string"
+          }
+        },
+        "$componentTitle": "Settings"
+      },
+      "sections": {
+        "$ref": "#/$defs/$ALLOW_ALL_COMPONENTS"
+      }
+    },
+    "readOnly": false,
+    "writeOnly": false,
+    "deprecated": false,
+    "$abstract": false,
+    "identifierKeys": ["slug"]
+  }
+}

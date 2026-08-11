@@ -1,5 +1,4 @@
 @use '../../styles/mixins';
-@use '../../styles/tokens';
 
 .legalDisclaimer {
   @include mixins.section-spacing;

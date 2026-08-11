@@ -1,5 +1,4 @@
 @use '../../styles/mixins';
-@use '../../styles/tokens';
 
 .heroBanner {
   @include mixins.section-spacing;

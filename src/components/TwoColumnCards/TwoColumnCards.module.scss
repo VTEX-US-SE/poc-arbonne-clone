@@ -1,6 +1,5 @@
 @use 'sass:meta';
 @use '../../styles/mixins';
-@use '../../styles/tokens';
 
 .twoColumnCards {
   @include mixins.section-spacing;

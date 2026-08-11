@@ -1,6 +1,5 @@
 @use 'sass:meta';
 @use '../../styles/mixins';
-@use '../../styles/tokens';
 
 .imageTextSplit {
   @include mixins.section-spacing;

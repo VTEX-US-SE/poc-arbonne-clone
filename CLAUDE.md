@@ -64,20 +64,26 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   (defined in `@faststore/ui/src/styles/base/tokens.scss`).
 - The three brand font-families are our own tokens, not FastStore's:
   `--arb-font-display` (Bebas Neue), `--arb-font-heading` (Nunito),
-  `--arb-font-body` (Nunito Sans) — defined once in `src/styles/tokens.scss`,
-  `@use`'d wherever needed. Never write a literal `font-family: 'Bebas
-  Neue', ...` in a component — reference the token so a future brand
-  font change happens in one place. Works the same way from inline JS
-  styles (e.g. `Button.colorSchemes.ts`) as `fontFamily: 'var(--arb-font-body)'`
-  — CSS custom properties resolve identically whether referenced from a
-  stylesheet or a `style` prop, as long as `tokens.scss` is `@use`'d
-  somewhere in that component's own SCSS so the `:root` declaration is
-  actually emitted into its bundle (each component that reads a token
-  needs to import `tokens.scss` itself — don't assume some other
-  component's import covers it). `tokens.scss`'s `:root` selector must be
-  wrapped as `:global(:root)` — Next's CSS Modules loader rejects a bare
-  `:root {}` in any `.module.scss` ("selector is not pure") the moment
-  something `@use`s it, since it has no local class/id of its own.
+  `--arb-font-body` (Nunito Sans). Never write a literal `font-family:
+  'Bebas Neue', ...` in a component — reference the token so a future
+  brand font change happens in one place. Works the same way from
+  inline JS styles (e.g. `Button.colorSchemes.ts`) as `fontFamily:
+  'var(--arb-font-body)'` since these are genuinely global custom
+  properties (no per-component import needed).
+- These tokens (and any future global custom property/theme override)
+  belong in `src/themes/custom-theme.scss`'s `.theme {}` block, wired up
+  via `src/themes/index.scss` (`@use './custom-theme';`) — **not** in a
+  `.module.scss` file. `custom-theme.scss` overrides
+  `@faststore/core`'s `src/customizations/src/themes/index.scss`
+  placeholder (same override mechanism as the CMS component registry)
+  and loads outside the CSS Modules pipeline via `_app.tsx` → `main.scss`
+  → `global/index.scss`/`themes/index.scss`. A bare `:root {}` (or even
+  `:global(:root)`) inside any `.module.scss` fails the build the moment
+  something `@use`s it — Next's CSS Modules loader runs in "pure" mode,
+  which rejects a wholly-global selector outright, and `:global()` (the
+  usual escape for this) doesn't help in pure mode. Don't reach for a
+  `.module.scss`-based tokens file again; this was tried and reverted
+  after hitting exactly that build error twice.
 - The as-is site's actual mobile/desktop switch is at **1024px**, not
   `@faststore/ui`'s named `tablet` breakpoint (768px) — confirmed via prod
   screenshots (HeroBanner overlay-vs-stacked layout, ImageTextSplit

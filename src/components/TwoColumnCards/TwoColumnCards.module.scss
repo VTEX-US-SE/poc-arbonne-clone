@@ -5,9 +5,9 @@
   @include mixins.section-spacing;
   @include meta.load-css('~@faststore/ui/src/components/atoms/Icon/styles.scss');
 
+  width: calc(100% - 2 * var(--fs-spacing-3));
   max-width: 75rem;
   margin-inline: auto;
-  padding: 0 var(--fs-spacing-3);
 
   &__header {
     text-align: center;

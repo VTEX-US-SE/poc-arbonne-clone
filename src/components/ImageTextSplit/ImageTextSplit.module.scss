@@ -9,6 +9,7 @@
   --fs-color-text: #252525;
   --fs-color-text-display: #252525;
 
+  width: calc(100% - 2 * var(--fs-spacing-3));
   max-width: 75rem;
   margin-inline: auto;
   display: flex;
@@ -26,7 +27,7 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    padding: var(--fs-spacing-5) var(--fs-spacing-3);
+    padding: var(--fs-spacing-5) 0;
 
     &[data-text-align='center'] {
       align-items: center;

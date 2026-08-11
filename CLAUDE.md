@@ -74,7 +74,10 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
   somewhere in that component's own SCSS so the `:root` declaration is
   actually emitted into its bundle (each component that reads a token
   needs to import `tokens.scss` itself — don't assume some other
-  component's import covers it).
+  component's import covers it). `tokens.scss`'s `:root` selector must be
+  wrapped as `:global(:root)` — Next's CSS Modules loader rejects a bare
+  `:root {}` in any `.module.scss` ("selector is not pure") the moment
+  something `@use`s it, since it has no local class/id of its own.
 - The as-is site's actual mobile/desktop switch is at **1024px**, not
   `@faststore/ui`'s named `tablet` breakpoint (768px) — confirmed via prod
   screenshots (HeroBanner overlay-vs-stacked layout, ImageTextSplit

@@ -3,6 +3,12 @@
 .imageOverlayCard {
   @include mixins.section-spacing;
 
+  // Contains &__card's z-index below to this section -- see HeroBanner
+  // for why this is needed (without it, that z-index leaks into the
+  // global stacking order and can paint over unrelated global chrome).
+  position: relative;
+  z-index: var(--fs-z-index-default);
+
   &__card {
     box-sizing: border-box;
     position: relative;

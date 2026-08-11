@@ -4,6 +4,7 @@ import { Icon } from '@faststore/ui'
 import CountrySelectorModal from '../CountrySelectorModal/CountrySelectorModal'
 import LoginModal from '../LoginModal/LoginModal'
 import MegaMenuPanel from '../MegaMenuPanel/MegaMenuPanel'
+import MobileMenu from '../MobileMenu/MobileMenu'
 import styles from './Header.module.scss'
 import type { HeaderProps } from './Header.types'
 
@@ -22,14 +23,20 @@ export default function Header({
   otpLoginUrl,
   createAccountText,
   accountCards,
-  countryOptions,
+  countryOptions = [],
+  mobileNavItems = [],
 }: HeaderProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
   const [countryOpen, setCountryOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [selectedCountryIndex, setSelectedCountryIndex] = useState(() =>
+    Math.max(countryOptions.findIndex((option) => option.active), 0)
+  )
 
   const openItem = openIndex !== null ? navItems[openIndex] : undefined
   const banner = openItem?.banner
+  const selectedCountry = countryOptions[selectedCountryIndex]
 
   return (
     <>
@@ -59,7 +66,7 @@ export default function Header({
               <span>Login</span>
             </button>
             <a
-              href="/cart"
+              href="#"
               className={styles.header__iconButton}
               aria-label="Cart"
             >
@@ -71,8 +78,51 @@ export default function Header({
               aria-label="Select country"
               onClick={() => setCountryOpen(true)}
             >
-              <Icon name="Globe" width={22} height={22} />
+              {selectedCountry?.flag && (
+                <img
+                  className={styles.header__flag}
+                  src={selectedCountry.flag}
+                  alt=""
+                />
+              )}
+              <Icon name="CaretDown" width={10} height={10} />
             </button>
+          </div>
+        </div>
+
+        <div className={styles.header__mobileTopBar}>
+          <button
+            type="button"
+            className={styles.header__mobileFlagButton}
+            aria-label="Select country"
+            onClick={() => setCountryOpen(true)}
+          >
+            {selectedCountry?.flag && (
+              <img
+                className={styles.header__flag}
+                src={selectedCountry.flag}
+                alt=""
+              />
+            )}
+          </button>
+
+          {logo?.src && (
+            <a className={styles.header__logo} href={logo.url ?? '/'}>
+              <img src={logo.src} alt={logo.alt ?? ''} />
+            </a>
+          )}
+
+          <div className={styles.header__mobileTopBarIcons}>
+            <button
+              type="button"
+              className={styles.header__iconButton}
+              aria-label="Search"
+            >
+              <Icon name="MagnifyingGlass" width={22} height={22} />
+            </button>
+            <a href="#" className={styles.header__iconButton} aria-label="Cart">
+              <Icon name="Bag" width={22} height={22} />
+            </a>
           </div>
         </div>
 
@@ -91,7 +141,12 @@ export default function Header({
                       setOpenIndex(openIndex === index ? null : index)
                     }
                   >
-                    <Icon name="CaretDown" width={12} height={12} />
+                    <Icon
+                      name={openIndex === index ? 'CaretUp' : 'CaretDown'}
+                      weight="bold"
+                      width={12}
+                      height={12}
+                    />
                   </button>
                 )}
               </li>
@@ -108,6 +163,67 @@ export default function Header({
             </div>
           ) : null}
         </nav>
+
+        {mobileNavItems.length > 0 && (
+          <nav
+            className={styles.header__mobileTabBar}
+            aria-label="Mobile navigation"
+          >
+            {mobileNavItems.map((item, index) => {
+              const icon = item.icon && (
+                <img
+                  className={styles.header__mobileTabIcon}
+                  src={item.icon}
+                  alt=""
+                />
+              )
+              const label = <span>{item.label}</span>
+
+              if (item.type === 'modal') {
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    className={styles.header__mobileTabItem}
+                    onClick={() =>
+                      item.modal === 'country'
+                        ? setCountryOpen(true)
+                        : setLoginOpen(true)
+                    }
+                  >
+                    {icon}
+                    {label}
+                  </button>
+                )
+              }
+
+              if (item.type === 'menu') {
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    className={styles.header__mobileTabItem}
+                    onClick={() => setMobileMenuOpen(true)}
+                  >
+                    {icon}
+                    {label}
+                  </button>
+                )
+              }
+
+              return (
+                <a
+                  key={index}
+                  className={styles.header__mobileTabItem}
+                  href={item.url ?? '#'}
+                >
+                  {icon}
+                  {label}
+                </a>
+              )
+            })}
+          </nav>
+        )}
       </header>
 
       <LoginModal
@@ -122,7 +238,20 @@ export default function Header({
       <CountrySelectorModal
         open={countryOpen}
         onClose={() => setCountryOpen(false)}
-        options={countryOptions}
+        options={countryOptions.map((option, index) => ({
+          ...option,
+          active: index === selectedCountryIndex,
+        }))}
+        onSelect={(index) => {
+          setSelectedCountryIndex(index)
+          setCountryOpen(false)
+        }}
+      />
+
+      <MobileMenu
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        navItems={navItems}
       />
     </>
   )

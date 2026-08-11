@@ -8,12 +8,42 @@ export const BUTTON_COLOR_SCHEMES = {
     height: '2.025rem',
   },
   green: {
-    backgroundColor: 'var(--arb-color-green-dark)',
+    backgroundColor: 'var(--arb-color-green)',
     textColor: 'var(--arb-color-white)',
-    padding: '0.25rem 3.75rem',
-    fontFamily: 'var(--arb-font-body)',
-    letterSpacing: '0.125rem',
-    height: '2.25rem',
+    padding: '0.75rem 3rem',
+    fontFamily: 'var(--arb-font-display)',
+    fontSize: '1.0625rem',
+    letterSpacing: '1.06px',
+    borderRadius: '2px',
+    height: '3rem',
+  },
+  greenOutline: {
+    backgroundColor: 'var(--arb-color-white)',
+    textColor: 'var(--arb-color-green-bright)',
+    borderColor: 'var(--arb-color-green)',
+    borderWidth: '2px',
+    hoverBackgroundColor: 'var(--arb-color-green)',
+    hoverTextColor: 'var(--arb-color-white)',
+    padding: '0.75rem 3rem',
+    fontFamily: 'var(--arb-font-display)',
+    fontSize: '1.0625rem',
+    letterSpacing: '1.06px',
+    borderRadius: '2px',
+    height: '3rem',
+  },
+  // Underline comes from Button.module.scss's [data-color-scheme='greenLink']
+  // rule, not a scheme field -- text-decoration is set directly on an inner
+  // descendant by @faststore/ui's own styles, so a plain style override
+  // here wouldn't reach it (see Button.tsx history for the fontSize/CSS-var
+  // version of the same issue).
+  greenLink: {
+    backgroundColor: 'transparent',
+    textColor: 'var(--arb-color-green)',
+    padding: '0',
+    fontFamily: 'var(--arb-font-display)',
+    fontSize: '1.25rem',
+    letterSpacing: '1px',
+    height: 'auto',
   },
   borderless: {
     backgroundColor: 'transparent',

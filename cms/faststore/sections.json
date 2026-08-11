@@ -506,7 +506,15 @@
                     "widget": { "ui:widget": "media-gallery" }
                   },
                   "imageAlt": { "title": "Image Alt Text", "type": "string" },
+                  "eyebrow": {
+                    "title": "Eyebrow (above headline)",
+                    "type": "string"
+                  },
                   "headline": { "title": "Headline", "type": "string" },
+                  "subtitle": {
+                    "title": "Subtitle (below headline)",
+                    "type": "string"
+                  },
                   "text": { "title": "Body Text", "type": "string" },
                   "ctaText": { "title": "CTA Text", "type": "string" },
                   "ctaUrl": { "title": "CTA URL", "type": "string" }
@@ -562,6 +570,41 @@
                 "widget": { "ui:widget": "media-gallery" }
               },
               "active": { "title": "Active", "type": "boolean", "default": false }
+            }
+          }
+        },
+        "mobileNavItems": {
+          "title": "Mobile Bottom Tab Bar (independent of Navigation Items -- type each in manually)",
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "title": "Tab",
+            "type": "object",
+            "properties": {
+              "type": {
+                "title": "Function",
+                "description": "Link: goes to a URL. Modal: opens Login or Country/Language. Menu: opens the full-screen category menu.",
+                "type": "string",
+                "enum": ["link", "modal", "menu"],
+                "enumNames": ["Link", "Modal", "Menu"],
+                "default": "link"
+              },
+              "icon": {
+                "title": "Icon",
+                "type": "string",
+                "widget": { "ui:widget": "media-gallery" }
+              },
+              "label": { "title": "Label", "type": "string" },
+              "url": {
+                "title": "URL (used when Function is Link)",
+                "type": "string"
+              },
+              "modal": {
+                "title": "Modal (used when Function is Modal)",
+                "type": "string",
+                "enum": ["login", "country"],
+                "enumNames": ["Login", "Country/Language"]
+              }
             }
           }
         }

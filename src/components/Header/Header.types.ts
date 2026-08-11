@@ -7,10 +7,25 @@ export interface HeaderLogo {
 export interface HeaderBanner {
   image?: string
   imageAlt?: string
+  /** Renders above the headline (e.g. "GLP-1 NUTRITION SUPPORT"). */
+  eyebrow?: string
   headline?: string
+  /** Renders below the headline (e.g. "WITH ELIGIBLE PURCHASE") -- distinct from eyebrow. */
+  subtitle?: string
   text?: string
   ctaText?: string
   ctaUrl?: string
+}
+
+export interface MobileNavItem {
+  /** @default 'link' */
+  type?: 'link' | 'modal' | 'menu'
+  icon?: string
+  label?: string
+  /** Used when type is 'link'. */
+  url?: string
+  /** Used when type is 'modal'. */
+  modal?: 'login' | 'country'
 }
 
 export interface HeaderProps {
@@ -21,6 +36,13 @@ export interface HeaderProps {
   createAccountText?: string
   accountCards?: LoginAccountCard[]
   countryOptions?: CountryOption[]
+  /**
+   * Independent, manually-curated content for the mobile bottom tab bar --
+   * not derived from navItems (different count/members: e.g. "New!" lives
+   * inside the desktop "Shop All" submenu, "Contact Us" doesn't exist in
+   * the desktop nav at all).
+   */
+  mobileNavItems?: MobileNavItem[]
 }
 
 export interface LoginAccountCard {

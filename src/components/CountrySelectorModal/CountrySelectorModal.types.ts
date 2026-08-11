@@ -9,4 +9,5 @@ export interface CountrySelectorModalProps {
   onClose?: () => void
   title?: string
   options?: CountryOption[]
+  onSelect?: (index: number) => void
 }

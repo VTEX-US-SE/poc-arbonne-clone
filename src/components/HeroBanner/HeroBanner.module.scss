@@ -6,7 +6,13 @@
   --fs-color-text: var(--arb-color-text);
   --fs-color-text-display: var(--arb-color-text);
 
+  // position:relative alone doesn't create a stacking context -- without
+  // an explicit z-index here too, &__contentWrapper's z-index below leaks
+  // into the *global* stacking order instead of staying contained within
+  // this section, where it can tie with (and, being later in the DOM,
+  // paint over) unrelated things like the header's mega-menu dropdown.
   position: relative;
+  z-index: var(--fs-z-index-default);
   text-align: center;
 
   &__imageMobile,

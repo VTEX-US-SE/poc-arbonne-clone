@@ -4,6 +4,16 @@
   "~@faststore/ui/src/components/molecules/Modal/styles.scss"
 );
 
+// Header's mobile tab bar is position:fixed (see Header.module.scss), so it
+// doesn't push page content up on its own -- reserve the same space (84px,
+// the real measured height) at the bottom of the page below 1024px so the
+// bar doesn't sit on top of the last section's content.
+@media (max-width: 63.9375rem) {
+  body {
+    padding-bottom: 5.25rem;
+  }
+}
+
 /* Usage with namespace */
 
 // ----------------------------------------------------------
@@ -18,6 +28,7 @@
   --arb-font-display: "Bebas Neue", sans-serif;
   --arb-font-heading: "Nunito", sans-serif;
   --arb-font-body: "Nunito Sans", sans-serif;
+  --arb-font-serif: "Lora", serif;
 
   // --------------------------------------------------------
   // Arbonne brand colors
@@ -30,7 +41,8 @@
   --arb-color-cream-light: #f5f5f2;
   --arb-color-coral: #df9c8a;
   --arb-color-green: #246346;
-  --arb-color-green-dark: #0b4d45;
+  --arb-color-green-bright: #006837;
+  --arb-color-gray-muted: #858585;
   --arb-color-gray-light: #efefef;
   --arb-color-gray-lighter: #f4f4f4;
 
@@ -53,7 +65,9 @@
 
   // WEIGHT
   --fs-text-weight-bold: 600;
-  --fs-text-weight-black: 700;
+  // Every current consumer (nav labels, banner eyebrow/subtitle) is a
+  // Nunito/Nunito Sans "ExtraBold" per Figma, which is 800, not 700.
+  --fs-text-weight-black: 800;
 
   // FACE
   --fs-text-face-body: "Inter", -apple-system, system-ui, BlinkMacSystemFont,

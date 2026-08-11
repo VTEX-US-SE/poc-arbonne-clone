@@ -1,19 +1,55 @@
 .loginModal {
-  --fs-modal-max-width: 55.25rem;
-  --fs-modal-min-width-tablet: 55.25rem;
+  // Mobile (default): true full-screen, no card chrome at all.
+  --fs-modal-border-radius: 0;
+  --fs-modal-max-width: none;
+  --fs-modal-width-tablet: 100%;
+  --fs-modal-min-width-tablet: 100%;
+
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  overflow-y: auto;
+  box-shadow: none;
+
+  :global([data-fs-modal-header]) {
+    [data-fs-modal-header-title] {
+      text-align: center;
+      font-family: var(--arb-font-body);
+      font-size: 1.5rem;
+      font-weight: var(--fs-text-weight-bold);
+      color: var(--arb-color-text);
+      padding-top: 1.5rem;
+    }
+
+    [data-fs-modal-header-close-button] {
+      [data-fs-icon] {
+        color: var(--arb-color-text);
+      }
+    }
+  }
+
+  :global(div[data-fs-modal-body]) {
+    padding: 1rem 1.25rem 2.5rem;
+  }
 
   &__loginRow {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: var(--fs-spacing-4);
+    gap: var(--fs-spacing-3);
     padding-bottom: var(--fs-spacing-4);
   }
 
   &__or {
     font-family: var(--arb-font-body);
     font-size: 0.875rem;
-    color: var(--arb-color-text);
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--arb-color-gray-muted);
   }
 
   &__divider {
@@ -25,8 +61,9 @@
   &__createTitle {
     margin: 0 0 var(--fs-spacing-2);
     text-align: center;
-    font-family: var(--arb-font-display);
+    font-family: var(--arb-font-body);
     font-size: 1.5rem;
+    font-weight: var(--fs-text-weight-bold);
     color: var(--arb-color-text);
   }
 
@@ -35,12 +72,14 @@
     max-width: 40rem;
     text-align: center;
     font-family: var(--arb-font-body);
-    font-size: 0.875rem;
+    font-size: 1rem;
+    line-height: 1.43;
     color: var(--arb-color-text);
   }
 
   &__cards {
     display: flex;
+    flex-direction: column;
     gap: var(--fs-spacing-3);
   }
 
@@ -53,16 +92,21 @@
   }
 
   &__cardTitle {
-    margin: 0 0 var(--fs-spacing-2);
-    font-family: var(--arb-font-display);
-    font-size: 1.375rem;
-    color: var(--arb-color-text);
+    margin: 0 auto var(--fs-spacing-2);
+    max-width: 11.5rem;
+    font-family: var(--arb-font-serif);
+    font-size: 2.25rem;
+    line-height: 1.17;
+    letter-spacing: -0.43px;
+    color: var(--arb-color-green);
   }
 
   &__cardSubtitle {
     margin: 0 0 var(--fs-spacing-2);
-    font-family: var(--arb-font-heading);
+    font-family: var(--arb-font-body);
     font-size: 1rem;
+    line-height: 1.56;
+    letter-spacing: 0.16px;
     font-weight: var(--fs-text-weight-bold);
     color: var(--arb-color-text);
   }
@@ -70,14 +114,17 @@
   &__cardDescription {
     margin: 0 0 var(--fs-spacing-3);
     font-family: var(--arb-font-body);
-    font-size: 0.875rem;
+    font-size: 1rem;
+    line-height: 1.43;
     color: var(--arb-color-text);
   }
 
   &__cardPrice {
     margin: 0 0 var(--fs-spacing-3);
     font-family: var(--arb-font-body);
-    font-size: 0.875rem;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    letter-spacing: 0.2px;
     font-weight: var(--fs-text-weight-bold);
     color: var(--arb-color-text);
   }
@@ -90,7 +137,44 @@
     display: inline-block;
     margin-top: var(--fs-spacing-2);
     font-family: var(--arb-font-body);
-    font-size: 0.875rem;
-    color: var(--arb-color-text);
+    font-size: 1rem;
+    letter-spacing: 0.16px;
+    text-decoration: underline;
+    color: var(--arb-color-green);
+  }
+
+  // Desktop (>=1024px): centered card, no longer full-screen.
+  @media (min-width: 64rem) {
+    --fs-modal-max-width: 55.25rem;
+    --fs-modal-min-width-tablet: 55.25rem;
+    --fs-modal-border-radius: 0.375rem;
+
+    inset-inline-start: var(--fs-spacing-4);
+    inset-inline-end: var(--fs-spacing-4);
+    width: auto;
+    height: auto;
+    // Modal's own open/close animation already owns `transform` (slides via
+    // translate3d on [data-fs-modal-state]), so centering can't use the
+    // usual top:50%+translateY(-50%) trick without fighting it. Instead
+    // this mirrors how the horizontal centering works: opposing insets
+    // plus the inherited `margin: auto` centers it in the leftover space,
+    // and fit-content/max-height keep it from stretching or overflowing.
+    margin: auto;
+    height: fit-content;
+    max-height: calc(100vh - 4rem);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+
+    :global(div[data-fs-modal-body]) {
+      padding: 1rem 3.5rem 4rem;
+    }
+
+    &__loginRow {
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    &__cards {
+      flex-direction: row;
+    }
   }
 }

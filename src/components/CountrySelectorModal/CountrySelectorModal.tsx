@@ -1,5 +1,6 @@
 import { Icon, Modal, ModalBody, ModalHeader } from '@faststore/ui'
 
+import useLockBodyScroll from '../../hooks/useLockBodyScroll'
 import styles from './CountrySelectorModal.module.scss'
 import type { CountrySelectorModalProps } from './CountrySelectorModal.types'
 
@@ -13,7 +14,10 @@ export default function CountrySelectorModal({
   onClose,
   title = 'Select Language',
   options = [],
+  onSelect,
 }: CountrySelectorModalProps) {
+  useLockBodyScroll(open)
+
   return (
     <Modal
       isOpen={open}
@@ -24,8 +28,13 @@ export default function CountrySelectorModal({
       <ModalHeader title={title} onClose={onClose} />
       <ModalBody>
         <ul className={styles.countrySelectorModal__list}>
-          {options.map((option) => (
-            <li key={option.label} className={styles.countrySelectorModal__item}>
+          {options.map((option, index) => (
+            <li
+              key={option.label}
+              className={styles.countrySelectorModal__item}
+              data-active={option.active || undefined}
+              onClick={() => onSelect?.(index)}
+            >
               {option.flag && (
                 <img
                   className={styles.countrySelectorModal__flag}

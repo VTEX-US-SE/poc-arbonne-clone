@@ -19,5 +19,12 @@
     &[data-color-scheme='whiteOutline']:hover {
       opacity: 1;
     }
+
+    // [data-fs-button-wrapper] (an inner descendant, not this element) sets
+    // its own text-decoration: none directly -- inheriting an override from
+    // here doesn't reach it, so this needs the extra specificity instead.
+    &[data-color-scheme='greenLink'] [data-fs-button-wrapper] {
+      text-decoration: underline;
+    }
   }
 }

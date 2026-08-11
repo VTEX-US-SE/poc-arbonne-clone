@@ -1,5 +1,6 @@
 import { Modal, ModalBody, ModalHeader } from '@faststore/ui'
 
+import useLockBodyScroll from '../../hooks/useLockBodyScroll'
 import Button from '../Button/Button'
 import styles from './LoginModal.module.scss'
 import type { LoginModalProps } from './LoginModal.types'
@@ -12,6 +13,8 @@ export default function LoginModal({
   createAccountText = 'To create an account, add an account type to your cart and proceed through the checkout process.',
   accountCards = [],
 }: LoginModalProps) {
+  useLockBodyScroll(open)
+
   return (
     <Modal
       isOpen={open}
@@ -26,7 +29,7 @@ export default function LoginModal({
             LOGIN
           </Button>
           <span className={styles.loginModal__or}>OR</span>
-          <Button href={otpLoginUrl} colorScheme="whiteOutline">
+          <Button href={otpLoginUrl} colorScheme="greenOutline">
             LOG IN WITH A ONE-TIME CODE
           </Button>
         </div>

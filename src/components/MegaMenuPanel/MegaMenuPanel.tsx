@@ -31,7 +31,9 @@ export default function MegaMenuPanel({
       </button>
 
       {isSimple ? (
-        <ul className={styles.megaMenuPanel__linkList}>
+        <ul
+          className={`${styles.megaMenuPanel__linkList} ${styles.megaMenuPanel__simpleList}`}
+        >
           {columns.map((link, index) => (
             <li key={link.slug ?? index}>
               <a
@@ -79,23 +81,37 @@ export default function MegaMenuPanel({
               alt={banner.imageAlt ?? ''}
             />
           )}
-          {banner.headline && (
-            <p className={styles.megaMenuPanel__bannerHeadline}>
-              {banner.headline}
-            </p>
-          )}
-          {banner.text && (
-            <p className={styles.megaMenuPanel__bannerText}>{banner.text}</p>
-          )}
-          {banner.ctaText && banner.ctaUrl && (
-            <Button
-              className={styles.megaMenuPanel__bannerCta}
-              href={banner.ctaUrl}
-              colorScheme="borderless"
-            >
-              {banner.ctaText}
-            </Button>
-          )}
+          <div className={styles.megaMenuPanel__bannerContent}>
+            {banner.eyebrow && (
+              <p className={styles.megaMenuPanel__bannerEyebrow}>
+                {banner.eyebrow}
+              </p>
+            )}
+            {banner.headline && (
+              <p className={styles.megaMenuPanel__bannerHeadline}>
+                {banner.headline}
+              </p>
+            )}
+            {banner.subtitle && (
+              <p className={styles.megaMenuPanel__bannerSubtitle}>
+                {banner.subtitle}
+              </p>
+            )}
+            {banner.text && (
+              <p className={styles.megaMenuPanel__bannerText}>
+                {banner.text}
+              </p>
+            )}
+            {banner.ctaText && banner.ctaUrl && (
+              <Button
+                className={styles.megaMenuPanel__bannerCta}
+                href={banner.ctaUrl}
+                colorScheme="greenLink"
+              >
+                {banner.ctaText}
+              </Button>
+            )}
+          </div>
         </div>
       )}
     </div>

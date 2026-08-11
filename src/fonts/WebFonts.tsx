@@ -9,7 +9,7 @@ function WebFonts() {
       />
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@800;900&family=Nunito+Sans:wght@400;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400&family=Nunito:wght@800;900&family=Nunito+Sans:wght@400;700;800&display=swap"
       />
     </>
   )

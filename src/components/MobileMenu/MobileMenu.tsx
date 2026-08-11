@@ -20,6 +20,10 @@ export default function MobileMenu({
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   useLockBodyScroll(open)
 
+  if (!open) {
+    return null
+  }
+
   return (
     <Modal
       isOpen={open}

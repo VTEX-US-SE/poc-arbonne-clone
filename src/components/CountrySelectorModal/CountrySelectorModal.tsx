@@ -18,6 +18,10 @@ export default function CountrySelectorModal({
 }: CountrySelectorModalProps) {
   useLockBodyScroll(open)
 
+  if (!open) {
+    return null
+  }
+
   return (
     <Modal
       isOpen={open}

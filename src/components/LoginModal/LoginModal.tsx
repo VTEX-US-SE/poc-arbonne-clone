@@ -15,6 +15,10 @@ export default function LoginModal({
 }: LoginModalProps) {
   useLockBodyScroll(open)
 
+  if (!open) {
+    return null
+  }
+
   return (
     <Modal
       isOpen={open}

@@ -1,7 +1,9 @@
+@use 'sass:meta';
 @use '../../styles/mixins';
 
 .twoColumnCards {
   @include mixins.section-spacing;
+  @include meta.load-css('~@faststore/ui/src/components/atoms/Icon/styles.scss');
 
   max-width: 75rem;
   margin-inline: auto;
@@ -32,7 +34,9 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-    gap: var(--fs-spacing-5);
+    justify-content: center;
+    justify-items: center;
+    gap: 5rem;
   }
 
   &__card {
@@ -40,6 +44,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    max-width: 33.75rem;
   }
 
   &__image {

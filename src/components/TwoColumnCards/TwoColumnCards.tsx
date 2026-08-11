@@ -1,22 +1,9 @@
 import type { CSSProperties } from 'react'
+import { Icon } from '@faststore/ui'
 
 import Button from '../Button/Button'
 import styles from './TwoColumnCards.module.scss'
 import type { TwoColumnCardsProps } from './TwoColumnCards.types'
-
-function ArrowRightIcon() {
-  return (
-    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-      <path
-        d="M8 1l5 5-5 5M13 6H1"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
 
 /**
  * Optional headline/subtitle above a responsive N-up grid of cards: image,
@@ -70,7 +57,7 @@ export default function TwoColumnCards({
                 className={styles.twoColumnCards__link}
                 href={card.link.url}
                 colorScheme="borderless"
-                icon={<ArrowRightIcon />}
+                icon={<Icon name="ArrowRight" width={14} height={12} />}
                 iconPosition="right"
               >
                 {card.link.text}

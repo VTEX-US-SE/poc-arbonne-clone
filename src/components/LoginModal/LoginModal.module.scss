@@ -1,0 +1,96 @@
+.loginModal {
+  --fs-modal-max-width: 55.25rem;
+  --fs-modal-min-width-tablet: 55.25rem;
+
+  &__loginRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fs-spacing-4);
+    padding-bottom: var(--fs-spacing-4);
+  }
+
+  &__or {
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--arb-color-text);
+  }
+
+  &__divider {
+    margin: 0 0 var(--fs-spacing-4);
+    border: none;
+    border-top: 1px solid rgba(37, 37, 37, 0.15);
+  }
+
+  &__createTitle {
+    margin: 0 0 var(--fs-spacing-2);
+    text-align: center;
+    font-family: var(--arb-font-display);
+    font-size: 1.5rem;
+    color: var(--arb-color-text);
+  }
+
+  &__createText {
+    margin: 0 auto var(--fs-spacing-4);
+    max-width: 40rem;
+    text-align: center;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--arb-color-text);
+  }
+
+  &__cards {
+    display: flex;
+    gap: var(--fs-spacing-3);
+  }
+
+  &__card {
+    box-sizing: border-box;
+    flex: 1;
+    padding: var(--fs-spacing-4);
+    border: 1px solid rgba(37, 37, 37, 0.15);
+    text-align: center;
+  }
+
+  &__cardTitle {
+    margin: 0 0 var(--fs-spacing-2);
+    font-family: var(--arb-font-display);
+    font-size: 1.375rem;
+    color: var(--arb-color-text);
+  }
+
+  &__cardSubtitle {
+    margin: 0 0 var(--fs-spacing-2);
+    font-family: var(--arb-font-heading);
+    font-size: 1rem;
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--arb-color-text);
+  }
+
+  &__cardDescription {
+    margin: 0 0 var(--fs-spacing-3);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--arb-color-text);
+  }
+
+  &__cardPrice {
+    margin: 0 0 var(--fs-spacing-3);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--arb-color-text);
+  }
+
+  &__cardCta {
+    width: 100%;
+  }
+
+  &__cardLearnMore {
+    display: inline-block;
+    margin-top: var(--fs-spacing-2);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--arb-color-text);
+  }
+}

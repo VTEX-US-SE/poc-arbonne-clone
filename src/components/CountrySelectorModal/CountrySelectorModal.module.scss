@@ -1,0 +1,44 @@
+@use 'sass:meta';
+
+.countrySelectorModal {
+  @include meta.load-css('~@faststore/ui/src/components/atoms/Icon/styles.scss');
+
+  --fs-modal-max-width: 36.625rem;
+  --fs-modal-min-width-tablet: 36.625rem;
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-spacing-2);
+    padding: var(--fs-spacing-2) 0;
+    border-bottom: 1px solid rgba(37, 37, 37, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__flag {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__label {
+    font-family: var(--arb-font-body);
+    font-size: 0.9375rem;
+    color: var(--arb-color-text);
+  }
+
+  &__check {
+    margin-left: auto;
+    color: var(--arb-color-green);
+  }
+}

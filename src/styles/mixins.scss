@@ -1,4 +1,8 @@
 @mixin section-spacing {
   margin-top: var(--fs-spacing-7);
   margin-bottom: var(--fs-spacing-7);
+
+  [data-arb-header] + & {
+    margin-top: 0;
+  }
 }

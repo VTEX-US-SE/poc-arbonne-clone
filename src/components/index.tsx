@@ -1,4 +1,5 @@
 import Footer from './Footer/Footer'
+import Header from './Header/Header'
 import HeroBanner from './HeroBanner/HeroBanner'
 import ImageOverlayCard from './ImageOverlayCard/ImageOverlayCard'
 import ImageTextSplit from './ImageTextSplit/ImageTextSplit'
@@ -14,4 +15,5 @@ export default {
   TwoColumnCards,
   LegalDisclaimer,
   Footer,
+  Header,
 }

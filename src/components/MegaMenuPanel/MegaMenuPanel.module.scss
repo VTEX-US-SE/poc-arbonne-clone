@@ -1,0 +1,99 @@
+@use "sass:meta";
+
+.megaMenuPanel {
+  @include meta.load-css(
+    "~@faststore/ui/src/components/atoms/Icon/styles.scss"
+  );
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.25rem 2.5rem;
+  background-color: var(--arb-color-cream-light);
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: flex-start;
+
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    display: flex;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--arb-color-text);
+    cursor: pointer;
+  }
+
+  &__columns {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 22.6875rem;
+    row-gap: 1rem;
+  }
+
+  &__linkList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__columnTitle {
+    margin: 0 0 0.375rem;
+    font-family: var(--arb-font-heading);
+    font-size: 0.8125rem;
+    font-weight: var(--fs-text-weight-bold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--arb-color-text);
+  }
+
+  &__link {
+    display: block;
+    padding: 0.375rem 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.9375rem;
+    color: var(--arb-color-text);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__banner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 17.375rem;
+    margin-left: auto;
+  }
+
+  &__bannerImage {
+    display: block;
+    width: 100%;
+    aspect-ratio: 278 / 350;
+    object-fit: cover;
+  }
+
+  &__bannerHeadline {
+    margin: 1rem 0 0;
+    font-family: var(--arb-font-display);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--arb-color-text);
+  }
+
+  &__bannerText {
+    margin: 0.75rem 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--arb-color-text);
+  }
+
+  &__bannerCta {
+    margin-top: 0.75rem;
+  }
+}

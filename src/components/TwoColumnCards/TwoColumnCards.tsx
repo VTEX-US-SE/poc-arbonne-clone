@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
-import { Link } from '@faststore/ui'
 
+import Button from '../Button/Button'
 import styles from './TwoColumnCards.module.scss'
 import type { TwoColumnCardsProps } from './TwoColumnCards.types'
 
@@ -20,8 +20,8 @@ function ArrowRightIcon() {
 
 /**
  * Optional headline/subtitle above a responsive N-up grid of cards: image,
- * title, subtitle, description, and a "Shop Now"-style text link with a
- * trailing arrow -- a plain link CTA, not the pill Button used elsewhere.
+ * title, subtitle, description, and a borderless text-link CTA with a
+ * trailing arrow (Button's "borderless" color scheme).
  */
 export default function TwoColumnCards({
   headline,
@@ -66,13 +66,15 @@ export default function TwoColumnCards({
               </p>
             )}
             {card.link?.url && card.link?.text && (
-              <Link
+              <Button
                 className={styles.twoColumnCards__link}
                 href={card.link.url}
+                colorScheme="borderless"
+                icon={<ArrowRightIcon />}
+                iconPosition="right"
               >
                 {card.link.text}
-                <ArrowRightIcon />
-              </Link>
+              </Button>
             )}
           </div>
         ))}

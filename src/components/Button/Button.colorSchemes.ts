@@ -15,6 +15,14 @@ export const BUTTON_COLOR_SCHEMES = {
     letterSpacing: '0.125rem',
     height: '2.25rem',
   },
+  borderless: {
+    backgroundColor: 'transparent',
+    textColor: '#337ab7',
+    padding: '0',
+    fontFamily: "'Nunito Sans', sans-serif",
+    letterSpacing: '0.125rem',
+    height: 'auto',
+  },
   whiteOutline: {
     backgroundColor: '#ffffff',
     textColor: '#252525',

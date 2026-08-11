@@ -3,7 +3,9 @@
 
 .imageTextSplit {
   @include mixins.section-spacing;
-  @include meta.load-css('~@faststore/ui/src/components/atoms/Link/styles.scss');
+  @include meta.load-css(
+    '~@faststore/ui/src/components/atoms/Link/styles.scss'
+  );
 
   --fs-color-text: var(--arb-color-text);
   --fs-color-text-display: var(--arb-color-text);

@@ -31,11 +31,6 @@ export const BUTTON_COLOR_SCHEMES = {
     borderRadius: '2px',
     height: '3rem',
   },
-  // Underline comes from Button.module.scss's [data-color-scheme='greenLink']
-  // rule, not a scheme field -- text-decoration is set directly on an inner
-  // descendant by @faststore/ui's own styles, so a plain style override
-  // here wouldn't reach it (see Button.tsx history for the fontSize/CSS-var
-  // version of the same issue).
   greenLink: {
     backgroundColor: 'transparent',
     textColor: 'var(--arb-color-green)',

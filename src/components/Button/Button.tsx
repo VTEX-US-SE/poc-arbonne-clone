@@ -49,11 +49,6 @@ export default function Button({
           '--fs-button-border-radius': borderRadius,
           '--fs-button-padding': scheme.padding,
           '--fs-button-height': scheme.height,
-          // Button.module.scss sets --fs-button-text-size on this same
-          // element (not a plain font-size), so overriding the variable
-          // is what actually reaches the text -- a plain `fontSize` here
-          // can get shadowed by an inner element's own explicit
-          // `font-size: var(--fs-button-text-size)` rule.
           '--fs-button-text-size': fontSize,
           fontFamily: scheme.fontFamily,
           ...style,

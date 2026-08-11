@@ -1,13 +1,10 @@
-@use "sass:meta";
+@use 'sass:meta';
 
 .mobileMenu {
   @include meta.load-css(
-    "~@faststore/ui/src/components/atoms/Icon/styles.scss"
+    '~@faststore/ui/src/components/atoms/Icon/styles.scss'
   );
 
-  // Mobile-only surface (only ever opened from the mobile tab bar, which
-  // is itself hidden >=1024px) -- always full-screen, no desktop variant
-  // to switch between.
   --fs-modal-border-radius: 0;
   --fs-modal-max-width: none;
   --fs-modal-width-tablet: 100%;

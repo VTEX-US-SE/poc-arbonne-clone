@@ -1,11 +1,8 @@
-@use "../../styles/mixins";
+@use '../../styles/mixins';
 
 .imageOverlayCard {
   @include mixins.section-spacing;
 
-  // Contains &__card's z-index below to this section -- see HeroBanner
-  // for why this is needed (without it, that z-index leaks into the
-  // global stacking order and can paint over unrelated global chrome).
   position: relative;
   z-index: var(--fs-z-index-default);
 
@@ -92,19 +89,15 @@
       object-fit: cover;
     }
 
-    // DOM order is card-then-image (needed for mobile stacking above), so
-    // this row-reverse condition is flipped relative to ImageTextSplit's
-    // (image-then-content) convention: 'left' means the image ends up
-    // visually first/left.
-    &[data-image-position="left"] {
+    &[data-image-position='left'] {
       flex-direction: row-reverse;
     }
 
-    &[data-image-position="left"] &__card {
+    &[data-image-position='left'] &__card {
       margin-left: -6rem;
     }
 
-    &[data-image-position="right"] &__card {
+    &[data-image-position='right'] &__card {
       margin-right: -6rem;
     }
   }

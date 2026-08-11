@@ -1,11 +1,10 @@
-@use "sass:meta";
+@use 'sass:meta';
 
 .countrySelectorModal {
   @include meta.load-css(
-    "~@faststore/ui/src/components/atoms/Icon/styles.scss"
+    '~@faststore/ui/src/components/atoms/Icon/styles.scss'
   );
 
-  // Mobile (default): true full-screen, no card chrome at all.
   --fs-modal-border-radius: 0;
   --fs-modal-max-width: none;
   --fs-modal-width-tablet: 100%;
@@ -86,7 +85,6 @@
     color: var(--arb-color-green);
   }
 
-  // Desktop (>=1024px): centered card, no longer full-screen.
   @media (min-width: 64rem) {
     --fs-modal-max-width: 36.625rem;
     --fs-modal-min-width-tablet: 36.625rem;
@@ -96,8 +94,6 @@
     inset-inline-end: var(--fs-spacing-4);
     width: auto;
     height: auto;
-    // See LoginModal.module.scss for why this isn't top:50%+translateY(-50%),
-    // and why height:fit-content is needed alongside it.
     margin: auto;
     height: fit-content;
     max-height: calc(100vh - 4rem);

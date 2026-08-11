@@ -1,16 +1,13 @@
-@use "sass:meta";
+@use 'sass:meta';
 
 .megaMenuPanel {
   @include meta.load-css(
-    "~@faststore/ui/src/components/atoms/Icon/styles.scss"
+    '~@faststore/ui/src/components/atoms/Icon/styles.scss'
   );
 
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  // Real inset is a margin-left on the columns/link-list themselves (see
-  // &__columns, &__linkList below), not panel padding -- confirmed via
-  // devtools: .sub-categories { margin-left: 120px; padding: 24px 0 }.
   padding: 1.5rem 2.5rem 1.5rem 0;
   background-color: var(--arb-color-cream-light);
   box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.15);
@@ -43,17 +40,10 @@
     list-style: none;
   }
 
-  // Only for the top-level "simple" shape's list (no columns) -- the same
-  // list is reused nested inside each rich-panel column, which must NOT
-  // get this inset.
   &__simpleList {
     margin-left: 7.5rem;
   }
 
-  // Confirmed via devtools: p.sc-name.body-label-spread-text -- the same
-  // shared "spread-text" treatment as &__bannerEyebrow/&__bannerSubtitle,
-  // just applied to a column header instead. Was wrongly using the
-  // heading font at 13px; real values are Nunito Sans at 12px.
   &__columnTitle {
     margin: 0 0 0.25rem;
     font-family: var(--arb-font-body);
@@ -77,10 +67,6 @@
     }
   }
 
-  // Row, not column: real Figma coordinates put the headline/text/CTA at
-  // y-ranges that sit *inside* the image's own y-range (i.e. beside it),
-  // not below it -- confirmed across both the Nutrition and Shop All
-  // banners, so this is a shared design rule, not a one-off.
   &__banner {
     display: flex;
     align-items: center;
@@ -121,9 +107,6 @@
     color: var(--arb-color-text);
   }
 
-  // Same visual treatment as &__bannerEyebrow (confirmed via devtools:
-  // identical 12px Nunito Sans / #252525), but renders after the headline
-  // instead of before it -- kept as its own class for that distinction.
   &__bannerSubtitle {
     margin: 0.25rem 0 0;
     font-family: var(--arb-font-body);

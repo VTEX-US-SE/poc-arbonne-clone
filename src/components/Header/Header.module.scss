@@ -1,29 +1,17 @@
-@use "sass:meta";
+@use 'sass:meta';
 
 .header {
   @include meta.load-css(
-    "~@faststore/ui/src/components/atoms/Icon/styles.scss"
+    '~@faststore/ui/src/components/atoms/Icon/styles.scss'
   );
 
-  // Sticky at every breakpoint now. On desktop, scrolling also collapses
-  // &__nav away (see &__nav below) so the sticky bar shrinks down to just
-  // the compact logo/utility row instead of staying full-height.
   position: sticky;
   top: 0;
-  // Just needs to clear ordinary page sections (which never set z-index),
-  // not compete with body-portaled overlays like Modal -- those use
-  // --fs-z-index-highest (3), so this must stay below that.
   z-index: var(--fs-z-index-top);
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem 1rem 0;
   background-color: var(--arb-color-white);
-
-  // ----------------------------------------------------------
-  // Mobile (<1024px, default): a static top bar (flag, logo, search,
-  // cart -- no nav row, no "Login" label) plus a fixed bottom tab bar
-  // with its own independent, manually-curated content (mobileNavItems).
-  // ----------------------------------------------------------
 
   &__mobileTopBar {
     display: grid;
@@ -68,11 +56,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // Equal-width columns instead of content-based sizing -- at narrow
-    // widths, space-between let short labels (e.g. "Shop") crowd out
-    // long ones (e.g. "Healthy Living"), forcing an uneven/mid-word wrap.
-    // min-width:0 overrides flex's default auto, which otherwise blocks
-    // wrapping from kicking in at all.
     flex: 1;
     min-width: 0;
     gap: 0.25rem;
@@ -103,10 +86,6 @@
     display: none;
   }
 
-  // ----------------------------------------------------------
-  // Desktop (>=1024px)
-  // ----------------------------------------------------------
-
   @media (min-width: 64rem) {
     padding: 0.25rem 2.5rem 0;
 
@@ -127,16 +106,13 @@
       position: relative;
     }
 
-    // Collapses on scroll (see &[data-scrolled] below) instead of just
-    // hiding outright, for the transition. This targets &__navList itself,
-    // not &__nav -- &__nav also contains &__panelWrapper, which is
-    // absolutely positioned to deliberately overflow below the nav's own
-    // box; overflow:hidden on &__nav would clip that dropdown away too.
     &__navList {
       max-height: 3rem;
       overflow: hidden;
       opacity: 1;
-      transition: max-height 0.25s ease, opacity 0.2s ease;
+      transition:
+        max-height 0.25s ease,
+        opacity 0.2s ease;
     }
 
     &[data-scrolled] &__navList {
@@ -231,9 +207,6 @@
   &__panelWrapper {
     position: absolute;
     top: 100%;
-    // .header__nav sits inset by the header's own side padding -- cancel it
-    // out so the panel spans the true viewport edge-to-edge, not just the
-    // nav's own (narrower) content box.
     left: -2.5rem;
     right: -2.5rem;
   }

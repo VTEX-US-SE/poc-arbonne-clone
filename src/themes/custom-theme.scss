@@ -1,17 +1,9 @@
-@use "@faststore/ui/src/styles/base/utilities" as u;
-@use "sass:meta";
+@use '@faststore/ui/src/styles/base/utilities' as u;
+@use 'sass:meta';
 @include meta.load-css(
-  "~@faststore/ui/src/components/molecules/Modal/styles.scss"
+  '~@faststore/ui/src/components/molecules/Modal/styles.scss'
 );
 
-// Header's mobile tab bar is position:fixed (see Header.module.scss), so it
-// doesn't push page content up on its own -- reserve the same space (84px,
-// the real measured height) at the bottom of the page below 1024px so the
-// bar doesn't sit on top of the last section's content. Scoped to
-// :has([data-arb-mobile-tabbar]) rather than applied unconditionally --
-// the tab bar only renders once mobileNavItems has content, and reserving
-// the space regardless left a dead gap at the bottom of every page before
-// that CMS content existed.
 @media (max-width: 63.9375rem) {
   body:has([data-arb-mobile-tabbar]) {
     padding-bottom: 5.25rem;
@@ -20,23 +12,12 @@
 
 /* Usage with namespace */
 
-// ----------------------------------------------------------
-// GLOBAL TOKENS
-// Custom Theme
-// ----------------------------------------------------------
-
 .theme {
-  // --------------------------------------------------------
-  // Arbonne brand fonts
-  // --------------------------------------------------------
-  --arb-font-display: "Bebas Neue", sans-serif;
-  --arb-font-heading: "Nunito", sans-serif;
-  --arb-font-body: "Nunito Sans", sans-serif;
-  --arb-font-serif: "Lora", serif;
+  --arb-font-display: 'Bebas Neue', sans-serif;
+  --arb-font-heading: 'Nunito', sans-serif;
+  --arb-font-body: 'Nunito Sans', sans-serif;
+  --arb-font-serif: 'Lora', serif;
 
-  // --------------------------------------------------------
-  // Arbonne brand colors
-  // --------------------------------------------------------
   --arb-color-text: #252525;
   --arb-color-white: #ffffff;
   --arb-color-border: #333333;
@@ -50,9 +31,6 @@
   --arb-color-gray-light: #efefef;
   --arb-color-gray-lighter: #f4f4f4;
 
-  // --------------------------------------------------------
-  // Colors (Branding Core)
-  // --------------------------------------------------------
   --fs-color-main-2: #0366dd;
   --fs-color-main-3: #0155b7;
   --fs-color-main-4: #014592;
@@ -63,62 +41,25 @@
 
   --fs-color-primary-bkg-light: var(--fs-color-neutral-0);
 
-  // --------------------------------------------------------
-  // Typography (Branding Core)
-  // --------------------------------------------------------
-
-  // WEIGHT
   --fs-text-weight-bold: 600;
-  // Every current consumer (nav labels, banner eyebrow/subtitle) is a
-  // Nunito/Nunito Sans "ExtraBold" per Figma, which is 800, not 700.
   --fs-text-weight-black: 800;
 
-  // FACE
-  --fs-text-face-body: "Inter", -apple-system, system-ui, BlinkMacSystemFont,
-    sans-serif;
+  --fs-text-face-body:
+    'Inter', -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 
-  // HIERARCHY SCALE
   --fs-text-size-title-huge: var(--fs-text-size-9);
 
-  // --------------------------------------------------------
-  // Spacing (UI Essentials)
-  // --------------------------------------------------------
-
-  // --------------------------------------------------------
-  // Grid & Layout (UI Essentials)
-  // --------------------------------------------------------
-
-  // PADDING
-
-  @include u.media(">=notebook") {
+  @include u.media('>=notebook') {
     --fs-grid-padding: var(--fs-spacing-6);
   }
 
-  // CONTAINER
   --fs-grid-max-width: 1320px;
 
-  // --------------------------------------------------------
-  // Interactive Controls (UI Essentials)
-  // --------------------------------------------------------
-
-  // --------------------------------------------------------
-  // Refinements
-  // --------------------------------------------------------
-
-  // BORDERS
   --fs-border-color: var(--fs-color-neutral-2);
 
   --fs-border-radius: 4px;
 
-  // --------------------------------------------------------
-  // FS UI Components
-  // --------------------------------------------------------
-
   .section {
-    ////////////////////
-    // Global
-    ////////////////////
-
     [data-fs-button] {
       --fs-button-padding: calc(
           var(--fs-spacing-1) - (var(--fs-button-border-width) * 2)
@@ -206,7 +147,7 @@
         padding: 0 var(--fs-grid-padding);
       }
 
-      @include u.media(">=notebook") {
+      @include u.media('>=notebook') {
         --fs-incentives-gap: var(--fs-spacing-6);
       }
     }
@@ -233,7 +174,7 @@
       }
     }
 
-    [data-fs-product-card-variant="wide"] {
+    [data-fs-product-card-variant='wide'] {
       --fs-product-card-title-size: var(--fs-text-size-title-product);
       [data-fs-image] {
         border-radius: var(--fs-border-radius);
@@ -243,15 +184,11 @@
       }
     }
 
-    ////////////////////
-    // HOMEPAGE
-    ////////////////////
-
     [data-fs-hero] {
       @include u.layout-content;
 
-      &[data-fs-hero-variant="primary"] [data-fs-hero-heading] {
-        @include u.media(">=notebook") {
+      &[data-fs-hero-variant='primary'] [data-fs-hero-heading] {
+        @include u.media('>=notebook') {
           padding: var(--fs-spacing-13) var(--fs-spacing-5);
         }
       }
@@ -266,13 +203,13 @@
       }
 
       [data-fs-tile] > * {
-        @include u.media(">=notebook") {
+        @include u.media('>=notebook') {
           grid-auto-rows: 640px auto;
         }
       }
     }
 
-    [data-fs-newsletter-color-variant="light"] {
+    [data-fs-newsletter-color-variant='light'] {
       --fs-newsletter-light-bkg-color: transparent;
 
       max-width: 670px;
@@ -283,15 +220,11 @@
         }
       }
 
-      [data-fs-button-inverse="true"] [data-fs-button-wrapper] {
+      [data-fs-button-inverse='true'] [data-fs-button-wrapper] {
         color: var(--fs-color-link);
         border-color: var(--fs-border-color);
       }
     }
-
-    ////////////////////
-    // PDP
-    ////////////////////
 
     [data-fs-product-title] {
       --fs-product-title-text-size: var(--fs-text-size-6);
@@ -324,7 +257,7 @@
     [data-fs-image-gallery] > [data-fs-image] {
       object-fit: cover;
 
-      @include u.media("<notebook") {
+      @include u.media('<notebook') {
         height: 280px;
       }
     }
@@ -342,11 +275,7 @@
       }
     }
 
-    ////////////////////
-    // PLP
-    ////////////////////
-
-    [data-fs-hero-variant="secondary"] {
+    [data-fs-hero-variant='secondary'] {
       --fs-hero-light-bkg-color: transparent;
       --fs-hero-secondary-title-size: var(--fs-text-size-9);
       --fs-hero-secondary-image-height-mobile: unset;
@@ -389,7 +318,7 @@
     [data-fs-product-listing-content-grid] {
       column-gap: var(--fs-spacing-6);
 
-      @include u.media(">=notebook") {
+      @include u.media('>=notebook') {
         row-gap: var(--fs-spacing-3);
       }
     }
@@ -415,16 +344,12 @@
       --fs-slider-thumb-bkg-color: var(--fs-color-neutral-7);
     }
 
-    ////////////////////
-    // Cart Sidebar
-    ////////////////////
-
     [data-fs-cart-sidebar] {
       --fs-cart-sidebar-bkg-color: var(--fs-color-neutral-0);
       --fs-cart-sidebar-footer-box-shadow: none;
       --fs-slide-over-partial-max-width-notebook: 480px;
 
-      @include u.media(">=notebook") {
+      @include u.media('>=notebook') {
         --fs-cart-sidebar-list-padding: var(--fs-spacing-3) var(--fs-spacing-7);
         --fs-slide-over-header-padding: var(--fs-spacing-2) var(--fs-spacing-7);
       }
@@ -439,7 +364,7 @@
     }
 
     [data-fs-cart-sidebar-footer] {
-      @include u.media(">=notebook") {
+      @include u.media('>=notebook') {
         padding: 0 var(--fs-spacing-7) var(--fs-spacing-4);
       }
 
@@ -473,8 +398,6 @@
         border-bottom: var(--fs-border-width) solid var(--fs-border-color);
       }
     }
-
-    ///////////////////
 
     .text__title-section {
       font-size: var(--fs-text-size-6);

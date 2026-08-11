@@ -8,10 +8,10 @@ A FastStore + VTEX e-commerce storefront starter. Built on Next.js, React, TypeS
 
 FastStore uses a **merge architecture** managed by `@faststore/cli`.
 
-| Layer | Location | Purpose |
-|---|---|---|
-| **Framework (read-only)** | `.faststore/` | Source code from `@faststore/core`. Auto-generated and overwritten on upgrades.
-| **Store customizations** | `src/` | Your store's overrides and extensions. All edits go here. |
+| Layer                     | Location      | Purpose                                                                         |
+| ------------------------- | ------------- | ------------------------------------------------------------------------------- |
+| **Framework (read-only)** | `.faststore/` | Source code from `@faststore/core`. Auto-generated and overwritten on upgrades. |
+| **Store customizations**  | `src/`        | Your store's overrides and extensions. All edits go here.                       |
 
 The CLI merges both layers at build time. When upgrading FastStore, `.faststore/` is replaced entirely — only `src/` is preserved.
 
@@ -24,6 +24,7 @@ src/
 ```
 
 Component and section overrides (if added) go in:
+
 ```
 src/customizations/src/components/   # Component overrides
 src/customizations/src/sections/     # Section overrides
@@ -31,6 +32,7 @@ src/customizations/src/styles/       # Global style overrides
 ```
 
 Section overrides must also be registered in:
+
 ```
 src/components/index.tsx   # Section override registration (default export only)
 ```
@@ -42,6 +44,7 @@ src/components/index.tsx   # Section override registration (default export only)
 All environment-level config lives in **`discovery.config.js`** at the root.
 
 Key values:
+
 - **Platform**: VTEX (`storeId: "newstore"`, `workspace: "master"`)
 - **Store URL**: `https://www.fast.store`
 - **CMS contentSource**: VTEX Headless CMS (`CP`, `CMS`)
@@ -57,6 +60,7 @@ Environment variables are in `vtex.env`. Do not commit secrets from this file.
 Theming is done entirely through **CSS custom properties (design tokens)** in `src/themes/custom-theme.scss`.
 
 Rules:
+
 - All tokens follow the `--fs-*` naming convention (e.g. `--fs-color-main-2`, `--fs-text-weight-bold`).
 - Overrides must be inside the `.theme {}` selector.
 - Do not use hardcoded values where a `--fs-*` token exists — always prefer the token.
@@ -80,6 +84,7 @@ Rules:
 Use **Yarn**
 
 Node version:
+
 - **Required locally**: `>=20`
 - **WebOps build/deploy**: Node `24`, set via `experimental.nodeVersion` in `discovery.config.js`.
 
@@ -98,6 +103,7 @@ yarn test       # Run Cypress E2E tests
 FastStore provides a GraphQL API that connects to VTEX's Headless Commerce API. To add data not in the native schema, use API extensions — do **not** make direct calls to external APIs or VTEX REST endpoints from components.
 
 Rules from the official docs:
+
 - Extend the schema via `src/customizations/src/graphql/` — never modify `.faststore/api/` directly.
 - **Do not make direct requests to external APIs** from the frontend — use API extensions instead to avoid `504` timeouts.
 - **Do not add custom Next.js API Routes** (`/pages/api/`) beyond the ones already built into FastStore.
@@ -112,16 +118,16 @@ The store `contentSource` is set in `discovery.config.js`.
 
 Content types available out of the box:
 
-| Content Type | Scope | Purpose |
-|---|---|---|
-| `globalSections` | global | Reusable sections shown across all pages |
-| `globalHeaderSections` | global | Global header |
-| `globalFooterSections` | global | Global footer |
-| `home` | home | Homepage structure and SEO |
-| `pdp` | pdp | Product Detail Page template |
-| `plp` | plp | Product Listing Page template |
-| `search` | plp, search | Search results page |
-| `landingPage` | landing, custom | Custom landing pages |
+| Content Type           | Scope           | Purpose                                  |
+| ---------------------- | --------------- | ---------------------------------------- |
+| `globalSections`       | global          | Reusable sections shown across all pages |
+| `globalHeaderSections` | global          | Global header                            |
+| `globalFooterSections` | global          | Global footer                            |
+| `home`                 | home            | Homepage structure and SEO               |
+| `pdp`                  | pdp             | Product Detail Page template             |
+| `plp`                  | plp             | Product Listing Page template            |
+| `search`               | plp, search     | Search results page                      |
+| `landingPage`          | landing, custom | Custom landing pages                     |
 
 Run `yarn cms-sync` to push local content type definitions to the VTEX Admin. This requires the VTEX IO CLI to be installed and logged in (`vtex login {accountName}`).
 
@@ -146,8 +152,8 @@ Run `yarn cms-sync` to push local content type definitions to the VTEX Admin. Th
 - [Component overrides](https://developers.vtex.com/docs/guides/faststore/building-sections-component-customization-overview)
 - [Extending the API](https://developers.vtex.com/docs/guides/faststore/api-extensions-overview)
 
-
 ## Available Skills
+
 - [FastStore Storefront — Coding Rules](https://github.com/vtex/skills/blob/main/skills/faststore-storefront/SKILL.md)
 
 > Only use this skill after check if `contentSource` type in `discovery.config.js` is CP.

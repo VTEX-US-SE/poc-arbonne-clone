@@ -1,4 +1,4 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress'
 
 export default defineConfig({
   retries: 0,
@@ -8,12 +8,12 @@ export default defineConfig({
   viewportWidth: 1000,
   viewportHeight: 600,
   e2e: {
-    supportFile: "cypress/support/index.js",
-    specPattern: "cypress/integration/**/*.test.{js,jsx,ts,tsx}",
+    supportFile: 'cypress/support/index.js',
+    specPattern: 'cypress/integration/**/*.test.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
-      return require("cypress/plugins/index.js")(on, config);
+      return require('cypress/plugins/index.js')(on, config)
     },
-    baseUrl: "http://localhost:3000/",
+    baseUrl: 'http://localhost:3000/',
     experimentalRunAllSpecs: true,
   },
-});
+})

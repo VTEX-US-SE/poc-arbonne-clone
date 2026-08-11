@@ -33,7 +33,10 @@ export default function Header({
   const [countryOpen, setCountryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [selectedCountryIndex, setSelectedCountryIndex] = useState(() =>
-    Math.max(countryOptions.findIndex((option) => option.active), 0)
+    Math.max(
+      countryOptions.findIndex((option) => option.active),
+      0
+    )
   )
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -81,11 +84,7 @@ export default function Header({
               <Icon name="User" width={22} height={22} />
               <span>Login</span>
             </button>
-            <a
-              href="#"
-              className={styles.header__iconButton}
-              aria-label="Cart"
-            >
+            <a href="#" className={styles.header__iconButton} aria-label="Cart">
               <Icon name="Bag" width={22} height={22} />
             </a>
             <button

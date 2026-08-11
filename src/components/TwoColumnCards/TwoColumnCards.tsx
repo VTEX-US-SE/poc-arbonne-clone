@@ -43,9 +43,7 @@ export default function TwoColumnCards({
               <p className={styles.twoColumnCards__title}>{card.title}</p>
             )}
             {card.subtitle && (
-              <p className={styles.twoColumnCards__subtitle}>
-                {card.subtitle}
-              </p>
+              <p className={styles.twoColumnCards__subtitle}>{card.subtitle}</p>
             )}
             {card.description && (
               <p className={styles.twoColumnCards__description}>

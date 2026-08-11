@@ -8,7 +8,9 @@
     "build": "faststore build",
     "start": "faststore start",
     "cms-sync": "faststore cms-sync",
-    "test": "faststore test"
+    "test": "faststore test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@faststore/cli": "^4.4.0",
@@ -23,6 +25,7 @@
     "cypress": "12.17.4",
     "cypress-axe": "^1.5.0",
     "cypress-wait-until": "^2.0.1",
+    "prettier": "^3.8.3",
     "typescript": "^5.9.3"
   },
   "author": "VTEX"

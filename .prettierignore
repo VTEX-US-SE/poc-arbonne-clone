@@ -1,0 +1,6 @@
+# generated build scaffold -- regenerated from src/ by the faststore CLI
+/.faststore
+/node_modules
+/.next
+yarn.lock
+tsconfig.tsbuildinfo

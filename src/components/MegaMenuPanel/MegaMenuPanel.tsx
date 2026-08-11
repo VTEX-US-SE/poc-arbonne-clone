@@ -52,9 +52,7 @@ export default function MegaMenuPanel({
               key={column.slug ?? column.name ?? index}
               className={styles.megaMenuPanel__column}
             >
-              <p className={styles.megaMenuPanel__columnTitle}>
-                {column.name}
-              </p>
+              <p className={styles.megaMenuPanel__columnTitle}>{column.name}</p>
               <ul className={styles.megaMenuPanel__linkList}>
                 {column.menu?.map((link, linkIndex) => (
                   <li key={link.slug ?? linkIndex}>
@@ -98,9 +96,7 @@ export default function MegaMenuPanel({
               </p>
             )}
             {banner.text && (
-              <p className={styles.megaMenuPanel__bannerText}>
-                {banner.text}
-              </p>
+              <p className={styles.megaMenuPanel__bannerText}>{banner.text}</p>
             )}
             {banner.ctaText && banner.ctaUrl && (
               <Button

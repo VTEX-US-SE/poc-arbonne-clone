@@ -1,5 +1,6 @@
 @use 'sass:meta';
 @use '../../styles/mixins';
+@use '../../styles/tokens';
 
 .imageTextSplit {
   @include mixins.section-spacing;
@@ -54,7 +55,7 @@
 
   &__eyebrow {
     margin: 0;
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--arb-font-heading);
     font-size: var(--fs-text-size-1);
     font-weight: var(--fs-text-weight-bold);
     letter-spacing: 0.15em;
@@ -63,7 +64,7 @@
 
   &__headline {
     margin: var(--fs-spacing-1) 0;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--arb-font-display);
     font-size: 1.75rem;
     font-weight: 400;
     line-height: 1.15;
@@ -76,7 +77,7 @@
 
   &__text {
     margin: var(--fs-spacing-3) 0;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: var(--arb-font-body);
     font-size: 1.25rem;
     font-weight: var(--fs-text-weight-regular);
     color: var(--fs-color-text);
@@ -86,7 +87,7 @@
   &__link {
     --fs-link-text-color: #337ab7;
     margin: 0 0 var(--fs-spacing-3);
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: var(--arb-font-body);
     font-size: 1.25rem;
     color: var(--fs-color-text);
   }

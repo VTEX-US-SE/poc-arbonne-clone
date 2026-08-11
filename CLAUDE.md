@@ -62,6 +62,19 @@ project `src/` tree verbatim into `.faststore/src/customizations/src/`. So:
 - Use FastStore's design tokens instead of hardcoded values: `--fs-color-*`,
   `--fs-spacing-*`, `--fs-text-*`, `--fs-z-index-*`, `--fs-border-radius-*`
   (defined in `@faststore/ui/src/styles/base/tokens.scss`).
+- The three brand font-families are our own tokens, not FastStore's:
+  `--arb-font-display` (Bebas Neue), `--arb-font-heading` (Nunito),
+  `--arb-font-body` (Nunito Sans) — defined once in `src/styles/tokens.scss`,
+  `@use`'d wherever needed. Never write a literal `font-family: 'Bebas
+  Neue', ...` in a component — reference the token so a future brand
+  font change happens in one place. Works the same way from inline JS
+  styles (e.g. `Button.colorSchemes.ts`) as `fontFamily: 'var(--arb-font-body)'`
+  — CSS custom properties resolve identically whether referenced from a
+  stylesheet or a `style` prop, as long as `tokens.scss` is `@use`'d
+  somewhere in that component's own SCSS so the `:root` declaration is
+  actually emitted into its bundle (each component that reads a token
+  needs to import `tokens.scss` itself — don't assume some other
+  component's import covers it).
 - The as-is site's actual mobile/desktop switch is at **1024px**, not
   `@faststore/ui`'s named `tablet` breakpoint (768px) — confirmed via prod
   screenshots (HeroBanner overlay-vs-stacked layout, ImageTextSplit

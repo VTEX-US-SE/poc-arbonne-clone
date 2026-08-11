@@ -1,4 +1,5 @@
 @use '../../styles/mixins';
+@use '../../styles/tokens';
 
 .sectionHeader {
   @include mixins.section-spacing;
@@ -10,7 +11,7 @@
 
   &__headline {
     margin: 0;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--arb-font-display);
     font-size: 2.25rem;
     font-weight: 400;
     color: var(--fs-color-text);
@@ -19,7 +20,7 @@
   &__text {
     margin: var(--fs-spacing-3) auto 0;
     max-width: 60rem;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: var(--arb-font-body);
     font-size: 1.25rem;
     font-weight: var(--fs-text-weight-regular);
     color: var(--fs-color-text);

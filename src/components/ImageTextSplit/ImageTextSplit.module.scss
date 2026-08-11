@@ -5,8 +5,8 @@
   @include mixins.section-spacing;
   @include meta.load-css('~@faststore/ui/src/components/atoms/Link/styles.scss');
 
-  --fs-color-text: #252525;
-  --fs-color-text-display: #252525;
+  --fs-color-text: var(--arb-color-text);
+  --fs-color-text-display: var(--arb-color-text);
 
   width: calc(100% - 2 * var(--fs-spacing-3));
   max-width: 75rem;
@@ -84,7 +84,7 @@
   }
 
   &__link {
-    --fs-link-text-color: #337ab7;
+    --fs-link-text-color: var(--arb-color-link);
     margin: 0 0 var(--fs-spacing-3);
     font-family: var(--arb-font-body);
     font-size: 1.25rem;

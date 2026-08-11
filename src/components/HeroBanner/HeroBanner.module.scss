@@ -3,8 +3,8 @@
 .heroBanner {
   @include mixins.section-spacing;
 
-  --fs-color-text: #252525;
-  --fs-color-text-display: #252525;
+  --fs-color-text: var(--arb-color-text);
+  --fs-color-text-display: var(--arb-color-text);
 
   position: relative;
   text-align: center;

@@ -14,8 +14,8 @@ export default function ImageOverlayCard({
   image,
   imageAlt = '',
   imagePosition = 'left',
-  cardBackgroundColor = '#faf6f4',
-  accentColor = '#df9c8a',
+  cardBackgroundColor = 'var(--arb-color-cream)',
+  accentColor = 'var(--arb-color-coral)',
   headline,
   text,
 }: ImageOverlayCardProps) {

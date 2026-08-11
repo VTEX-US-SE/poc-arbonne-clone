@@ -27,7 +27,7 @@
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.28;
-    color: #252525;
+    color: var(--arb-color-text);
     white-space: pre-line;
   }
 
@@ -38,7 +38,7 @@
     font-weight: var(--fs-text-weight-regular);
     line-height: 1.25;
     letter-spacing: 0.0125rem;
-    color: #252525;
+    color: var(--arb-color-text);
   }
 
   &__image {

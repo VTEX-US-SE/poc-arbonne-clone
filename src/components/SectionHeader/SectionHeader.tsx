@@ -11,7 +11,7 @@ import type { SectionHeaderProps } from './SectionHeader.types'
 export default function SectionHeader({
   headline,
   text,
-  textColor = '#252525',
+  textColor = 'var(--arb-color-text)',
 }: SectionHeaderProps) {
   return (
     <div

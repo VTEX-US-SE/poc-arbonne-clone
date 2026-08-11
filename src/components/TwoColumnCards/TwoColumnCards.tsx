@@ -13,7 +13,7 @@ import type { TwoColumnCardsProps } from './TwoColumnCards.types'
 export default function TwoColumnCards({
   headline,
   text,
-  textColor = '#252525',
+  textColor = 'var(--arb-color-text)',
   cards = [],
 }: TwoColumnCardsProps) {
   return (

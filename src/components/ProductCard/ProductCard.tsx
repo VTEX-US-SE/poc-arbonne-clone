@@ -22,8 +22,13 @@ export default function ProductCard({
   product,
   index = 0,
   refIdSuffix = 'US',
+  ...rest
 }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1)
+
+  const dataProps = Object.fromEntries(
+    Object.entries(rest).filter(([prop]) => prop.startsWith('data-'))
+  )
 
   const {
     id,
@@ -79,7 +84,7 @@ export default function ProductCard({
   })
 
   return (
-    <article className={styles.productCard}>
+    <article className={styles.productCard} {...dataProps}>
       <a className={styles.productCard__link} {...linkProps}>
         <span className={styles.productCard__media}>
           {image && (

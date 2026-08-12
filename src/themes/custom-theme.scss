@@ -4,6 +4,10 @@
   '~@faststore/ui/src/components/molecules/Modal/styles.scss'
 );
 
+.section-shopping-assistant {
+  margin: 0;
+}
+
 @media (max-width: 63.9375rem) {
   body:has([data-arb-mobile-tabbar]) {
     padding-bottom: 5.25rem;
@@ -72,7 +76,6 @@
         )
         var(--fs-spacing-4);
 
-      --fs-button-border-radius: var(--fs-border-radius-pill);
       --fs-button-border-width: var(--fs-border-width);
 
       --fs-buy-button-bkg-color: var(--fs-button-primary-bkg-color);
@@ -118,10 +121,6 @@
       &:focus + label {
         top: u.rem(9px);
       }
-    }
-
-    [data-fs-quantity-selector] {
-      --fs-qty-selector-border-radius: var(--fs-border-radius-pill);
     }
 
     [data-fs-navbar-header] {
@@ -414,5 +413,39 @@
 
   .section-banner + .section-newsletter {
     background-color: var(--fs-color-neutral-bkg);
+  }
+
+  [data-fs-product-grid] {
+    --fs-product-grid-columns-tablet: 3;
+  }
+
+  [data-fs-product-listing-results] {
+    padding-top: var(--fs-spacing-5);
+    border-top: var(--fs-border-width) solid var(--arb-color-gray-line);
+  }
+
+  .section-product-gallery {
+    --fs-color-tertiary-text: var(--arb-color-text);
+    --fs-color-link: var(--arb-color-text);
+
+    border-bottom: none;
+  }
+
+  [data-fs-buy-button] {
+    --fs-buy-button-bkg-color: var(--fs-button-primary-bkg-color);
+    --fs-buy-button-bkg-color-hover: var(--fs-button-primary-bkg-color-hover);
+    --fs-buy-button-bkg-color-active: var(--fs-button-primary-bkg-color-active);
+    --fs-buy-button-text-color: var(--fs-button-primary-text-color);
+    --fs-buy-button-text-color-hover: var(--fs-button-primary-text-color);
+    --fs-buy-button-text-color-active: var(--fs-button-primary-text-color);
+  }
+
+  [data-fs-product-grid-item] {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      flex: 1;
+    }
   }
 }

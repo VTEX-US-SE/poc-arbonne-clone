@@ -1,0 +1,98 @@
+@use '../../styles/mixins';
+
+.categoryHero {
+  @include mixins.section-spacing;
+
+  &__imageMobile,
+  &__imageDesktop {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__imageMobile {
+    aspect-ratio: 375 / 106;
+  }
+
+  &__imageDesktop {
+    display: none;
+  }
+
+  &__cardWrapper {
+    display: flex;
+    padding: 0 1.71875rem;
+  }
+
+  &__imageMobile ~ &__cardWrapper {
+    margin-top: -16vw;
+  }
+
+  &__card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 20rem;
+    margin: 0 auto;
+    padding: 3.125rem 1.875rem 2.125rem;
+    background-color: var(--arb-color-cream);
+  }
+
+  &__rule {
+    display: block;
+    width: 3.5rem;
+    height: 3px;
+    background-color: var(--arb-color-text);
+  }
+
+  &__headline {
+    margin: 1rem 0 0;
+    font-family: var(--arb-font-display);
+    font-size: 2.5rem;
+    font-weight: var(--fs-text-weight-regular);
+    line-height: 1.2;
+    color: var(--arb-color-text);
+  }
+
+  &__text {
+    margin: 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    font-weight: var(--fs-text-weight-regular);
+    line-height: 1.25rem;
+    letter-spacing: 0.0125rem;
+    color: var(--arb-color-text);
+  }
+
+  @media (min-width: 64rem) {
+    &__imageMobile {
+      display: none;
+    }
+
+    &__imageDesktop {
+      display: block;
+      max-width: 90rem;
+      margin: 0 auto;
+      aspect-ratio: 1440 / 405;
+    }
+
+    &__cardWrapper {
+      max-width: 75rem;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    &__imageMobile ~ &__cardWrapper {
+      margin-top: 0;
+    }
+
+    &__imageDesktop + &__cardWrapper {
+      margin-top: -13.25rem;
+    }
+
+    &__card {
+      width: 36.5rem;
+      max-width: none;
+      margin: 0;
+      padding: 5.125rem 3.375rem 6.25rem;
+    }
+  }
+}

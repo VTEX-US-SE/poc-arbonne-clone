@@ -1,3 +1,4 @@
+import CategoryHero from './CategoryHero/CategoryHero'
 import Footer from './Footer/Footer'
 import Header from './Header/Header'
 import HeroBanner from './HeroBanner/HeroBanner'
@@ -17,6 +18,7 @@ import TwoColumnCards from './TwoColumnCards/TwoColumnCards'
  */
 export default {
   HeroBanner,
+  CategoryHero,
   ImageTextSplit,
   ImageOverlayCard,
   SectionHeader,

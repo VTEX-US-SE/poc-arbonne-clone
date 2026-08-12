@@ -1,0 +1,49 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "CategoryHero",
+  "$componentTitle": "[ARB] Category Hero",
+  "title": "[ARB] Category Hero",
+  "description": "Wide category banner with an overlapping cream card holding a headline and copy",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "desktopImage": {
+      "title": "Desktop Image",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": true,
+          "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+        }
+      }
+    },
+    "mobileImage": {
+      "title": "Mobile Image",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": true,
+          "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
+        }
+      }
+    },
+    "imageAlt": {
+      "title": "Image Alt Text",
+      "type": "string"
+    },
+    "headline": {
+      "title": "Headline",
+      "type": "string"
+    },
+    "text": {
+      "title": "Body Text",
+      "type": "string"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

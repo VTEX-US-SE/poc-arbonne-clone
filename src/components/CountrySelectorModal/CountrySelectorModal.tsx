@@ -29,9 +29,6 @@ export default function CountrySelectorModal({
     useBindingSelector()
   const [pendingLocale, setPendingLocale] = useState<string | null>(null)
 
-  // `save` closes over the locale in state, so it cannot run in the same tick
-  // as `setLocaleCode` -- it would resolve the binding we are leaving. Wait
-  // for the selection to commit, then redirect with the fresh callback.
   useEffect(() => {
     if (pendingLocale && localeCode === pendingLocale) {
       setPendingLocale(null)

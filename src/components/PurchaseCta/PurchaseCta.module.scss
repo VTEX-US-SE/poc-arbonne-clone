@@ -39,9 +39,6 @@
       display: flex;
       align-items: center;
 
-      // Token overrides rather than element rules: the loaded Select
-      // stylesheet nests under this class too, so `select {}` would tie
-      // with it on specificity.
       [data-fs-select] {
         --fs-select-height: 3.125rem;
         --fs-select-min-height: 3.125rem;
@@ -62,19 +59,12 @@
       --fs-qty-selector-bkg-color: var(--arb-color-white);
       --fs-qty-selector-border-radius: 3px;
       --fs-qty-selector-border-color: var(--arb-color-border-soft);
-      // The +/- are IconButtons defaulting to the `tertiary` variant.
-      // Override the colour token, not `--fs-button-tertiary-text-color`:
-      // the Button atom redeclares that one on the button itself, so a
-      // value set out here would lose to it.
       --fs-color-tertiary-text: var(--arb-color-text);
 
       flex: 0 0 auto;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     }
 
-    // Descendant selector on purpose: `load-css` above nests the atom's own
-    // `[data-fs-button]` block under this class, which would otherwise
-    // outrank a plain `&__buy` and reset the palette.
     & &__buy {
       --fs-button-primary-bkg-color: var(--arb-color-green);
       --fs-button-primary-bkg-color-hover: var(--arb-color-green);

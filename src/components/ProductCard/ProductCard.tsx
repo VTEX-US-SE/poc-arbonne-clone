@@ -6,8 +6,6 @@ import {
   useProductLink_unstable as useProductLink,
   // @ts-ignore next-line
 } from '@faststore/core/experimental'
-// Not on the experimental surface, which only re-exports the zero-decimal
-// `useFormattedPrice`.
 import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
 
 import styles from './ProductCard.module.scss'

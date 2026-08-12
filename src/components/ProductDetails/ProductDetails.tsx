@@ -6,12 +6,7 @@ import {
   // @ts-ignore next-line
 } from '@faststore/core/experimental'
 import { usePDP } from 'src/sdk/overrides/PageProvider'
-// Not on the experimental surface, which only re-exports the zero-decimal
-// `useFormattedPrice`.
 import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
-// Core's RichText, not `@faststore/ui`'s atom: Content Platform stores rich
-// text as Lexical editor state, and only this one converts it to HTML.
-// Plain HTML like the product description passes straight through.
 import { RichText } from 'src/components/ui/RichText'
 
 import styles from './ProductDetails.module.scss'
@@ -84,9 +79,6 @@ export default function ProductDetails({
   const { data } = usePDP()
   const product = data?.product
 
-  // The bar stands in for the buy box once it has scrolled past the top of
-  // the viewport -- not merely whenever it is off screen, which would also
-  // fire before the reader has reached it.
   useEffect(() => {
     const target = optionsRef.current
 
@@ -160,8 +152,6 @@ export default function ProductDetails({
           aria-label={product.name}
         >
           {selectedImage && (
-            // `data-fs-image` is the hook ImageGallery's own stylesheet uses
-            // to lay out and size the main image.
             <span data-fs-image className={styles.productDetails__mainImage}>
               <GalleryImage
                 url={selectedImage.url}

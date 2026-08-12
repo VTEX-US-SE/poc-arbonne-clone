@@ -46,8 +46,6 @@
     margin-bottom: var(--fs-spacing-6);
   }
 
-  // Prod sets weight 400 on a family literally named "Nunito Extrabold";
-  // emulated here as Nunito Sans at 800, which is the weight it loads.
   &__tab {
     display: inline-flex;
     align-items: center;

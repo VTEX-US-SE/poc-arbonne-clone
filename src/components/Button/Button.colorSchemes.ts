@@ -1,3 +1,8 @@
+/**
+ * Named CTA appearances for `Button`. Each scheme is self-contained: colors,
+ * padding, font and letter-spacing do not carry over between them, so add a
+ * full scheme rather than overriding one value at a call site.
+ */
 export const BUTTON_COLOR_SCHEMES = {
   white: {
     backgroundColor: 'var(--arb-color-white)',

@@ -9,6 +9,12 @@ import ProductShowcases from './ProductShowcases/ProductShowcases'
 import SectionHeader from './SectionHeader/SectionHeader'
 import TwoColumnCards from './TwoColumnCards/TwoColumnCards'
 
+/**
+ * CMS section registry. Each key must match the `$componentKey` of a schema
+ * in `cms/faststore/components`, and this file must stay at
+ * `src/components/index.tsx` -- the CLI copies `src/` one level deeper, so a
+ * nested registry is silently ignored.
+ */
 export default {
   HeroBanner,
   ImageTextSplit,

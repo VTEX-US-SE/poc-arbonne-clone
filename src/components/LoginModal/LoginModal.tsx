@@ -5,6 +5,11 @@ import Button from '../Button/Button'
 import styles from './LoginModal.module.scss'
 import type { LoginModalProps } from './LoginModal.types'
 
+/**
+ * Sign-in modal: the two login routes, then the account types available to
+ * new customers. Authentication itself is not wired up -- the buttons link
+ * out to the account URLs from the CMS.
+ */
 export default function LoginModal({
   open,
   onClose,

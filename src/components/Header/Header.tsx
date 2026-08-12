@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Icon } from '@faststore/ui'
 
-// Not on the experimental surface; same `src/sdk`-style path as `usePDP`.
 import { getGlobalSettings } from 'src/utils/globalSettings'
 
 import CartButton from '../CartButton/CartButton'
@@ -78,6 +77,12 @@ export default function Header({
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    if (isScrolled) {
+      setOpenIndex(null)
+    }
+  }, [isScrolled])
 
   const openItem = openIndex !== null ? navItems[openIndex] : undefined
   const banner = openItem?.banner

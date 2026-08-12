@@ -1,0 +1,198 @@
+@use 'sass:meta';
+
+@layer components {
+  .productCard {
+    @include meta.load-css(
+      '~@faststore/ui/src/components/atoms/Button/styles.scss'
+    );
+    @include meta.load-css(
+      '~@faststore/ui/src/components/atoms/Input/styles.scss'
+    );
+    @include meta.load-css(
+      '~@faststore/ui/src/components/atoms/Icon/styles.scss'
+    );
+    @include meta.load-css(
+      '~@faststore/ui/src/components/molecules/QuantitySelector/styles.scss'
+    );
+    @include meta.load-css(
+      '~@faststore/ui/src/components/molecules/BuyButton/styles.scss'
+    );
+
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // Prod writes this as a bare `transition: .5s`, but that shorthand also
+    // animates `z-index`, and integers flip at the halfway point -- the card
+    // would spend the first 250ms growing behind its neighbours. Naming the
+    // properties keeps the timing; `z-index 0s 0.5s` then holds the raised
+    // stacking for the whole leave transition, so the panel finishes fading
+    // in front of the next section instead of dropping behind it at once.
+    transition:
+      transform 0.5s,
+      background-color 0.5s,
+      box-shadow 0.5s,
+      z-index 0s 0.5s;
+    padding-bottom: var(--fs-spacing-4);
+    background-color: var(--arb-color-gray-lightest);
+    color: var(--arb-color-text);
+
+    &__link {
+      display: flex;
+      flex-direction: column;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    &__media {
+      display: block;
+      margin-top: 1.75rem;
+      aspect-ratio: 1;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &__name {
+      padding: 0 var(--fs-spacing-4);
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      font-weight: var(--fs-text-weight-semibold);
+      line-height: 1.25;
+      letter-spacing: 0.01rem;
+    }
+
+    &__refId {
+      margin: var(--fs-spacing-2) 0 0;
+      padding: 0 var(--fs-spacing-4);
+      font-family: var(--arb-font-body);
+      font-size: 0.875rem;
+      font-weight: var(--fs-text-weight-regular);
+      line-height: 1.79;
+      letter-spacing: 0.0125rem;
+    }
+
+    &__price {
+      margin: 0;
+      padding: 0 var(--fs-spacing-4);
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      font-weight: var(--fs-text-weight-semibold);
+      line-height: 1.88;
+      letter-spacing: 0.0125rem;
+    }
+
+    &__cart {
+      box-sizing: border-box;
+      padding: var(--fs-spacing-4) var(--fs-spacing-4) var(--fs-spacing-5);
+      background-color: var(--arb-color-white);
+    }
+
+    &__quantityLabel {
+      display: block;
+      margin-bottom: 0.3125rem;
+      font-family: var(--arb-font-body);
+      font-size: 0.875rem;
+      font-weight: var(--fs-text-weight-semibold);
+      line-height: 0.9;
+      letter-spacing: 0.01rem;
+    }
+
+    &__cartRow {
+      display: flex;
+      align-items: center;
+      gap: var(--fs-spacing-2);
+    }
+
+    [data-fs-quantity-selector] {
+      --fs-qty-selector-width: 6.1875rem;
+      --fs-qty-selector-height: 3.125rem;
+      --fs-qty-selector-bkg-color: var(--arb-color-white);
+      --fs-qty-selector-border-radius: 3px;
+      --fs-qty-selector-border-color: var(--arb-color-border-soft);
+      // The +/- are IconButtons defaulting to the `tertiary` variant.
+      // Override the colour token, not `--fs-button-tertiary-text-color`:
+      // the Button atom redeclares that one on the button itself, so a
+      // value set out here would lose to it.
+      --fs-color-tertiary-text: var(--arb-color-text);
+
+      flex: 0 0 auto;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    // Written as a descendant rather than `&__buy` on purpose: `load-css`
+    // above nests the atom's own `[data-fs-button]` block under this class,
+    // so a plain `.productCard__buy` loses to it and the button falls back
+    // to FastStore's default palette.
+    & &__buy {
+      --fs-button-primary-bkg-color: var(--arb-color-green-dark);
+      --fs-button-primary-bkg-color-hover: var(--arb-color-green-dark);
+      --fs-button-primary-text-color: var(--arb-color-white);
+      --fs-button-border-radius: 2px;
+      --fs-button-height: 3rem;
+      --fs-button-padding: 0.875rem 0.625rem;
+      --fs-button-text-size: 1.0625rem;
+
+      flex: 1;
+      box-sizing: border-box;
+      font-family: var(--arb-font-display);
+      letter-spacing: 1.06px;
+      text-transform: uppercase;
+    }
+
+    // Below the desktop breakpoint there is no hover, so the cart panel is
+    // part of the card instead of an overlay revealed on it.
+    @media (min-width: 64rem) {
+      &__cart {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        visibility: hidden;
+        box-shadow: 1px 13px 9px 4px rgba(0, 0, 0, 0.05);
+        // Leaving: drop out quickly so the card shrinks on its own.
+        transition:
+          opacity 0.15s,
+          visibility 0s linear 0.15s;
+      }
+
+      // The card scales up as it lifts, which is why every box measured off
+      // a hovered card reads ~1.12x its authored size.
+      &:hover,
+      &:focus-within {
+        z-index: var(--fs-z-index-top);
+        transform: scale(1.12);
+        background-color: var(--arb-color-white);
+        box-shadow: 0 0 22px 9px rgba(0, 0, 0, 0.08);
+        // No delay on the way in: the card must be raised before it grows.
+        transition:
+          transform 0.5s,
+          background-color 0.5s,
+          box-shadow 0.5s,
+          z-index 0s;
+      }
+
+      // Entering: let the 0.5s grow lead, then fade in over its tail.
+      &:hover &__cart,
+      &:focus-within &__cart {
+        opacity: 1;
+        visibility: visible;
+        transition:
+          opacity 0.12s 0.1s,
+          visibility 0s;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &,
+      &__cart {
+        transition: none;
+      }
+    }
+  }
+}

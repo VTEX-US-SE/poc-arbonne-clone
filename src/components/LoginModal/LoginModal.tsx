@@ -1,6 +1,6 @@
-import { Modal, ModalBody, ModalHeader } from '@faststore/ui'
+import { ModalBody, ModalHeader } from '@faststore/ui'
 
-import useLockBodyScroll from '../../hooks/useLockBodyScroll'
+import BaseModal from '../BaseModal/BaseModal'
 import Button from '../Button/Button'
 import styles from './LoginModal.module.scss'
 import type { LoginModalProps } from './LoginModal.types'
@@ -13,18 +13,12 @@ export default function LoginModal({
   createAccountText = 'To create an account, add an account type to your cart and proceed through the checkout process.',
   accountCards = [],
 }: LoginModalProps) {
-  useLockBodyScroll(open)
-
-  if (!open) {
-    return null
-  }
-
   return (
-    <Modal
-      isOpen={open}
-      onDismiss={onClose}
+    <BaseModal
+      open={open}
+      onClose={onClose}
       className={styles.loginModal}
-      aria-label="Login"
+      ariaLabel="Login"
     >
       <ModalHeader title="Already Registered?" onClose={onClose} />
       <ModalBody>
@@ -81,6 +75,6 @@ export default function LoginModal({
           ))}
         </div>
       </ModalBody>
-    </Modal>
+    </BaseModal>
   )
 }

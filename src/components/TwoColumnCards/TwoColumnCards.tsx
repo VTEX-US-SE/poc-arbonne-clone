@@ -1,4 +1,8 @@
 import type { CSSProperties } from 'react'
+import {
+  Image_unstable as Image,
+  // @ts-ignore next-line
+} from '@faststore/core/experimental'
 import { Icon } from '@faststore/ui'
 
 import Button from '../Button/Button'
@@ -33,10 +37,13 @@ export default function TwoColumnCards({
         {cards.map((card, index) => (
           <div className={styles.twoColumnCards__card} key={index}>
             {card.image && (
-              <img
+              <Image
                 className={styles.twoColumnCards__image}
                 src={card.image}
                 alt={card.imageAlt ?? ''}
+                width={600}
+                height={600}
+                sizes="(min-width: 64rem) 600px, 100vw"
               />
             )}
             {card.title && (

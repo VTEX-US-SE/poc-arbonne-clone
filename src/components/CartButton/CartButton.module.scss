@@ -1,0 +1,23 @@
+.cartButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--arb-color-text);
+  cursor: pointer;
+
+  &__count {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--arb-font-body);
+    font-size: 0.5625rem;
+    font-weight: var(--fs-text-weight-semibold);
+    line-height: 1;
+    color: var(--arb-color-text);
+    pointer-events: none;
+  }
+}

@@ -56,7 +56,6 @@ export interface LoginAccountCard {
 
 export interface CountryOption {
   label: string
-  flag?: string
   active?: boolean
 }
 

@@ -1,12 +1,42 @@
 import { useEffect, useState } from 'react'
 import { Icon } from '@faststore/ui'
 
+// Not on the experimental surface; same `src/sdk`-style path as `usePDP`.
+import { getGlobalSettings } from 'src/utils/globalSettings'
+
+import CartButton from '../CartButton/CartButton'
 import CountrySelectorModal from '../CountrySelectorModal/CountrySelectorModal'
 import LoginModal from '../LoginModal/LoginModal'
 import MegaMenuPanel from '../MegaMenuPanel/MegaMenuPanel'
 import MobileMenu from '../MobileMenu/MobileMenu'
+import MobileTabItem from '../MobileTabItem/MobileTabItem'
 import styles from './Header.module.scss'
 import type { HeaderProps } from './Header.types'
+
+/**
+ * Flag for the active locale, taken from the inline SVG Content Platform
+ * ships per region -- no uploaded asset needed. It is clipped to a circle,
+ * which is a deliberate departure from prod's rectangular flag.
+ */
+function LocaleFlag() {
+  const settings = getGlobalSettings() as {
+    locale_metadata?: { region?: { name?: string; flag?: string } }
+  }
+  const region = settings?.locale_metadata?.region
+
+  if (!region?.flag) {
+    return null
+  }
+
+  return (
+    <span
+      className={styles.header__flag}
+      role="img"
+      aria-label={region.name ?? ''}
+      dangerouslySetInnerHTML={{ __html: region.flag }}
+    />
+  )
+}
 
 /**
  * Site-wide header: centered logo, utility icons, and a top nav row whose
@@ -73,7 +103,7 @@ export default function Header({
               className={styles.header__iconButton}
               aria-label="Search"
             >
-              <Icon name="MagnifyingGlass" width={22} height={22} />
+              <Icon name="MagnifyingGlass" width={24} height={24} />
             </button>
             <button
               type="button"
@@ -81,25 +111,17 @@ export default function Header({
               aria-label="Login"
               onClick={() => setLoginOpen(true)}
             >
-              <Icon name="User" width={22} height={22} />
+              <Icon name="User" width={24} height={24} />
               <span>Login</span>
             </button>
-            <a href="#" className={styles.header__iconButton} aria-label="Cart">
-              <Icon name="Bag" width={22} height={22} />
-            </a>
+            <CartButton />
             <button
               type="button"
               className={styles.header__iconButton}
               aria-label="Select country"
               onClick={() => setCountryOpen(true)}
             >
-              {selectedCountry?.flag && (
-                <img
-                  className={styles.header__flag}
-                  src={selectedCountry.flag}
-                  alt=""
-                />
-              )}
+              <LocaleFlag />
               <Icon name="CaretDown" width={10} height={10} />
             </button>
           </div>
@@ -112,13 +134,7 @@ export default function Header({
             aria-label="Select country"
             onClick={() => setCountryOpen(true)}
           >
-            {selectedCountry?.flag && (
-              <img
-                className={styles.header__flag}
-                src={selectedCountry.flag}
-                alt=""
-              />
-            )}
+            <LocaleFlag />
           </button>
 
           {logo?.src && (
@@ -133,11 +149,9 @@ export default function Header({
               className={styles.header__iconButton}
               aria-label="Search"
             >
-              <Icon name="MagnifyingGlass" width={22} height={22} />
+              <Icon name="MagnifyingGlass" width={24} height={24} />
             </button>
-            <a href="#" className={styles.header__iconButton} aria-label="Cart">
-              <Icon name="Bag" width={22} height={22} />
-            </a>
+            <CartButton />
           </div>
         </div>
 
@@ -186,56 +200,22 @@ export default function Header({
             data-arb-mobile-tabbar
           >
             {mobileNavItems.map((item, index) => {
-              const icon = item.icon && (
-                <img
-                  className={styles.header__mobileTabIcon}
-                  src={item.icon}
-                  alt=""
-                />
-              )
-              const label = <span>{item.label}</span>
-
-              if (item.type === 'modal') {
-                return (
-                  <button
-                    key={index}
-                    type="button"
-                    className={styles.header__mobileTabItem}
-                    onClick={() =>
+              const onActivate =
+                item.type === 'modal'
+                  ? () =>
                       item.modal === 'country'
                         ? setCountryOpen(true)
                         : setLoginOpen(true)
-                    }
-                  >
-                    {icon}
-                    {label}
-                  </button>
-                )
-              }
-
-              if (item.type === 'menu') {
-                return (
-                  <button
-                    key={index}
-                    type="button"
-                    className={styles.header__mobileTabItem}
-                    onClick={() => setMobileMenuOpen(true)}
-                  >
-                    {icon}
-                    {label}
-                  </button>
-                )
-              }
+                  : item.type === 'menu'
+                    ? () => setMobileMenuOpen(true)
+                    : undefined
 
               return (
-                <a
+                <MobileTabItem
                   key={index}
-                  className={styles.header__mobileTabItem}
-                  href={item.url ?? '#'}
-                >
-                  {icon}
-                  {label}
-                </a>
+                  item={item}
+                  onActivate={onActivate}
+                />
               )
             })}
           </nav>

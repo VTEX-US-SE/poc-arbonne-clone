@@ -187,7 +187,7 @@
       }
     },
     "countryOptions": {
-      "title": "Country/Language Options (visual only, no locale switching yet)",
+      "title": "Country/Language Options (fallback until a second locale exists)",
       "type": "array",
       "items": {
         "title": "Option",
@@ -197,17 +197,6 @@
           "label": {
             "title": "Label",
             "type": "string"
-          },
-          "flag": {
-            "title": "Flag Image",
-            "type": "string",
-            "widget": {
-              "ui:widget": "media-gallery",
-              "restrictMediaTypes": {
-                "video": true,
-                "image": ["png", "jpg", "jpeg", "gif", "svg", "webp"]
-              }
-            }
           },
           "active": {
             "title": "Active",

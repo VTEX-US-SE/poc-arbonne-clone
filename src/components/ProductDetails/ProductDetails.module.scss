@@ -1,0 +1,330 @@
+@use 'sass:meta';
+@use '../../styles/mixins';
+
+@layer components {
+  .productDetails {
+    @include meta.load-css(
+      '~@faststore/ui/src/components/atoms/Button/styles.scss'
+    );
+    @include meta.load-css(
+      '~@faststore/ui/src/components/atoms/Icon/styles.scss'
+    );
+    @include meta.load-css(
+      '~@faststore/ui/src/components/organisms/ImageGallery/styles.scss'
+    );
+
+    @include mixins.section-spacing;
+
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--fs-spacing-5);
+    padding-top: var(--fs-spacing-5);
+    width: calc(100% - 2 * var(--fs-spacing-3));
+    max-width: 75rem;
+    margin-inline: auto;
+    color: var(--arb-color-text);
+
+    @media (min-width: 64rem) {
+      grid-template-columns: minmax(0, 1fr) 34.5rem;
+      gap: 3rem;
+
+      // The gallery tracks the scroll until the info column runs out.
+      // `align-self` matters: a grid item stretches to the row height by
+      // default, which would leave sticky nothing to travel within.
+      &__gallery {
+        position: sticky;
+        top: 5rem;
+        align-self: start;
+      }
+    }
+
+    &__gallery {
+      min-width: 0;
+
+      [data-fs-image-gallery] {
+        // 496px main image, 72px thumbnails -- the thumbnail default
+        // already matches, the main image defaults to 530px.
+        --fs-image-gallery-current-height: 31rem;
+      }
+
+      // Prod drops the thumbnail rail below the top of the main image.
+      // Offset the selector rather than padding its inner list, which is
+      // `overflow-y: hidden` under a max-height and would clip the last one.
+      @media (min-width: 80rem) {
+        [data-fs-image-gallery-selector] {
+          margin-top: var(--fs-spacing-10);
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &__mainImage {
+      display: block;
+      min-width: 0;
+    }
+
+    &__info {
+      min-width: 0;
+    }
+
+    &__title {
+      margin: 0;
+      font-family: var(--arb-font-display);
+      font-size: 2.25rem;
+      font-weight: 400;
+      line-height: 1.17;
+    }
+
+    &__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fs-spacing-1);
+      margin: var(--fs-spacing-1) 0 0;
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      line-height: 1.56;
+      letter-spacing: 0.01rem;
+    }
+
+    &__priceLabel {
+      margin: var(--fs-spacing-5) 0 0;
+      font-family: var(--arb-font-body);
+      font-size: 0.75rem;
+      font-weight: 800;
+      line-height: 2.08;
+      letter-spacing: 0.125rem;
+      text-transform: uppercase;
+    }
+
+    &__price {
+      margin: 0;
+      font-family: var(--arb-font-display);
+      font-size: 2.25rem;
+      font-weight: 400;
+      line-height: 1.17;
+    }
+
+    &__instalments {
+      display: flex;
+      align-items: center;
+      margin-top: var(--fs-spacing-3);
+    }
+
+    &__klarna {
+      flex: 0 0 auto;
+      width: 4.4375rem;
+      height: 2.0625rem;
+    }
+
+    &__instalmentsText {
+      margin: 0 0 0 var(--fs-spacing-1);
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      line-height: 1.56;
+      letter-spacing: 0.01rem;
+    }
+
+    // `@faststore/ui`'s reset clears `list-style`, padding and margin from
+    // every `ol`/`ul`, which strips the bullets out of the description HTML.
+    // Restore them here rather than globally.
+    &__description {
+      margin: var(--fs-spacing-4) 0 0;
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      line-height: 1.56;
+      letter-spacing: 0.01rem;
+
+      ul {
+        margin: var(--fs-spacing-3) 0;
+        padding-left: var(--fs-spacing-4);
+        list-style: disc;
+      }
+
+      li {
+        margin-bottom: var(--fs-spacing-1);
+      }
+
+      p {
+        margin: 0 0 var(--fs-spacing-3);
+      }
+    }
+
+    &__options {
+      margin-top: var(--fs-spacing-4);
+    }
+
+    &__stickyBar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: var(--fs-z-index-top);
+      box-sizing: border-box;
+      padding: var(--fs-spacing-5) var(--fs-spacing-3) var(--fs-spacing-3);
+      background-color: var(--arb-color-white);
+      border-top: 1px solid var(--arb-color-gray-light);
+
+      // Weighted towards the top like prod's `pt-md-4 pb-md-2`, just less
+      // extreme. `px-md-0`: the inner container owns the width here.
+      @media (min-width: 64rem) {
+        padding: var(--fs-spacing-6) 0 var(--fs-spacing-4);
+      }
+    }
+
+    &__stickyBarInner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--fs-spacing-4);
+      max-width: 75rem;
+      margin-inline: auto;
+    }
+
+    // The CTA's indent and top padding exist to clear the radio inside a
+    // purchase option; neither applies in the bar.
+    &__stickyBar &__cta {
+      padding: 0;
+    }
+
+    // `pr-xs-2` on the bar's price.
+    &__stickyBar &__price {
+      padding-right: var(--fs-spacing-1);
+    }
+
+    &__stickyBarPrice {
+      display: flex;
+      flex-direction: column;
+
+      // The bar reuses the price styles, which carry the info column's
+      // top margin.
+      > * {
+        margin: 0;
+      }
+    }
+
+    &__option {
+      box-sizing: border-box;
+      padding: var(--fs-spacing-4);
+      border: 1px solid var(--arb-color-gray-muted);
+      border-radius: 4px;
+
+      &[data-selected='true'] {
+        border: 3px solid var(--arb-color-green-soft);
+        background-color: var(--arb-color-green-tint);
+      }
+    }
+
+    // Radio label: the 24px indicator sits in the 40px left padding.
+    &__optionLabel {
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0;
+      padding: 0 0 0 2.5rem;
+      background: none;
+      border: 0;
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      font-weight: var(--fs-text-weight-regular);
+      line-height: 1.56;
+      letter-spacing: 0.01rem;
+      color: var(--arb-color-text);
+      text-align: left;
+      cursor: pointer;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        width: 1.5rem;
+        height: 1.5rem;
+        border: 1px solid var(--arb-color-gray-muted);
+        border-radius: 50%;
+      }
+    }
+
+    &__option[data-selected='true'] &__optionLabel::after {
+      border: 0;
+      background-color: var(--arb-color-green);
+      // Same path as prod, but given a viewBox: the original declares a
+      // 32x32 canvas the glyph only fills a corner of, so it rendered
+      // small and off-centre.
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='4 4 17 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 0.8125rem;
+    }
+
+    // Indented to sit under the radio label's text, not the radio.
+    &__replenishText {
+      padding-left: 2.75rem;
+      font-family: var(--arb-font-body);
+      font-size: 0.875rem;
+      line-height: 1.56;
+      color: var(--arb-color-green-dark);
+
+      ul {
+        margin: 0;
+        padding-left: var(--fs-spacing-3);
+        list-style: disc;
+      }
+
+      p {
+        margin: 0 0 0.625rem;
+      }
+    }
+
+    // Indented to clear the radio, matching prod's `cta-wrapper`.
+    &__cta {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--fs-spacing-3);
+      padding: var(--fs-spacing-3) 0 0 2.625rem;
+    }
+
+    [data-fs-quantity-selector] {
+      --fs-qty-selector-width: 6.25rem;
+      --fs-qty-selector-height: 3.125rem;
+      --fs-qty-selector-bkg-color: var(--arb-color-white);
+      --fs-qty-selector-border-radius: 3px;
+      --fs-qty-selector-border-color: var(--arb-color-border-soft);
+      // The +/- are IconButtons defaulting to the `tertiary` variant.
+      // Override the colour token, not `--fs-button-tertiary-text-color`:
+      // the Button atom redeclares that one on the button itself, so a
+      // value set out here would lose to it.
+      --fs-color-tertiary-text: var(--arb-color-text);
+
+      flex: 0 0 auto;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    // Descendant selector on purpose: `load-css` above nests the atom's own
+    // `[data-fs-button]` block under this class, which would otherwise
+    // outrank a plain `&__buy` and reset the palette.
+    & &__buy {
+      --fs-button-primary-bkg-color: var(--arb-color-green);
+      --fs-button-primary-bkg-color-hover: var(--arb-color-green);
+      --fs-button-primary-text-color: var(--arb-color-white);
+      --fs-button-border-radius: 2px;
+      --fs-button-height: 3rem;
+      --fs-button-padding: 0.875rem 1.5rem;
+      --fs-button-text-size: 1.0625rem;
+
+      flex: 0 0 auto;
+      box-sizing: border-box;
+      font-family: var(--arb-font-display);
+      letter-spacing: 1.06px;
+      text-transform: uppercase;
+    }
+  }
+}

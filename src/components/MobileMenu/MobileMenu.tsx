@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Icon, Modal, ModalBody } from '@faststore/ui'
+import { Icon, ModalBody } from '@faststore/ui'
 
-import useLockBodyScroll from '../../hooks/useLockBodyScroll'
+import BaseModal from '../BaseModal/BaseModal'
 import styles from './MobileMenu.module.scss'
 import type { MobileMenuProps } from './MobileMenu.types'
 
@@ -18,18 +18,13 @@ export default function MobileMenu({
   navItems = [],
 }: MobileMenuProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-  useLockBodyScroll(open)
-
-  if (!open) {
-    return null
-  }
 
   return (
-    <Modal
-      isOpen={open}
-      onDismiss={onClose}
+    <BaseModal
+      open={open}
+      onClose={onClose}
       className={styles.mobileMenu}
-      aria-label="Menu"
+      ariaLabel="Menu"
     >
       <button
         type="button"
@@ -96,6 +91,6 @@ export default function MobileMenu({
           })}
         </ul>
       </ModalBody>
-    </Modal>
+    </BaseModal>
   )
 }

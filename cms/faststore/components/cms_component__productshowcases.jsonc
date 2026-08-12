@@ -7,6 +7,14 @@
   "type": "object",
   "required": ["tabs"],
   "properties": {
+    "headline": {
+      "title": "Headline",
+      "type": "string"
+    },
+    "text": {
+      "title": "Intro Text",
+      "type": "string"
+    },
     "tabs": {
       "title": "Tabs",
       "type": "array",

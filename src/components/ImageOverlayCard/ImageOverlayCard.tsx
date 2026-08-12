@@ -1,4 +1,8 @@
 import type { CSSProperties } from 'react'
+import {
+  Image_unstable as Image,
+  // @ts-ignore next-line
+} from '@faststore/core/experimental'
 
 import styles from './ImageOverlayCard.module.scss'
 import type { ImageOverlayCardProps } from './ImageOverlayCard.types'
@@ -38,10 +42,13 @@ export default function ImageOverlayCard({
         {text && <p className={styles.imageOverlayCard__text}>{text}</p>}
       </div>
       {image && (
-        <img
+        <Image
           className={styles.imageOverlayCard__image}
           src={image}
           alt={imageAlt}
+          width={600}
+          height={585}
+          sizes="(min-width: 64rem) 600px, 100vw"
         />
       )}
     </section>

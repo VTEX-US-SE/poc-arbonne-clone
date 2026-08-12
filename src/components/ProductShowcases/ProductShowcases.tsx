@@ -1,50 +1,21 @@
 import { useRef, useState, type KeyboardEvent } from 'react'
-import { useFormattedPrice_unstable as useFormattedPrice } from '@faststore/core/experimental'
 import { useProductsQuery } from 'src/sdk/product/useProductsQuery'
+import ProductCard from '../ProductCard/ProductCard'
 
 import styles from './ProductShowcases.module.scss'
-import type {
-  ProductShowcasesProduct,
-  ProductShowcasesProps,
-} from './ProductShowcases.types'
-
-function ProductTile({ product }: { product: ProductShowcasesProduct }) {
-  const image = product.image?.[0]
-  const price = useFormattedPrice(product.offers?.offers?.[0]?.price ?? 0)
-
-  return (
-    <a className={styles.productShowcases__card} href={`/${product.slug}/p`}>
-      <span className={styles.productShowcases__media}>
-        {image && (
-          <img
-            src={image.url}
-            alt={image.alternateName ?? product.name}
-            loading="lazy"
-          />
-        )}
-      </span>
-      <span className={styles.productShowcases__body}>
-        <span className={styles.productShowcases__name}>{product.name}</span>
-        {product.gtin && (
-          <span className={styles.productShowcases__sku}>
-            # {product.gtin} US
-          </span>
-        )}
-        <span className={styles.productShowcases__price}>{price}</span>
-      </span>
-    </a>
-  )
-}
+import type { ProductShowcasesProps } from './ProductShowcases.types'
 
 /**
  * Tabbed product grid ("Ready to Start Your Arbonne Journey?"). Each tab
  * names a VTEX collection; its products are fetched client-side from the
  * `productClusterIds` facet, so only the active tab is ever queried.
  *
- * Renders the tabs and grid only -- stack a `[ARB] Section Header` above
- * this in the CMS for the headline and intro copy.
+ * Owns its own rule/headline/intro block, so it needs a single CMS section
+ * rather than being stacked under an `[ARB] Section Header`.
  */
 export default function ProductShowcases({
+  headline,
+  text,
   tabs = [],
   numberOfItems = 4,
 }: ProductShowcasesProps) {
@@ -83,6 +54,16 @@ export default function ProductShowcases({
 
   return (
     <section className={styles.productShowcases}>
+      {(headline || text) && (
+        <div className={styles.productShowcases__header}>
+          <hr className={styles.productShowcases__rule} />
+          {headline && (
+            <h2 className={styles.productShowcases__headline}>{headline}</h2>
+          )}
+          {text && <p className={styles.productShowcases__intro}>{text}</p>}
+        </div>
+      )}
+
       <div
         className={styles.productShowcases__tabs}
         role="tablist"
@@ -116,11 +97,8 @@ export default function ProductShowcases({
         aria-labelledby={`product-showcases-tab-${activeTab}`}
         className={styles.productShowcases__grid}
       >
-        {products.map(({ node }) => (
-          <ProductTile
-            key={node.slug}
-            product={node as ProductShowcasesProduct}
-          />
+        {products.map(({ node }, index) => (
+          <ProductCard key={node.slug} index={index} product={node} />
         ))}
       </div>
     </section>

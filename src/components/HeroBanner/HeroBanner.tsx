@@ -1,4 +1,8 @@
 import type { CSSProperties } from 'react'
+import {
+  Image_unstable as Image,
+  // @ts-ignore next-line
+} from '@faststore/core/experimental'
 
 import Button from '../Button/Button'
 import styles from './HeroBanner.module.scss'
@@ -41,17 +45,23 @@ export default function HeroBanner({
       }
     >
       {mobileImage && (
-        <img
+        <Image
           className={styles.heroBanner__imageMobile}
           src={mobileImage}
           alt={imageAlt}
+          width={768}
+          height={768}
+          sizes="100vw"
         />
       )}
       {desktopImage && (
-        <img
+        <Image
           className={styles.heroBanner__imageDesktop}
           src={desktopImage}
           alt={imageAlt}
+          width={1920}
+          height={1920}
+          sizes="100vw"
         />
       )}
       <div

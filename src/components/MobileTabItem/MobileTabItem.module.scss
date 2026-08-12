@@ -1,0 +1,28 @@
+.mobileTabItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--arb-font-body);
+  font-size: 0.875rem;
+  color: var(--arb-color-text);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+
+  span {
+    text-wrap: balance;
+  }
+
+  &__icon {
+    display: block;
+    width: 2.25rem;
+    height: 2.25rem;
+    object-fit: contain;
+  }
+}

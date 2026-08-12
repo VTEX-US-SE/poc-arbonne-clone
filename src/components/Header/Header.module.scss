@@ -52,35 +52,6 @@
     border-top: 1px solid rgba(37, 37, 37, 0.1);
   }
 
-  &__mobileTabItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    min-width: 0;
-    gap: 0.25rem;
-    background: none;
-    border: none;
-    padding: 0;
-    font-family: var(--arb-font-body);
-    font-size: 0.875rem;
-    color: var(--arb-color-text);
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-
-    span {
-      text-wrap: balance;
-    }
-  }
-
-  &__mobileTabIcon {
-    display: block;
-    width: 2.25rem;
-    height: 2.25rem;
-    object-fit: contain;
-  }
-
   &__topRow,
   &__nav {
     display: none;
@@ -166,7 +137,13 @@
     display: block;
     width: 1.5rem;
     height: 1.5rem;
-    object-fit: contain;
+
+    // The platform's SVG carries its own 20px dimensions.
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__navList {

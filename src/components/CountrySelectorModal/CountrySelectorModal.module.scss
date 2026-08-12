@@ -63,12 +63,6 @@
     }
   }
 
-  &__flag {
-    width: 1.5rem;
-    aspect-ratio: 24 / 21;
-    object-fit: contain;
-  }
-
   &__label {
     font-family: var(--arb-font-body);
     font-size: 1rem;

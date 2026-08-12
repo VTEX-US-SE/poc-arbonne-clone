@@ -1,4 +1,8 @@
 import { Link } from '@faststore/ui'
+import {
+  Image_unstable as Image,
+  // @ts-ignore next-line
+} from '@faststore/core/experimental'
 
 import Button from '../Button/Button'
 import styles from './ImageTextSplit.module.scss'
@@ -26,10 +30,13 @@ export default function ImageTextSplit({
       data-image-position={imagePosition}
     >
       {image && (
-        <img
+        <Image
           className={styles.imageTextSplit__image}
           src={image}
           alt={imageAlt}
+          width={960}
+          height={960}
+          sizes="(min-width: 64rem) 50vw, 100vw"
         />
       )}
       <div

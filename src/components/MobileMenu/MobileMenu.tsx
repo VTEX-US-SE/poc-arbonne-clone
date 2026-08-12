@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Icon, ModalBody } from '@faststore/ui'
 
+import { slugHref } from '../../utils/href'
 import BaseModal from '../BaseModal/BaseModal'
 import styles from './MobileMenu.module.scss'
 import type { MobileMenuProps } from './MobileMenu.types'
@@ -66,7 +67,7 @@ export default function MobileMenu({
                                 <li key={linkIndex}>
                                   <a
                                     className={styles.mobileMenu__link}
-                                    href={link.slug ? `/${link.slug}` : '#'}
+                                    href={slugHref(link.slug)}
                                   >
                                     {link.name}
                                   </a>
@@ -77,7 +78,7 @@ export default function MobileMenu({
                         ) : (
                           <a
                             className={styles.mobileMenu__link}
-                            href={column.slug ? `/${column.slug}` : '#'}
+                            href={slugHref(column.slug)}
                           >
                             {column.name}
                           </a>

@@ -3,6 +3,7 @@ import { Icon } from '@faststore/ui'
 
 import { getGlobalSettings } from 'src/utils/globalSettings'
 
+import { slugHref } from '../../utils/href'
 import CartButton from '../CartButton/CartButton'
 import CountrySelectorModal from '../CountrySelectorModal/CountrySelectorModal'
 import LoginModal from '../LoginModal/LoginModal'
@@ -164,7 +165,7 @@ export default function Header({
           <ul className={styles.header__navList}>
             {navItems.map((item, index) => (
               <li key={index} className={styles.header__navItem}>
-                <a href={item.slug ? `/${item.slug}` : '#'}>{item.name}</a>
+                <a href={slugHref(item.slug)}>{item.name}</a>
                 {Boolean(item.menu?.length) && (
                   <button
                     type="button"

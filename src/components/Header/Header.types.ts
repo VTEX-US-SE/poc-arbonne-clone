@@ -34,6 +34,8 @@ export interface HeaderProps {
   loginUrl?: string
   otpLoginUrl?: string
   createAccountText?: string
+  /** Placeholder shown in the header search input. */
+  searchPlaceholder?: string
   accountCards?: LoginAccountCard[]
   countryOptions?: CountryOption[]
   /**

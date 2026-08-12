@@ -151,6 +151,11 @@
       "type": "string",
       "default": "To create an account, add an account type to your cart and proceed through the checkout process."
     },
+    "searchPlaceholder": {
+      "title": "Search Placeholder",
+      "type": "string",
+      "default": "Find what you're looking for..."
+    },
     "accountCards": {
       "title": "Account Type Cards",
       "type": "array",

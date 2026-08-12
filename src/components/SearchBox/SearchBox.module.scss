@@ -1,0 +1,103 @@
+@use 'sass:meta';
+
+@layer components {
+  .searchBox {
+    @include meta.load-css(
+      '~@faststore/ui/src/components/atoms/Icon/styles.scss'
+    );
+
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    &__toggle {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      color: var(--arb-color-text);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    &__form {
+      width: 0;
+      overflow: hidden;
+      transition: width 0.25s;
+
+      &[data-expanded='true'] {
+        width: 15rem;
+        margin-left: var(--fs-spacing-1);
+        border-bottom: 1px solid var(--arb-color-text);
+      }
+    }
+
+    &__input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: var(--fs-spacing-1) 0;
+      font-family: var(--arb-font-body);
+      font-size: 0.875rem;
+      color: var(--arb-color-text);
+      background: none;
+      border: none;
+      outline: none;
+
+      &::placeholder {
+        color: var(--arb-color-gray-muted);
+      }
+    }
+
+    &__suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: var(--fs-z-index-top);
+      box-sizing: border-box;
+      width: 20rem;
+      margin: var(--fs-spacing-1) 0 0;
+      padding: var(--fs-spacing-2) 0;
+      list-style: none;
+      background-color: var(--arb-color-white);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    &__suggestion {
+      display: block;
+      width: 100%;
+      padding: var(--fs-spacing-2) var(--fs-spacing-4);
+      font-family: var(--arb-font-body);
+      font-size: 0.875rem;
+      font-weight: var(--fs-text-weight-regular);
+      color: var(--arb-color-text);
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      strong {
+        font-weight: var(--fs-text-weight-semibold);
+      }
+
+      &:hover,
+      &:focus-visible {
+        background-color: var(--arb-color-gray-lightest);
+      }
+    }
+
+    @media (max-width: 63.9375rem) {
+      &__form[data-expanded='true'] {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 14rem;
+      }
+
+      &__suggestions {
+        left: auto;
+        right: 0;
+        width: 14rem;
+      }
+    }
+  }
+}

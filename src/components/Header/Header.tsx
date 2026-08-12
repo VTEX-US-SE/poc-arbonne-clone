@@ -10,6 +10,7 @@ import LoginModal from '../LoginModal/LoginModal'
 import MegaMenuPanel from '../MegaMenuPanel/MegaMenuPanel'
 import MobileMenu from '../MobileMenu/MobileMenu'
 import MobileTabItem from '../MobileTabItem/MobileTabItem'
+import SearchBox from '../SearchBox/SearchBox'
 import styles from './Header.module.scss'
 import type { HeaderProps } from './Header.types'
 
@@ -54,6 +55,7 @@ export default function Header({
   loginUrl,
   otpLoginUrl,
   createAccountText,
+  searchPlaceholder,
   accountCards,
   countryOptions = [],
   mobileNavItems = [],
@@ -104,13 +106,7 @@ export default function Header({
           )}
 
           <div className={styles.header__utility}>
-            <button
-              type="button"
-              className={styles.header__iconButton}
-              aria-label="Search"
-            >
-              <Icon name="MagnifyingGlass" width={24} height={24} />
-            </button>
+            <SearchBox placeholder={searchPlaceholder} />
             <button
               type="button"
               className={styles.header__iconButton}
@@ -150,13 +146,7 @@ export default function Header({
           )}
 
           <div className={styles.header__mobileTopBarIcons}>
-            <button
-              type="button"
-              className={styles.header__iconButton}
-              aria-label="Search"
-            >
-              <Icon name="MagnifyingGlass" width={24} height={24} />
-            </button>
+            <SearchBox placeholder={searchPlaceholder} />
             <CartButton />
           </div>
         </div>

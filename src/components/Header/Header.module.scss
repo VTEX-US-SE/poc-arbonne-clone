@@ -7,7 +7,10 @@
 
   position: sticky;
   top: 0;
-  z-index: var(--fs-z-index-top);
+  // `--fs-z-index-top` is only 1 on FastStore's scale, which ties with the
+  // product card's hover lift and loses on DOM order. `high` (2) clears the
+  // page while staying under overlays and modals at `highest` (3).
+  z-index: var(--fs-z-index-high);
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem 1rem 0;

@@ -13,6 +13,12 @@
   padding: 0.5rem 1rem 0;
   background-color: var(--arb-color-white);
 
+  // Prod only lifts the header once it sticks (.minimised-sticky.animate),
+  // which is what `data-scrolled` marks here.
+  &[data-scrolled] {
+    box-shadow: 0 0 25px 3px hsla(0, 0%, 89%, 0.5);
+  }
+
   &__mobileTopBar {
     display: grid;
     grid-template-columns: 1fr auto 1fr;

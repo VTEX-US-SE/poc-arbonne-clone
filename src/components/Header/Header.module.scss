@@ -49,7 +49,8 @@
     width: 100%;
     padding: 0.5rem 1rem 1.25rem;
     background-color: var(--arb-color-white);
-    border-top: 1px solid rgba(37, 37, 37, 0.1);
+    border-top: 1px solid #cfcfcf;
+    box-shadow: 0 -4px 8px 0 hsla(0, 0%, 91.4%, 0.2);
   }
 
   &__topRow,

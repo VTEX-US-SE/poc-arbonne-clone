@@ -41,9 +41,12 @@
   --arb-color-gray-lightest: #f7f7f7;
   --arb-color-border-soft: #e8ede9;
 
-  --fs-color-main-2: #0366dd;
-  --fs-color-main-3: #0155b7;
-  --fs-color-main-4: #014592;
+  // Drives --fs-color-primary-bkg (+hover/active), --fs-color-link and
+  // --fs-border-color-hover/active, so core surfaces follow the brand instead
+  // of the starter's blue.
+  --fs-color-main-2: var(--arb-color-green);
+  --fs-color-main-3: var(--arb-color-green-dark);
+  --fs-color-main-4: var(--arb-color-green-dark);
 
   --fs-color-success-bkg: #e9fce3;
   --fs-color-warning-bkg: #e9fce3;
@@ -392,8 +395,6 @@
 
       [data-quantity-selector-input] {
         border-color: var(--fs-border-color);
-        border-top-left-radius: var(--fs-border-radius-pill);
-        border-top-right-radius: var(--fs-border-radius-pill);
       }
     }
 

@@ -41,9 +41,6 @@
   --arb-color-gray-lightest: #f7f7f7;
   --arb-color-border-soft: #e8ede9;
 
-  // Drives --fs-color-primary-bkg (+hover/active), --fs-color-link and
-  // --fs-border-color-hover/active, so core surfaces follow the brand instead
-  // of the starter's blue.
   --fs-color-main-2: var(--arb-color-green);
   --fs-color-main-3: var(--arb-color-green-dark);
   --fs-color-main-4: var(--arb-color-green-dark);

@@ -7,17 +7,12 @@
 
   position: sticky;
   top: 0;
-  // `--fs-z-index-top` is only 1 on FastStore's scale, which ties with the
-  // product card's hover lift and loses on DOM order. `high` (2) clears the
-  // page while staying under overlays and modals at `highest` (3).
   z-index: var(--fs-z-index-high);
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem 1rem 0;
   background-color: var(--arb-color-white);
 
-  // Prod only lifts the header once it sticks (.minimised-sticky.animate),
-  // which is what `data-scrolled` marks here.
   &[data-scrolled] {
     box-shadow: 0 0 25px 3px hsla(0, 0%, 89%, 0.5);
   }

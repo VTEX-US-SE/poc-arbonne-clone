@@ -146,10 +146,6 @@
       cursor: pointer;
     }
 
-    // Below 1024px the expanded field is a full-width bar that extends the
-    // header, matching prod. `position: static` hands the containing block to
-    // the header itself (which is sticky, so it is positioned), letting the
-    // panel span the full width instead of this icon's box.
     @media (max-width: 63.9375rem) {
       position: static;
 

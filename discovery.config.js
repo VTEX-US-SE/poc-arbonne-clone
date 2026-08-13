@@ -44,11 +44,11 @@ module.exports = {
     shouldSplitItem: true,
   },
 
-  storeUrl: 'https://arbonnepoc.myvtex.com',
-  secureSubdomain: 'https://arbonnepoc.myvtex.com/',
-  checkoutUrl: 'https://arbonnepoc.myvtex.com/checkout',
-  loginUrl: 'https://arbonnepoc.myvtex.com/api/io/login',
-  accountUrl: 'https://arbonnepoc.myvtex.com/api/io/account',
+  storeUrl: 'https://arbonne.b2cdemostore.com',
+  secureSubdomain: 'https://arbonne.b2cdemostore.com/',
+  checkoutUrl: 'https://arbonne.b2cdemostore.com/checkout',
+  loginUrl: 'https://arbonne.b2cdemostore.com/api/io/login',
+  accountUrl: 'https://arbonne.b2cdemostore.com/api/io/account',
 
   previewRedirects: {
     home: '/',

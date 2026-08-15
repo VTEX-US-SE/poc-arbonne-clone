@@ -79,7 +79,7 @@ module.exports = {
   },
 
   analytics: {
-    gtmContainerId: 'GTM-1234567',
+    gtmContainerId: null,
   },
 
   experimental: {

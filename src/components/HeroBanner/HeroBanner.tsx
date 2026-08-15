@@ -74,7 +74,7 @@ export default function HeroBanner({
             <h1 className={styles.heroBanner__headline}>{headline}</h1>
           )}
           {subheadline && (
-            <h3 className={styles.heroBanner__subheadline}>{subheadline}</h3>
+            <h2 className={styles.heroBanner__subheadline}>{subheadline}</h2>
           )}
           {text && <p className={styles.heroBanner__text}>{text}</p>}
           {cta?.url && cta?.text && (

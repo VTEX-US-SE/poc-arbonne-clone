@@ -94,8 +94,7 @@ body:has([data-arb-assembly-set]) {
   --fs-text-weight-bold: 600;
   --fs-text-weight-black: 800;
 
-  --fs-text-face-body:
-    'Inter', -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
+  --fs-text-face-body: var(--arb-font-body);
 
   --fs-text-size-title-huge: var(--fs-text-size-9);
 

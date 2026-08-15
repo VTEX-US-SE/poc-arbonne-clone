@@ -80,7 +80,7 @@ export default function Header({
         <div className={styles.header__topRow}>
           {logo?.src && (
             <Link className={styles.header__logo} href={logo.url ?? '/'}>
-              <img src={logo.src} alt={logo.alt ?? ''} />
+              <img src={logo.src} alt={logo.alt || 'Arbonne'} />
             </Link>
           )}
 
@@ -120,7 +120,7 @@ export default function Header({
 
           {logo?.src && (
             <Link className={styles.header__logo} href={logo.url ?? '/'}>
-              <img src={logo.src} alt={logo.alt ?? ''} />
+              <img src={logo.src} alt={logo.alt || 'Arbonne'} />
             </Link>
           )}
 

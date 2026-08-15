@@ -44,7 +44,7 @@ export default function Footer({
                     key={j}
                     className={styles.footer__socialLink}
                     href={social.url}
-                    aria-label={social.alt}
+                    aria-label={social.alt || 'Social media'}
                   >
                     {social.icon && <img src={social.icon} alt="" />}
                   </Link>

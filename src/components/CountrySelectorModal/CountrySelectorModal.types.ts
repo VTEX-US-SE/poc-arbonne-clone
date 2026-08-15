@@ -5,13 +5,9 @@ export interface CountryOption {
 
 export interface LocaleRowProps {
   label: string
-  /** Currently applied locale -- shows the check. */
   active?: boolean
-  /** This row was picked and the redirect has not happened yet. */
   pending?: boolean
-  /** Set on every row while any switch is in flight. */
   disabled?: boolean
-  /** @default 'Switching…' */
   pendingLabel?: string
   onSelect: () => void
 }

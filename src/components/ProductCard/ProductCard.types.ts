@@ -10,19 +10,7 @@ export type ProductCardProduct = ProductSummary_ProductFragment
 
 export interface ProductCardProps {
   product: ProductCardProduct
-  /**
-   * Position in its grid or carousel, reported in the product-click
-   * analytics event.
-   */
   index?: number
-  /**
-   * Locale suffix printed after the reference code, as in `# 4315 US`.
-   */
   refIdSuffix?: string
-  /**
-   * Core's gallery grid passes its own card props plus the `data-af-*`
-   * attributes Intelligent Search reads for click attribution. Only the
-   * latter are forwarded; the rest are accepted and ignored.
-   */
   [prop: string]: unknown
 }

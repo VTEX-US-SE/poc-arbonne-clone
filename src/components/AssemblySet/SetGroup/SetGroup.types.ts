@@ -9,7 +9,6 @@ export interface SetGroupProps extends Pick<
   'headline' | 'hint' | 'completeHint'
 > {
   group: AssemblyGroup
-  /** Selected quantity per SKU, keyed across every group of the set. */
   quantities: Record<string, number>
   onChange: QuantityChangeHandler
 }

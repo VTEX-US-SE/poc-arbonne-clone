@@ -1,20 +1,7 @@
 export interface AssemblySetProps {
-  /**
-   * Overrides the copy above the picker. Defaults to the group's own name.
-   * Supports `{max}`, `{min}` and `{selected}`.
-   */
   headline?: string
-  /**
-   * Small print under the progress bar. Supports `{max}`, `{min}` and
-   * `{selected}`, expanded per group from the catalog composition.
-   */
   hint?: string
-  /** Replaces `hint` once the group's min/max gate is satisfied. Same tokens. */
   completeHint?: string
-  /**
-   * Preferred Client discount, in percent, used for the PC Price row.
-   * Measured at 20% on `arbonnepoc` (retail 49.00 / preferredclient 39.20).
-   */
   pcDiscountPercent?: number
   ctaLabel?: string
 }
@@ -55,12 +42,6 @@ export interface AssemblyOption {
 }
 
 export interface AssemblySetSkeletonProps {
-  /**
-   * Placeholder cards drawn in the group grid. The real count is catalog
-   * data, so this is only a shape.
-   *
-   * @default 4
-   */
   items?: number
 }
 

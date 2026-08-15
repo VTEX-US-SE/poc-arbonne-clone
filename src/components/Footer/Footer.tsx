@@ -46,8 +46,6 @@ export default function Footer({
                     href={social.url}
                     aria-label={social.alt}
                   >
-                    {/* `alt=""`: the link already carries the name via
-                        `aria-label`, so a filled alt double-announces. */}
                     {social.icon && <img src={social.icon} alt="" />}
                   </Link>
                 ))}

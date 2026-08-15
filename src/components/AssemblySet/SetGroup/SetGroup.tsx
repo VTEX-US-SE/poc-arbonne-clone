@@ -18,9 +18,6 @@ export default function SetGroup({
 }: SetGroupProps) {
   const total = groupTotal(group, quantities)
   const remaining = group.maxQuantity - total
-  // The bar fills, turns green and shows the completion message only at the
-  // group's maximum -- not at its minimum. Add to Cart still follows the
-  // catalog's own min/max gate, which can open earlier.
   const complete = group.maxQuantity > 0 && total >= group.maxQuantity
   const hintText = (complete && completeHint) || hint
   const tokens = {
@@ -32,8 +29,6 @@ export default function SetGroup({
   return (
     <div className={styles.setGroup}>
       <div className={styles.setGroup__intro}>
-        {/* `||`, not `??` -- an untouched CMS text field arrives as an empty
-            string, which `??` would happily render. */}
         <h2 className={styles.setGroup__headline}>
           {expandTokens(headline || group.name, tokens)}
         </h2>
@@ -45,8 +40,6 @@ export default function SetGroup({
             aria-valuenow={total}
             aria-valuemin={0}
             aria-valuemax={group.maxQuantity}
-            // The count is announced here rather than shown as text, so screen
-            // readers keep it without breaking the design.
             aria-label={`${total} of ${group.maxQuantity} selected`}
           >
             <span

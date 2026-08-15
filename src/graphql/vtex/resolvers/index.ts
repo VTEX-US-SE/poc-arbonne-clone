@@ -44,9 +44,6 @@ const resolvers = {
       try {
         return await ctx.loaders.skuLoader.load(skuId)
       } catch {
-        // A child SKU can be delisted after the composition was written. One
-        // missing child must not fail the whole set -- skuLoader throws on any
-        // unresolved id, so swallow it and let the UI hide that card.
         return null
       }
     },

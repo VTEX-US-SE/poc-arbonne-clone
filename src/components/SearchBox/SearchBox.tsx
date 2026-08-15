@@ -62,9 +62,6 @@ export default function SearchBox({
     router.push(formatSearchPath({ term: trimmed }))
   }
 
-  // `useSuggestions` exposes no loading flag, so an undefined `data` is the
-  // signal -- the same one core's own shelves read. SWR clears it on every key
-  // change, so it covers each new term, not just the first.
   const loading = data === undefined
   const hasResults = suggestions.length > 0 || products.length > 0
   const showResults = expanded && term.length > 0 && (loading || hasResults)

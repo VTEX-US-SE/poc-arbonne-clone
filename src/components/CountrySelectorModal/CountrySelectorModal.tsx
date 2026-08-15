@@ -32,15 +32,10 @@ export default function CountrySelectorModal({
 
   useEffect(() => {
     if (pendingLocale && localeCode === pendingLocale) {
-      // Deliberately left set: `save()` navigates, and clearing it here would
-      // drop the row back to its resting state for the whole redirect. Closing
-      // the modal is the way out if the binding never resolves.
       save()
     }
   }, [pendingLocale, localeCode, save])
 
-  // `useBindingSelector` is untyped experimental API -- name the shape here so
-  // the entries render as text rather than `unknown`.
   const localeEntries = Object.entries(
     (languages ?? {}) as Record<string, string>
   )
@@ -79,8 +74,6 @@ export default function CountrySelectorModal({
                   label={name}
                   active={code === localeCode}
                   pending={code === pendingLocale}
-                  // The whole list locks while a switch is in flight: `save()`
-                  // navigates, so a second pick would race the redirect.
                   disabled={switching}
                   onSelect={() => handleSelectLocale(code)}
                 />

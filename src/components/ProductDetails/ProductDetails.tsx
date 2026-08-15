@@ -52,9 +52,6 @@ export default function ProductDetails({
   const [showStickyBar, setShowStickyBar] = useState(false)
   const { data } = usePDP()
   const product = data?.product
-  // The page ships server-rendered product data and then revalidates it on the
-  // client. Only price and the buy controls can change, so only those are held
-  // back -- the title, gallery and description are stable and stay put.
   const isValidating = Boolean(data?.isValidating)
 
   const offer = product?.offers?.offers?.[0]
@@ -131,8 +128,6 @@ export default function ProductDetails({
         </p>
 
         <p className={styles.productDetails__priceLabel}>{priceLabel}</p>
-        {/* `div`, not `p`: `Skeleton` renders a block, and `__price` already
-            zeroes the margin a `p` would have contributed. */}
         <div className={styles.productDetails__price}>
           <Skeleton loading={isValidating} width="8rem" height="2.625rem">
             {formattedPrice}

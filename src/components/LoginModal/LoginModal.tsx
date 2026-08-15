@@ -28,9 +28,6 @@ export default function LoginModal({
     >
       <ModalHeader title="Already Registered?" onClose={onClose} />
       <ModalBody>
-        {/* Each route is rendered only when the CMS supplies its URL -- these
-            defaulted to `'#'`, which put two dead buttons in front of anyone
-            trying to sign in. The "OR" divider needs both to be meaningful. */}
         {(loginUrl || otpLoginUrl) && (
           <div className={styles.loginModal__loginRow}>
             {loginUrl && (

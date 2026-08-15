@@ -37,8 +37,6 @@ export default function ProductShowcases({
     return null
   }
 
-  // `useProductsQuery` passes `fallbackData: null`, so this never suspends --
-  // the first render and every tab switch land here with no products yet.
   const loading = data?.search?.products === undefined
   const products = data?.search?.products?.edges ?? []
 

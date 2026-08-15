@@ -33,8 +33,6 @@ export default function PurchaseCta({
     return (
       <div className={rootClassName}>
         <div>
-          {/* The label is static copy, so it stays put and only the control
-              it describes is drawn as a placeholder. */}
           <span className={styles.purchaseCta__quantityLabel}>
             {quantityLabel}
           </span>

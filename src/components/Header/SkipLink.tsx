@@ -30,7 +30,6 @@ export default function SkipLink({ label = 'Skip to content' }: SkipLinkProps) {
       return
     }
 
-    // Never clobber an id something else may already be anchoring to.
     if (!target.id) {
       target.id = FALLBACK_ID
     }

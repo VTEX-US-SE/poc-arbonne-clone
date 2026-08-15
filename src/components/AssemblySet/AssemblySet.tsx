@@ -50,7 +50,6 @@ export default function AssemblySet({
   const [quantities, setQuantities] = useState<Record<string, number>>({})
   const [sets, setSets] = useState(1)
 
-  // One page serves every set: the parent arrives as `?set=<product id>`.
   const fromQuery = router.query[SET_PARAM]
   const setId = typeof fromQuery === 'string' ? fromQuery : ''
 
@@ -58,8 +57,6 @@ export default function AssemblySet({
     () => ({
       locator: [
         { key: 'id', value: setId },
-        // `?? ''`, matching core's `useLocalizedVariables` -- session values are
-        // null until the session resolves, and the locator only takes strings.
         { key: 'channel', value: channel ?? '' },
         { key: 'locale', value: locale ?? '' },
       ],
@@ -70,20 +67,12 @@ export default function AssemblySet({
   const { data, isLoading } = useQuery<
     ArbAssemblySetQueryQuery,
     ArbAssemblySetQueryQueryVariables
-    // `router.query` is empty until hydration on a statically generated page,
-    // so hold the request until the id actually resolves.
-    //
-    // `revalidateOnMount` matters here: the composition is edited in Admin, and
-    // without it SWR keeps serving a cached set long after the rules changed.
   >(query, variables, {
     doNotRun: !router.isReady || !setId,
     revalidateOnMount: true,
   })
   const product = data?.product
 
-  // A SKU can carry more than one assembly option, and each option can declare
-  // more than one group. Every group is an independent gate, so they are
-  // flattened and all of them must be satisfied before the set can be added.
   const groups = useMemo(
     () =>
       ((product?.assemblyOptions ?? []) as AssemblyOption[]).flatMap(
@@ -92,7 +81,6 @@ export default function AssemblySet({
     [product]
   )
 
-  // Seed the steppers from each item's declared initial quantity.
   useEffect(() => {
     setQuantities(
       Object.fromEntries(
@@ -125,13 +113,8 @@ export default function AssemblySet({
   }, [groups, quantities])
 
   const yourPrice = totals.price * sets
-  // ponytail: PC price derived from a flat percentage, not the real
-  // `preferredclient` trade policy. Swap for a per-SKU price-table lookup when
-  // the resolver can query that trade policy.
   const pcPrice = yourPrice * (1 - pcDiscountPercent / 100)
 
-  // Customization Details shows bare amounts (`0.00`), without a currency
-  // symbol -- so this deliberately does not use `useFormattedPrice`.
   const formatAmount = useMemo(() => {
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: 2,
@@ -141,15 +124,10 @@ export default function AssemblySet({
     return (value: number) => formatter.format(value)
   }, [locale])
 
-  // `doNotRun` keeps SWR's key null until the id resolves, and SWR reports a
-  // null key as "not loading" -- so hydration has to be folded in here, or the
-  // section renders nothing at all until `router.query` populates.
   if (!router.isReady || (setId && isLoading)) {
     return <AssemblySetSkeleton />
   }
 
-  // Distinct from the branch above: the query has answered and this SKU simply
-  // carries no assembly option, so there is no set to build.
   if (groups.length === 0) {
     return null
   }
@@ -197,8 +175,6 @@ export default function AssemblySet({
               className={styles.assemblySet__back}
               href={slugHref(`${product.slug}/p`)}
             >
-              {/* Inline SVG rather than an arrow glyph -- `←` renders at wildly
-              different weights across the brand fonts. */}
               <svg
                 className={styles.assemblySet__backIcon}
                 viewBox="0 0 16 16"

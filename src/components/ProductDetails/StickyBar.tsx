@@ -26,7 +26,6 @@ export default function StickyBar({
           <span className={styles.productDetails__priceLabel}>
             {priceLabel}
           </span>
-          {/* `div`, not `span`: `Skeleton` renders a block. */}
           <div className={styles.productDetails__price}>
             <Skeleton loading={loading} width="6rem" height="2.625rem">
               {formattedPrice}

@@ -27,9 +27,6 @@ export default function Link({ href, children, ...otherProps }: LinkProps) {
   }
 
   if (isInternalHref(href)) {
-    // Marks the current page across every nav surface at once. Compared on
-    // path alone -- `asPath` carries the query string, and `?set=1657` does
-    // not make the set builder a different page for this purpose.
     const current = router.asPath.split(/[?#]/)[0] === href
 
     return (

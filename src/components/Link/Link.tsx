@@ -16,6 +16,13 @@ import type { LinkProps } from './Link.types'
  *
  * Product links are not routed through here: they use core's `useProductLink`,
  * which carries the click-attribution props Intelligent Search reads.
+ *
+ * `prefetch={false}` disables Next's viewport prefetching, which is not a
+ * micro-optimisation here: the header, footer and mobile bar put roughly thirty
+ * internal links on every page, and each prefetch makes the server run the
+ * `[...slug]` catch-all's `getStaticProps` against the VTEX APIs. Left on, a
+ * single page load queues thirty of those and navigation stalls for minutes in
+ * dev. Next still prefetches on hover and touchstart, so intent is covered.
  */
 export default function Link({ href, children, ...otherProps }: LinkProps) {
   const router = useRouter()
@@ -32,6 +39,7 @@ export default function Link({ href, children, ...otherProps }: LinkProps) {
     return (
       <NextLink
         href={href}
+        prefetch={false}
         aria-current={current ? 'page' : undefined}
         {...otherProps}
       >

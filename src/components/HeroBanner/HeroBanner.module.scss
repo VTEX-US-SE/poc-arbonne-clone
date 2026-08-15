@@ -10,20 +10,13 @@
   z-index: var(--fs-z-index-default);
   text-align: center;
 
-  &__imageMobile,
-  &__imageDesktop {
+  /* One element for both art directions -- the desktop crop arrives through a
+     `<picture>` source, so only the matching file is ever downloaded. */
+  &__image {
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-  }
-
-  &__imageMobile {
-    display: block;
-  }
-
-  &__imageDesktop {
-    display: none;
   }
 
   &__contentWrapper {
@@ -44,18 +37,11 @@
     overflow: hidden;
     min-height: 34.375rem;
 
-    &__imageMobile {
-      display: none;
-    }
-
-    &__imageDesktop {
-      display: block;
+    &__image {
       position: absolute;
       inset: 0;
-      width: 100%;
       height: 100%;
       aspect-ratio: auto;
-      object-fit: cover;
       z-index: var(--fs-z-index-default);
     }
 

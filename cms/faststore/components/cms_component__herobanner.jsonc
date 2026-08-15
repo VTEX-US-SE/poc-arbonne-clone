@@ -7,6 +7,18 @@
   "type": "object",
   "required": [],
   "properties": {
+    "skipLazyLoadingSection": {
+      "title": "Render immediately",
+      "description": "Turn on for sections above the fold. FastStore renders every section as an empty 823px placeholder until it scrolls into view, so the first screen paints nothing until hydration. Leave off for everything below the fold.",
+      "type": "boolean",
+      "default": false
+    },
+    "priority": {
+      "title": "Preload the image",
+      "description": "Turn on for the first banner on a page only. Loads the hero image eagerly at high priority instead of lazily, which is what LCP measures. Turning it on for more than one banner makes the page slower, not faster.",
+      "type": "boolean",
+      "default": false
+    },
     "desktopImage": {
       "title": "Desktop Image",
       "type": "string",

@@ -1,8 +1,6 @@
 import type { CSSProperties } from 'react'
-import {
-  Image_unstable as Image,
-  // @ts-ignore next-line
-} from '@faststore/core/experimental'
+import { getImageProps } from 'next/image'
+import { faststoreLoader } from 'src/components/ui/Image/loader'
 
 import Button from '../Button/Button'
 import styles from './HeroBanner.module.scss'
@@ -24,6 +22,7 @@ export default function HeroBanner({
   desktopImage,
   mobileImage,
   imageAlt = '',
+  priority = false,
   backgroundColor = 'var(--arb-color-gray-light)',
   textColor = 'var(--arb-color-text)',
   contentPosition = 'center',
@@ -33,6 +32,25 @@ export default function HeroBanner({
   text,
   cta,
 }: HeroBannerProps) {
+  const shared = {
+    alt: imageAlt,
+    sizes: '100vw',
+    loader: faststoreLoader,
+    priority,
+  }
+
+  const mobile = mobileImage
+    ? getImageProps({ ...shared, src: mobileImage, width: 768, height: 768 })
+        .props
+    : undefined
+
+  const desktop = desktopImage
+    ? getImageProps({ ...shared, src: desktopImage, width: 1920, height: 1920 })
+        .props
+    : undefined
+
+  const fallback = mobile ?? desktop
+
   return (
     <section
       className={styles.heroBanner}
@@ -44,25 +62,17 @@ export default function HeroBanner({
         } as CSSProperties
       }
     >
-      {mobileImage && (
-        <Image
-          className={styles.heroBanner__imageMobile}
-          src={mobileImage}
-          alt={imageAlt}
-          width={768}
-          height={768}
-          sizes="100vw"
-        />
-      )}
-      {desktopImage && (
-        <Image
-          className={styles.heroBanner__imageDesktop}
-          src={desktopImage}
-          alt={imageAlt}
-          width={1920}
-          height={1920}
-          sizes="100vw"
-        />
+      {fallback && (
+        <picture>
+          {mobile && desktop && (
+            <source
+              media="(min-width: 64rem)"
+              srcSet={desktop.srcSet}
+              sizes={desktop.sizes}
+            />
+          )}
+          <img {...fallback} className={styles.heroBanner__image} />
+        </picture>
       )}
       <div
         className={styles.heroBanner__contentWrapper}

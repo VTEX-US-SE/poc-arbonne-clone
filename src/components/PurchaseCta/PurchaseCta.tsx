@@ -1,5 +1,6 @@
 import { BuyButton, QuantitySelector, Select } from '@faststore/ui'
 
+import Skeleton from '../Skeleton/Skeleton'
 import styles from './PurchaseCta.module.scss'
 import type { PurchaseCtaProps } from './PurchaseCta.types'
 
@@ -7,10 +8,15 @@ import type { PurchaseCtaProps } from './PurchaseCta.types'
  * Quantity, optional delivery frequency and the add-to-cart button. Shared by
  * every purchase surface so the labels are written in one place; the
  * consuming component passes its own root class to own the row's layout.
+ *
+ * Every add-to-cart in this project routes through here, so `loading` is
+ * handled once rather than at each of the three call sites.
  */
 export default function PurchaseCta({
   buyProps,
   disabled,
+  loading,
+  quantity = 1,
   onQuantityChange,
   quantityLabel = 'Quantity',
   buttonLabel = 'Add to Cart',
@@ -19,15 +25,42 @@ export default function PurchaseCta({
   onFrequencyChange,
   className,
 }: PurchaseCtaProps) {
+  const rootClassName = [styles.purchaseCta, className]
+    .filter(Boolean)
+    .join(' ')
+
+  if (loading) {
+    return (
+      <div className={rootClassName}>
+        <div>
+          {/* The label is static copy, so it stays put and only the control
+              it describes is drawn as a placeholder. */}
+          <span className={styles.purchaseCta__quantityLabel}>
+            {quantityLabel}
+          </span>
+          <Skeleton width="6.25rem" height="3.125rem" />
+        </div>
+
+        {frequencies && (
+          <div className={styles.purchaseCta__frequency}>
+            <Skeleton width="9rem" height="3.125rem" />
+          </div>
+        )}
+
+        <Skeleton width="10rem" height="3rem" />
+      </div>
+    )
+  }
+
   return (
-    <div className={[styles.purchaseCta, className].filter(Boolean).join(' ')}>
+    <div className={rootClassName}>
       <div>
         <span className={styles.purchaseCta__quantityLabel}>
           {quantityLabel}
         </span>
         <QuantitySelector
           min={1}
-          initial={1}
+          initial={quantity}
           disabled={disabled}
           onChange={onQuantityChange}
         />

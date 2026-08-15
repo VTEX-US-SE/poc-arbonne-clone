@@ -1,0 +1,159 @@
+@use '../../styles/mixins';
+
+/* Group, card and stepper styles live with the components that own them --
+   `SetGroup/`, `ItemCard/` and `Stepper/`. What stays here is the section
+   shell: the two-column frame, the aside, and the summary block. */
+.assemblySet {
+  @include mixins.section-spacing;
+
+  /* The header is hidden on this page but still in the DOM, so the
+     `[data-arb-header] + &` rule in section-spacing zeroes the top margin.
+     Padding restores the breathing room the design has above the back link. */
+  padding-top: var(--fs-spacing-8);
+
+  /* Sits directly above the panel, sharing its left edge. `align-self` keeps
+     the hit area on the text rather than stretching the column width. */
+  &__back {
+    display: inline-flex;
+    gap: var(--fs-spacing-1);
+    align-self: flex-start;
+    align-items: center;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--arb-color-text);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--arb-color-green);
+      text-decoration: underline;
+    }
+  }
+
+  &__backIcon {
+    flex: 0 0 auto;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-spacing-5);
+    width: calc(100% - (var(--fs-spacing-4) * 2));
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--fs-spacing-5);
+    text-align: center;
+    background-color: var(--arb-color-white);
+  }
+
+  &__asideImage {
+    width: 100%;
+    max-width: 22.375rem;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+
+  &__title {
+    margin: var(--fs-spacing-5) 0 0;
+    font-family: var(--arb-font-serif);
+    font-size: 2rem;
+    font-weight: var(--fs-text-weight-regular);
+    line-height: 1.2;
+    color: var(--arb-color-green);
+  }
+
+  &__subtitle {
+    margin: var(--fs-spacing-3) 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    color: var(--arb-color-text);
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-spacing-5);
+  }
+
+  &__summary {
+    box-sizing: border-box;
+    padding: var(--fs-spacing-5);
+    background-color: var(--arb-color-cream-light);
+  }
+
+  &__summaryTitle {
+    margin: 0 0 var(--fs-spacing-4);
+    font-family: var(--arb-font-heading);
+    font-size: 1.375rem;
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--arb-color-text);
+  }
+
+  &__row {
+    display: flex;
+    gap: var(--fs-spacing-3);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--fs-spacing-2) 0;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    color: var(--arb-color-text);
+  }
+
+  &__price {
+    font-family: var(--arb-font-display);
+    font-size: 1.75rem;
+    font-weight: var(--fs-text-weight-black);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__cta {
+    box-sizing: border-box;
+    min-width: 12.5rem;
+    height: 3.125rem;
+    padding: 0 var(--fs-spacing-5);
+    font-family: var(--arb-font-display);
+    font-size: 1.0625rem;
+    letter-spacing: 1.06px;
+    color: var(--arb-color-white);
+    background-color: var(--arb-color-green);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background-color: var(--arb-color-green-dark);
+    }
+
+    &:disabled {
+      color: var(--arb-color-white);
+      background-color: var(--arb-color-gray-muted);
+      cursor: not-allowed;
+    }
+  }
+
+  /* Desktop switch is 1024px on this site -- named breakpoints don't match. */
+  @media (min-width: 64rem) {
+    &__inner {
+      display: grid;
+      grid-template-columns: 390fr 756fr;
+      gap: var(--fs-spacing-6);
+      align-items: start;
+    }
+
+    &__aside {
+      position: sticky;
+      top: var(--fs-spacing-4);
+    }
+  }
+}

@@ -56,6 +56,47 @@ The CLI copies the **entire** project `src/` tree verbatim into
   easy to spot in the Admin picker.
 - Give each component a `<Name>.types.ts` exporting its props, imported via
   `import type`.
+- **Every component gets its own folder, including sub-components**, holding
+  its `.tsx`, its `.module.scss` and its `.types.ts`:
+  `AssemblySet/ItemCard/ItemCard.tsx`. Only the registry section itself sits at
+  `src/components/<Name>/<Name>.tsx` — nesting *that* one breaks the CLI copy.
+- A sub-component owns its own stylesheet under its own BEM root
+  (`.itemCard { &__body {} }`), not a slice of the parent's. If two
+  sub-components need the same block, that block is its own component —
+  `AssemblySet/Stepper` exists because the item cards and the summary row were
+  sharing stepper classes.
+  Skeletons are the exception: they deliberately import the real components'
+  modules so the placeholder cannot drift from the layout it stands in for.
+
+## Queries and utils are central, not colocated
+
+- **Client GraphQL documents live in `src/graphql/queries/`**, one file per
+  operation (`queries/assemblySet.ts`), never inside the component. Codegen's
+  glob is `./src/**/*.{ts,tsx}` relative to `.faststore/`, so it picks them up
+  wherever they sit in `src/`.
+  `src/graphql/vtex/` is the *server* side — resolvers and typeDefs for the API
+  — and is unrelated.
+- **Pure helpers live in `src/utils/`**, named for their domain
+  (`utils/assemblySet.ts`), alongside `href.ts` and `highlight.tsx`. Domain
+  types stay with their component, so a utils module importing
+  `../components/<Name>/<Name>.types` is expected.
+
+## Imports — relative for ours, `src/*` for core
+
+`src/*` resolves to **core's** `.faststore/src/*`, never our own tree, because
+the CLI copies us into `.faststore/src/customizations/src/`. So:
+
+- Project-local files: relative (`../../utils/href`). Writing
+  `src/utils/href` silently resolves to core's `src/utils/`, not ours.
+- Core SDK and generated types: `src/sdk/...`, `@generated`.
+- Root `tsconfig.json` maps those two aliases into `.faststore/` so the editor
+  and `tsc` resolve them. `.faststore/` is generated, so type-checking needs
+  one `yarn dev` after a fresh clone. It also pulls core's own sources into the
+  program, and those don't pass our `strict` settings — filter when checking
+  from the CLI: `npx tsc --noEmit | grep '^src/'`.
+- `@faststore/core/experimental` is deliberately **not** mapped. VTEX's own
+  convention for the `*_unstable` hooks is the `// @ts-ignore next-line` above
+  the closing brace of the import; the error is cosmetic. Keep it.
 
 ## SCSS
 

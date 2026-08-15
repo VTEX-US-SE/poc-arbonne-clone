@@ -5,6 +5,13 @@ export interface SearchBoxProps {
   placeholder?: string
 }
 
+export interface SearchResultsSkeletonProps {
+  /** @default 3 */
+  terms?: number
+  /** @default 3 */
+  products?: number
+}
+
 export interface SearchProductRowProps {
   product: ProductCardProduct
   /**

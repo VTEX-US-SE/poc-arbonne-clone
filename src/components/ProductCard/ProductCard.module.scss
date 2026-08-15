@@ -147,7 +147,11 @@
       }
     }
 
-    @media (min-width: 64rem) {
+    /* `hover: hover` is load-bearing, not a nicety: the cart block below is
+       revealed only on hover, so without this guard a 1024px+ touch device
+       (iPad Pro landscape, Surface) gets a card with no way to buy at all.
+       Matches the guard `custom-theme.scss` already uses for core's card. */
+    @media (min-width: 64rem) and (hover: hover) {
       &__cart {
         position: absolute;
         top: 100%;
@@ -188,6 +192,14 @@
       &,
       &__cart {
         transition: none;
+      }
+
+      /* Killing the transition alone left the 12% jump intact -- it just
+         happened instantly, which is the motion these users opted out of.
+         Needs the same specificity as the rule it cancels. */
+      &:hover,
+      &:focus-within {
+        transform: none;
       }
     }
   }

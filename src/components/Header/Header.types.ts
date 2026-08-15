@@ -28,6 +28,11 @@ export interface MobileNavItem {
   modal?: 'login' | 'country'
 }
 
+export interface SkipLinkProps {
+  /** @default 'Skip to content' */
+  label?: string
+}
+
 export interface HeaderProps {
   logo?: HeaderLogo
   navItems?: HeaderNavItem[]

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { ImageGallery } from '@faststore/ui'
 import {
   Image_unstable as Image,
@@ -9,12 +9,12 @@ import { usePDP } from 'src/sdk/overrides/PageProvider'
 import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
 import { RichText } from 'src/components/ui/RichText'
 
+import GalleryImage from './GalleryImage'
+import Skeleton from '../Skeleton/Skeleton'
 import styles from './ProductDetails.module.scss'
-import PurchaseCta from '../PurchaseCta/PurchaseCta'
-import type {
-  ProductDetailsProps,
-  PurchaseOption,
-} from './ProductDetails.types'
+import type { ProductDetailsProps } from './ProductDetails.types'
+import PurchaseOptions from './PurchaseOptions'
+import StickyBar from './StickyBar'
 
 const OUT_OF_STOCK = 'https://schema.org/OutOfStock'
 
@@ -24,28 +24,6 @@ const OUT_OF_STOCK = 'https://schema.org/OutOfStock'
  */
 const KLARNA_BADGE_SRC =
   'https://arbonnepoc.vtexassets.com/assets/vtex.file-manager-graphql/images/1795fcbb-fe7f-459e-8b9c-36bd2093fcb8___4eb78c1e4fc29a1fe11f51046e2e8eb7.png'
-
-/**
- * Feeds both the 496px viewer and the 72px thumbnails, so it is sized for
- * the larger of the two and reuses the same optimised URLs for both.
- */
-function GalleryImage({
-  url,
-  alternateName,
-}: {
-  url: string
-  alternateName?: string
-}) {
-  return (
-    <Image
-      src={url}
-      alt={alternateName ?? ''}
-      width={496}
-      height={496}
-      sizes="(min-width: 80rem) 496px, 100vw"
-    />
-  )
-}
 
 /**
  * PDP buy block: gallery, title, pack size and reference code, price,
@@ -62,47 +40,25 @@ export default function ProductDetails({
   priceLabel = 'YOUR PRICE',
   quantityLabel,
   addToCartLabel,
-  replenishCtaLabel = 'Add to ReplenishMe',
+  replenishCtaLabel,
   instalmentsText,
-  oneTimeLabel = 'One-time purchase',
+  oneTimeLabel,
   replenishTitle,
   replenishText,
-  replenishFrequencies = [],
+  replenishFrequencies,
 }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1)
   const [selectedImageIdx, setSelectedImageIdx] = useState(0)
-  const [purchaseOption, setPurchaseOption] =
-    useState<PurchaseOption>('oneTime')
-  const [frequency, setFrequency] = useState('')
   const [showStickyBar, setShowStickyBar] = useState(false)
-  const optionsRef = useRef<HTMLDivElement>(null)
   const { data } = usePDP()
   const product = data?.product
-
-  useEffect(() => {
-    const target = optionsRef.current
-
-    if (!target) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) =>
-        setShowStickyBar(
-          !entry.isIntersecting && entry.boundingClientRect.top < 0
-        ),
-      { threshold: 0 }
-    )
-
-    observer.observe(target)
-
-    return () => observer.disconnect()
-  }, [product])
+  // The page ships server-rendered product data and then revalidates it on the
+  // client. Only price and the buy controls can change, so only those are held
+  // back -- the title, gallery and description are stable and stay put.
+  const isValidating = Boolean(data?.isValidating)
 
   const offer = product?.offers?.offers?.[0]
   const outOfStock = offer?.availability === OUT_OF_STOCK
-  const frequencyOptions = Object.fromEntries(
-    replenishFrequencies.map(({ value, label }) => [value, label])
-  )
-  const selectedFrequency = frequency || (replenishFrequencies[0]?.value ?? '')
   const formatPrice = usePriceFormatter({ decimals: true })
   const formattedPrice = formatPrice(offer?.price ?? 0)
 
@@ -175,7 +131,13 @@ export default function ProductDetails({
         </p>
 
         <p className={styles.productDetails__priceLabel}>{priceLabel}</p>
-        <p className={styles.productDetails__price}>{formattedPrice}</p>
+        {/* `div`, not `p`: `Skeleton` renders a block, and `__price` already
+            zeroes the margin a `p` would have contributed. */}
+        <div className={styles.productDetails__price}>
+          <Skeleton loading={isValidating} width="8rem" height="2.625rem">
+            {formattedPrice}
+          </Skeleton>
+        </div>
         {instalmentsText && (
           <div className={styles.productDetails__instalments}>
             <Image
@@ -191,74 +153,21 @@ export default function ProductDetails({
           </div>
         )}
 
-        <div
-          ref={optionsRef}
-          className={styles.productDetails__options}
-          role="radiogroup"
-          aria-label="Purchase options"
-        >
-          <div
-            className={styles.productDetails__option}
-            data-selected={purchaseOption === 'oneTime'}
-          >
-            <button
-              type="button"
-              role="radio"
-              aria-checked={purchaseOption === 'oneTime'}
-              className={styles.productDetails__optionLabel}
-              onClick={() => setPurchaseOption('oneTime')}
-            >
-              {oneTimeLabel}
-            </button>
-
-            {purchaseOption === 'oneTime' && (
-              <PurchaseCta
-                className={styles.productDetails__cta}
-                quantityLabel={quantityLabel}
-                buttonLabel={addToCartLabel}
-                buyProps={buyProps}
-                disabled={outOfStock}
-                onQuantityChange={setQuantity}
-              />
-            )}
-          </div>
-
-          <div
-            className={styles.productDetails__option}
-            data-selected={purchaseOption === 'replenish'}
-          >
-            <button
-              type="button"
-              role="radio"
-              aria-checked={purchaseOption === 'replenish'}
-              className={styles.productDetails__optionLabel}
-              onClick={() => setPurchaseOption('replenish')}
-            >
-              {replenishTitle}
-            </button>
-
-            {replenishText && (
-              <RichText
-                className={styles.productDetails__replenishText}
-                content={replenishText}
-              />
-            )}
-
-            {purchaseOption === 'replenish' && (
-              <PurchaseCta
-                className={styles.productDetails__cta}
-                quantityLabel={quantityLabel}
-                buttonLabel={replenishCtaLabel}
-                buyProps={buyProps}
-                disabled={outOfStock}
-                onQuantityChange={setQuantity}
-                frequencies={frequencyOptions}
-                frequency={selectedFrequency}
-                onFrequencyChange={setFrequency}
-              />
-            )}
-          </div>
-        </div>
+        <PurchaseOptions
+          oneTimeLabel={oneTimeLabel}
+          replenishTitle={replenishTitle}
+          replenishText={replenishText}
+          replenishFrequencies={replenishFrequencies}
+          quantityLabel={quantityLabel}
+          addToCartLabel={addToCartLabel}
+          replenishCtaLabel={replenishCtaLabel}
+          buyProps={buyProps}
+          disabled={outOfStock}
+          loading={isValidating}
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+          onStickyChange={setShowStickyBar}
+        />
 
         {product.description && (
           <RichText
@@ -269,26 +178,17 @@ export default function ProductDetails({
       </div>
 
       {showStickyBar && (
-        <div className={styles.productDetails__stickyBar}>
-          <div className={styles.productDetails__stickyBarInner}>
-            <div className={styles.productDetails__stickyBarPrice}>
-              <span className={styles.productDetails__priceLabel}>
-                {priceLabel}
-              </span>
-              <span className={styles.productDetails__price}>
-                {formattedPrice}
-              </span>
-            </div>
-
-            <PurchaseCta
-              quantityLabel={quantityLabel}
-              buttonLabel={addToCartLabel}
-              buyProps={buyProps}
-              disabled={outOfStock}
-              onQuantityChange={setQuantity}
-            />
-          </div>
-        </div>
+        <StickyBar
+          priceLabel={priceLabel}
+          formattedPrice={formattedPrice}
+          quantityLabel={quantityLabel}
+          buttonLabel={addToCartLabel}
+          buyProps={buyProps}
+          disabled={outOfStock}
+          loading={isValidating}
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+        />
       )}
     </section>
   )

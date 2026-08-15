@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Icon } from '@faststore/ui'
 
-import { getGlobalSettings } from 'src/utils/globalSettings'
-
 import { slugHref } from '../../utils/href'
 import CartButton from '../CartButton/CartButton'
 import CountrySelectorModal from '../CountrySelectorModal/CountrySelectorModal'
@@ -10,34 +8,12 @@ import LoginModal from '../LoginModal/LoginModal'
 import MegaMenuPanel from '../MegaMenuPanel/MegaMenuPanel'
 import MobileMenu from '../MobileMenu/MobileMenu'
 import MobileTabItem from '../MobileTabItem/MobileTabItem'
+import Link from '../Link/Link'
 import SearchBox from '../SearchBox/SearchBox'
 import styles from './Header.module.scss'
 import type { HeaderProps } from './Header.types'
-
-/**
- * Flag for the active locale, taken from the inline SVG Content Platform
- * ships per region -- no uploaded asset needed. It is clipped to a circle,
- * which is a deliberate departure from prod's rectangular flag.
- */
-function LocaleFlag() {
-  const settings = getGlobalSettings() as {
-    locale_metadata?: { region?: { name?: string; flag?: string } }
-  }
-  const region = settings?.locale_metadata?.region
-
-  if (!region?.flag) {
-    return null
-  }
-
-  return (
-    <span
-      className={styles.header__flag}
-      role="img"
-      aria-label={region.name ?? ''}
-      dangerouslySetInnerHTML={{ __html: region.flag }}
-    />
-  )
-}
+import LocaleFlag from './LocaleFlag'
+import SkipLink from './SkipLink'
 
 /**
  * Site-wide header: centered logo, utility icons, and a top nav row whose
@@ -99,11 +75,13 @@ export default function Header({
         data-arb-header
         data-scrolled={isScrolled || undefined}
       >
+        <SkipLink />
+
         <div className={styles.header__topRow}>
           {logo?.src && (
-            <a className={styles.header__logo} href={logo.url ?? '/'}>
+            <Link className={styles.header__logo} href={logo.url ?? '/'}>
               <img src={logo.src} alt={logo.alt ?? ''} />
-            </a>
+            </Link>
           )}
 
           <div className={styles.header__utility}>
@@ -141,9 +119,9 @@ export default function Header({
           </button>
 
           {logo?.src && (
-            <a className={styles.header__logo} href={logo.url ?? '/'}>
+            <Link className={styles.header__logo} href={logo.url ?? '/'}>
               <img src={logo.src} alt={logo.alt ?? ''} />
-            </a>
+            </Link>
           )}
 
           <div className={styles.header__mobileTopBarIcons}>
@@ -156,7 +134,7 @@ export default function Header({
           <ul className={styles.header__navList}>
             {navItems.map((item, index) => (
               <li key={index} className={styles.header__navItem}>
-                <a href={slugHref(item.slug)}>{item.name}</a>
+                <Link href={slugHref(item.slug)}>{item.name}</Link>
                 {Boolean(item.menu?.length) && (
                   <button
                     type="button"

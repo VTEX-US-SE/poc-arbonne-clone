@@ -3,6 +3,7 @@ import { Icon, ModalBody } from '@faststore/ui'
 
 import { slugHref } from '../../utils/href'
 import BaseModal from '../BaseModal/BaseModal'
+import Link from '../Link/Link'
 import styles from './MobileMenu.module.scss'
 import type { MobileMenuProps } from './MobileMenu.types'
 
@@ -65,23 +66,23 @@ export default function MobileMenu({
                             <ul>
                               {column.menu.map((link, linkIndex) => (
                                 <li key={linkIndex}>
-                                  <a
+                                  <Link
                                     className={styles.mobileMenu__link}
                                     href={slugHref(link.slug)}
                                   >
                                     {link.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
                           </>
                         ) : (
-                          <a
+                          <Link
                             className={styles.mobileMenu__link}
                             href={slugHref(column.slug)}
                           >
                             {column.name}
-                          </a>
+                          </Link>
                         )}
                       </li>
                     ))}

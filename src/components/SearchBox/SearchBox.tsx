@@ -8,31 +8,12 @@ import {
 import { formatSearchPath } from 'src/sdk/search/formatSearchPath'
 
 import useIsMobile from '../../hooks/useIsMobile'
+import { highlight } from '../../utils/highlight'
 import styles from './SearchBox.module.scss'
 import type { SearchBoxProps } from './SearchBox.types'
 import SearchProductRow from './SearchProductRow'
+import SearchResultsSkeleton from './SearchResultsSkeleton'
 import type { ProductCardProduct } from '../ProductCard/ProductCard.types'
-
-/**
- * Emphasises the matched part of a suggestion. Intelligent Search returns whole
- * phrases, so the term is not necessarily a prefix -- "intellig" comes back as
- * "arbonne intelligence".
- */
-function highlight(value: string, term: string) {
-  const index = value.toLowerCase().indexOf(term.toLowerCase())
-
-  if (index < 0) {
-    return value
-  }
-
-  return (
-    <>
-      {value.slice(0, index)}
-      <strong>{value.slice(index, index + term.length)}</strong>
-      {value.slice(index + term.length)}
-    </>
-  )
-}
 
 /**
  * Header search: an icon that expands into an input, with Intelligent Search
@@ -81,8 +62,12 @@ export default function SearchBox({
     router.push(formatSearchPath({ term: trimmed }))
   }
 
+  // `useSuggestions` exposes no loading flag, so an undefined `data` is the
+  // signal -- the same one core's own shelves read. SWR clears it on every key
+  // change, so it covers each new term, not just the first.
+  const loading = data === undefined
   const hasResults = suggestions.length > 0 || products.length > 0
-  const showResults = expanded && term.length > 0 && hasResults
+  const showResults = expanded && term.length > 0 && (loading || hasResults)
 
   const toggle = (
     <button
@@ -125,6 +110,8 @@ export default function SearchBox({
 
   const results = showResults && (
     <>
+      {loading && <SearchResultsSkeleton />}
+
       {suggestions.length > 0 && (
         <ul className={styles.searchBox__suggestions}>
           {suggestions.map(({ value }) => (

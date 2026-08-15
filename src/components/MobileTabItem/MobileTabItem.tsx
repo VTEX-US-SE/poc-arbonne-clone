@@ -1,3 +1,4 @@
+import Link from '../Link/Link'
 import styles from './MobileTabItem.module.scss'
 import type { MobileTabItemProps } from './MobileTabItem.types'
 
@@ -32,8 +33,8 @@ export default function MobileTabItem({
   }
 
   return (
-    <a className={styles.mobileTabItem} href={item.url ?? '#'}>
+    <Link className={styles.mobileTabItem} href={item.url}>
       {content}
-    </a>
+    </Link>
   )
 }

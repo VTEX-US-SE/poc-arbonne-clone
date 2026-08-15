@@ -14,6 +14,40 @@
   }
 }
 
+/* The set builder is a focused page: header and footer are suppressed so it
+   matches the design. Global sections are CMS-owned and can't be excluded per
+   page, so the page opts out via its own marker attribute instead. */
+body:has([data-arb-assembly-set]) {
+  [data-arb-header],
+  [data-arb-footer] {
+    display: none;
+  }
+
+  padding-bottom: 0;
+}
+
+/* Focus and current-page styling.
+   Deliberately inside `@layer components`: this file is loaded unlayered
+   (`.faststore/src/styles/main.scss`), and unlayered rules beat every layer
+   regardless of specificity -- so writing these at file scope would override
+   the focus rings @faststore/ui already ships. Inside the layer, `:where()`
+   drops the specificity to zero, so core's own `[data-fs-*]` rules win and
+   these only reach the bare elements that strip their styling. */
+@layer components {
+  :where(a, button, [tabindex]):focus-visible {
+    outline: 2px solid var(--arb-color-text);
+    outline-offset: 2px;
+  }
+
+  /* Baseline "you are here" marker. `Link` sets the attribute on any link
+     whose href matches the current path, so every nav surface gets it at
+     once; per-surface treatments can override from their own module. */
+  :where([aria-current='page']) {
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+}
+
 /* Usage with namespace */
 
 .theme {
@@ -34,7 +68,11 @@
   --arb-color-green-soft: #6f9d6d;
   --arb-color-green-tint: #f4f9f5;
   --arb-color-green-bright: #006837;
+  /* Borders and fills only -- 3.7:1 on white, below AA for text. */
   --arb-color-gray-muted: #858585;
+  /* The text-safe counterpart, 5.0:1 on white. Disabled controls may keep the
+     lighter value: they are formally exempt from the contrast minimum. */
+  --arb-color-gray-muted-text: #6f6f6f;
   --arb-color-gray-light: #efefef;
   --arb-color-gray-line: #e9e9e9;
   --arb-color-gray-lighter: #f4f4f4;
@@ -46,7 +84,9 @@
   --fs-color-main-4: var(--arb-color-green-dark);
 
   --fs-color-success-bkg: #e9fce3;
-  --fs-color-warning-bkg: #e9fce3;
+  /* Warning deliberately not overridden: it was a copy of the success green,
+     so every warning read as a success. Falls back to FastStore's own
+     `#fdec8d`. Worth a brand-toned amber if design wants one. */
   --fs-color-danger-bkg: #f7d1d1;
 
   --fs-color-primary-bkg-light: var(--fs-color-neutral-0);

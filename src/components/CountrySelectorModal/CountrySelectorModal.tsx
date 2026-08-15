@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Icon, ModalBody, ModalHeader } from '@faststore/ui'
+import { ModalBody, ModalHeader } from '@faststore/ui'
 import {
   useBindingSelector_unstable as useBindingSelector,
   // @ts-ignore next-line
@@ -8,6 +8,7 @@ import {
 import BaseModal from '../BaseModal/BaseModal'
 import styles from './CountrySelectorModal.module.scss'
 import type { CountrySelectorModalProps } from './CountrySelectorModal.types'
+import LocaleRow from './LocaleRow'
 
 /**
  * Language picker. Drives the real locale switch when the account exposes
@@ -31,15 +32,23 @@ export default function CountrySelectorModal({
 
   useEffect(() => {
     if (pendingLocale && localeCode === pendingLocale) {
-      setPendingLocale(null)
+      // Deliberately left set: `save()` navigates, and clearing it here would
+      // drop the row back to its resting state for the whole redirect. Closing
+      // the modal is the way out if the binding never resolves.
       save()
     }
   }, [pendingLocale, localeCode, save])
 
-  const localeEntries = Object.entries(languages ?? {})
+  // `useBindingSelector` is untyped experimental API -- name the shape here so
+  // the entries render as text rather than `unknown`.
+  const localeEntries = Object.entries(
+    (languages ?? {}) as Record<string, string>
+  )
   const isLocalized = localeEntries.length > 1
+  const switching = pendingLocale !== null
 
   const handleClose = () => {
+    setPendingLocale(null)
     reset()
     onClose?.()
   }
@@ -64,49 +73,25 @@ export default function CountrySelectorModal({
       <ModalBody>
         <ul className={styles.countrySelectorModal__list}>
           {isLocalized
-            ? localeEntries.map(([code, name]) => {
-                const active = code === localeCode
-
-                return (
-                  <li
-                    key={code}
-                    className={styles.countrySelectorModal__item}
-                    data-active={active || undefined}
-                    onClick={() => handleSelectLocale(code)}
-                  >
-                    <span className={styles.countrySelectorModal__label}>
-                      {name}
-                    </span>
-                    {active && (
-                      <Icon
-                        className={styles.countrySelectorModal__check}
-                        name="Checked"
-                        width={16}
-                        height={16}
-                      />
-                    )}
-                  </li>
-                )
-              })
+            ? localeEntries.map(([code, name]) => (
+                <LocaleRow
+                  key={code}
+                  label={name}
+                  active={code === localeCode}
+                  pending={code === pendingLocale}
+                  // The whole list locks while a switch is in flight: `save()`
+                  // navigates, so a second pick would race the redirect.
+                  disabled={switching}
+                  onSelect={() => handleSelectLocale(code)}
+                />
+              ))
             : options.map((option, index) => (
-                <li
+                <LocaleRow
                   key={option.label}
-                  className={styles.countrySelectorModal__item}
-                  data-active={option.active || undefined}
-                  onClick={() => onSelect?.(index)}
-                >
-                  <span className={styles.countrySelectorModal__label}>
-                    {option.label}
-                  </span>
-                  {option.active && (
-                    <Icon
-                      className={styles.countrySelectorModal__check}
-                      name="Checked"
-                      width={16}
-                      height={16}
-                    />
-                  )}
-                </li>
+                  label={option.label}
+                  active={option.active}
+                  onSelect={() => onSelect?.(index)}
+                />
               ))}
         </ul>
       </ModalBody>

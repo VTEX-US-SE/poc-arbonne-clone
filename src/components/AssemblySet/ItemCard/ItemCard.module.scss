@@ -1,0 +1,39 @@
+.itemCard {
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--fs-spacing-3);
+  align-items: flex-start;
+  padding: var(--fs-spacing-3);
+  background-color: var(--arb-color-white);
+  border: 1px solid var(--arb-color-gray-line);
+
+  &__image {
+    flex: 0 0 auto;
+    width: 4.6875rem;
+    height: 4.6875rem;
+    object-fit: contain;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-spacing-2);
+    min-width: 0;
+  }
+
+  &__name {
+    margin: 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: var(--arb-color-text);
+  }
+
+  &__outOfStock {
+    margin: 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--fs-color-danger-text);
+  }
+}

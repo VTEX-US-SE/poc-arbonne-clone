@@ -1,3 +1,4 @@
+import Link from '../Link/Link'
 import styles from './Footer.module.scss'
 import type { FooterProps } from './Footer.types'
 
@@ -20,7 +21,7 @@ export default function Footer({
   copyrightText,
 }: FooterProps) {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-arb-footer>
       <div className={styles.footer__columns}>
         {linkColumns.map((column, i) => (
           <div key={i} className={styles.footer__column}>
@@ -30,25 +31,25 @@ export default function Footer({
             <ul className={styles.footer__linkList}>
               {column.links?.map((link, j) => (
                 <li key={j}>
-                  <a className={styles.footer__link} href={link.url}>
+                  <Link className={styles.footer__link} href={link.url}>
                     {link.text}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
             {i === linkColumns.length - 1 && socialLinks.length > 0 && (
               <div className={styles.footer__social}>
                 {socialLinks.map((social, j) => (
-                  <a
+                  <Link
                     key={j}
                     className={styles.footer__socialLink}
                     href={social.url}
                     aria-label={social.alt}
                   >
-                    {social.icon && (
-                      <img src={social.icon} alt={social.alt ?? ''} />
-                    )}
-                  </a>
+                    {/* `alt=""`: the link already carries the name via
+                        `aria-label`, so a filled alt double-announces. */}
+                    {social.icon && <img src={social.icon} alt="" />}
+                  </Link>
                 ))}
               </div>
             )}
@@ -64,9 +65,9 @@ export default function Footer({
       )}
       <div className={styles.footer__legal}>
         {legalLinks.map((link, i) => (
-          <a key={i} className={styles.footer__legalLink} href={link.url}>
+          <Link key={i} className={styles.footer__legalLink} href={link.url}>
             {link.text}
-          </a>
+          </Link>
         ))}
         {copyrightText && (
           <span className={styles.footer__copyright}>{copyrightText}</span>

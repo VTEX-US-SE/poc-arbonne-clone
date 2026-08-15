@@ -2,6 +2,7 @@ import { ModalBody, ModalHeader } from '@faststore/ui'
 
 import BaseModal from '../BaseModal/BaseModal'
 import Button from '../Button/Button'
+import Link from '../Link/Link'
 import styles from './LoginModal.module.scss'
 import type { LoginModalProps } from './LoginModal.types'
 
@@ -13,8 +14,8 @@ import type { LoginModalProps } from './LoginModal.types'
 export default function LoginModal({
   open,
   onClose,
-  loginUrl = '#',
-  otpLoginUrl = '#',
+  loginUrl,
+  otpLoginUrl,
   createAccountText = 'To create an account, add an account type to your cart and proceed through the checkout process.',
   accountCards = [],
 }: LoginModalProps) {
@@ -27,15 +28,26 @@ export default function LoginModal({
     >
       <ModalHeader title="Already Registered?" onClose={onClose} />
       <ModalBody>
-        <div className={styles.loginModal__loginRow}>
-          <Button href={loginUrl} colorScheme="green">
-            LOGIN
-          </Button>
-          <span className={styles.loginModal__or}>OR</span>
-          <Button href={otpLoginUrl} colorScheme="greenOutline">
-            LOG IN WITH A ONE-TIME CODE
-          </Button>
-        </div>
+        {/* Each route is rendered only when the CMS supplies its URL -- these
+            defaulted to `'#'`, which put two dead buttons in front of anyone
+            trying to sign in. The "OR" divider needs both to be meaningful. */}
+        {(loginUrl || otpLoginUrl) && (
+          <div className={styles.loginModal__loginRow}>
+            {loginUrl && (
+              <Button href={loginUrl} colorScheme="green">
+                LOGIN
+              </Button>
+            )}
+            {loginUrl && otpLoginUrl && (
+              <span className={styles.loginModal__or}>OR</span>
+            )}
+            {otpLoginUrl && (
+              <Button href={otpLoginUrl} colorScheme="greenOutline">
+                LOG IN WITH A ONE-TIME CODE
+              </Button>
+            )}
+          </div>
+        )}
 
         <hr className={styles.loginModal__divider} />
 
@@ -69,12 +81,12 @@ export default function LoginModal({
                 </Button>
               )}
               {card.learnMoreUrl && (
-                <a
+                <Link
                   className={styles.loginModal__cardLearnMore}
                   href={card.learnMoreUrl}
                 >
                   Learn More
-                </a>
+                </Link>
               )}
             </div>
           ))}

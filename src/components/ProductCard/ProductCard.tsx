@@ -113,7 +113,7 @@ export default function ProductCard({
         <div className={styles.productCard__cartRow}>
           <QuantitySelector
             min={1}
-            initial={1}
+            initial={quantity}
             disabled={outOfStock}
             onChange={setQuantity}
           />

@@ -2,6 +2,7 @@ import { Icon } from '@faststore/ui'
 
 import { slugHref } from '../../utils/href'
 import Button from '../Button/Button'
+import Link from '../Link/Link'
 import styles from './MegaMenuPanel.module.scss'
 import type { MegaMenuPanelProps } from './MegaMenuPanel.types'
 
@@ -37,12 +38,12 @@ export default function MegaMenuPanel({
         >
           {columns.map((link, index) => (
             <li key={link.slug ?? index}>
-              <a
+              <Link
                 className={styles.megaMenuPanel__link}
                 href={slugHref(link.slug)}
               >
                 {link.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -57,12 +58,12 @@ export default function MegaMenuPanel({
               <ul className={styles.megaMenuPanel__linkList}>
                 {column.menu?.map((link, linkIndex) => (
                   <li key={link.slug ?? linkIndex}>
-                    <a
+                    <Link
                       className={styles.megaMenuPanel__link}
                       href={slugHref(link.slug)}
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

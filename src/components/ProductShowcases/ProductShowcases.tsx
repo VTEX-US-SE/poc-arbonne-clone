@@ -1,6 +1,7 @@
 import { useRef, useState, type KeyboardEvent } from 'react'
 import { useProductsQuery } from 'src/sdk/product/useProductsQuery'
 import ProductCard from '../ProductCard/ProductCard'
+import ProductCardSkeleton from '../ProductCard/ProductCardSkeleton'
 
 import styles from './ProductShowcases.module.scss'
 import type { ProductShowcasesProps } from './ProductShowcases.types'
@@ -36,6 +37,9 @@ export default function ProductShowcases({
     return null
   }
 
+  // `useProductsQuery` passes `fallbackData: null`, so this never suspends --
+  // the first render and every tab switch land here with no products yet.
+  const loading = data?.search?.products === undefined
   const products = data?.search?.products?.edges ?? []
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -97,9 +101,13 @@ export default function ProductShowcases({
         aria-labelledby={`product-showcases-tab-${activeTab}`}
         className={styles.productShowcases__grid}
       >
-        {products.map(({ node }, index) => (
-          <ProductCard key={node.slug} index={index} product={node} />
-        ))}
+        {loading
+          ? Array.from({ length: numberOfItems }, (_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))
+          : products.map(({ node }, index) => (
+              <ProductCard key={node.slug} index={index} product={node} />
+            ))}
       </div>
     </section>
   )

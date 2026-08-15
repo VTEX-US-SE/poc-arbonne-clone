@@ -1,0 +1,41 @@
+.stepper {
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--fs-spacing-1);
+  align-items: center;
+  align-self: flex-start;
+  width: 6.1875rem;
+  height: 3.125rem;
+  padding: 0 var(--fs-spacing-1);
+  border: 1px solid var(--arb-color-gray-line);
+
+  &__button {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 100%;
+    padding: 0;
+    font-family: var(--arb-font-body);
+    font-size: 1.125rem;
+    color: var(--arb-color-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:disabled {
+      /* Disabled controls are exempt from the contrast minimum, so this keeps
+         the lighter muted value rather than the text-safe one. */
+      color: var(--arb-color-gray-muted);
+      cursor: not-allowed;
+    }
+  }
+
+  &__value {
+    flex: 1;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    text-align: center;
+  }
+}

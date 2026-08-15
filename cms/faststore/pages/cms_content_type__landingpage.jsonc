@@ -5,6 +5,22 @@
     "type": "object",
     "title": "Landing Page",
     "properties": {
+      // Required: `identifierKeys` below points at this field. Dropping it
+      // leaves the CMS unable to compute an identifier for the entry, and
+      // saving a landing page fails with no visible error.
+      "slug": {
+        "type": "string",
+        "widget": {
+          "ui:widget": "slug"
+        },
+        "$componentTitle": "slug"
+      },
+      "siteMap": {
+        "title": "Public",
+        "description": "When enabled, this page's URL is added to sitemap.xml so search engines can discover and index it. Disable to keep the page out of the sitemap (e.g. for private, temporary, or campaign-only landing pages).",
+        "default": true,
+        "type": "boolean"
+      },
       "seo": {
         "title": "Settings",
         "description": "Search Engine Optimization options",

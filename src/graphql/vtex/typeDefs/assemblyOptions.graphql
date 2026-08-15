@@ -1,0 +1,42 @@
+extend type StoreProduct {
+  """
+  Assembly options (customisable set composition) declared on this SKU via a
+  VTEX catalog attachment. Empty for products that are not customisable sets.
+  """
+  assemblyOptions: [ArbAssemblyOption!]!
+}
+
+"""
+One VTEX assembly option. `id` is the attachment name and doubles as the
+`assemblyId` the Checkout API expects when composing the set.
+"""
+type ArbAssemblyOption {
+  id: String!
+  name: String!
+  required: Boolean!
+  groups: [ArbAssemblyGroup!]!
+}
+
+"""
+A selectable group within an assembly option. `minQuantity`/`maxQuantity` are
+the gate -- the total quantity picked across the group must fall inside them.
+"""
+type ArbAssemblyGroup {
+  name: String!
+  minQuantity: Int!
+  maxQuantity: Int!
+  items: [ArbAssemblyItem!]!
+}
+
+"""
+One eligible SKU inside a group, with its own quantity bounds. `product` is
+hydrated from the catalog and is null when the SKU no longer resolves.
+"""
+type ArbAssemblyItem {
+  skuId: String!
+  minQuantity: Int!
+  maxQuantity: Int!
+  initialQuantity: Int!
+  priceTable: String
+  product: StoreProduct
+}

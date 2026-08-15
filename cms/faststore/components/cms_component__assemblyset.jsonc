@@ -1,0 +1,40 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "AssemblySet",
+  "$componentTitle": "[ARB] Assembly Set",
+  "title": "[ARB] Assembly Set",
+  "description": "Customisable set builder; reads the VTEX assembly option from the parent product",
+  "type": "object",
+  "properties": {
+    "headline": {
+      "title": "Headline",
+      "description": "Copy above the picker. Defaults to the assembly group's name from the catalog. Supports the {max}, {min} and {selected} tokens, e.g. \"Select {max} skincare items to create your personalized routine.\"",
+      "type": "string"
+    },
+    "hint": {
+      "title": "Hint Text",
+      "description": "Small print under the progress bar. Three tokens are replaced with live values from the catalog, so the copy stays correct when the set changes: {max} = most items allowed, {min} = fewest required, {selected} = how many are chosen right now. Example: \"Choose {max} products to unlock 10% off your set.\" -> \"Choose 4 products to unlock 10% off your set.\"",
+      "type": "string"
+    },
+    "completeHint": {
+      "title": "Completion Message",
+      "description": "Replaces the hint once enough items are selected, and turns the progress bar green with a tick. Same {max}, {min} and {selected} tokens. Example: \"You've unlocked 10% off your custom skincare set!\"",
+      "type": "string"
+    },
+    "pcDiscountPercent": {
+      "title": "Preferred Client Discount (%)",
+      "description": "Used for the PC Price row. 20 matches the preferredclient trade policy on this account.",
+      "type": "number",
+      "default": 20
+    },
+    "ctaLabel": {
+      "title": "Button Label",
+      "type": "string",
+      "default": "ADD TO CART"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

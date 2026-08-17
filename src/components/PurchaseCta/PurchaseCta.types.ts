@@ -11,6 +11,12 @@ export interface PurchaseCtaProps {
   onQuantityChange: (value: number) => void
   quantityLabel?: string
   buttonLabel?: string
+  /**
+   * Renders the CTA as a link to this href rather than an add-to-cart button.
+   * Same appearance either way -- `Button`'s `green` scheme matches the buy
+   * button's own styling.
+   */
+  href?: string
   frequencies?: Record<string, string>
   frequency?: string
   onFrequencyChange?: (value: string) => void

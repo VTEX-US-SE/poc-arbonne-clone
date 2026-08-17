@@ -18,6 +18,7 @@ export default function StickyBar({
   loading,
   quantity,
   onQuantityChange,
+  ctaHref,
 }: StickyBarProps) {
   return (
     <div className={styles.productDetails__stickyBar}>
@@ -41,6 +42,7 @@ export default function StickyBar({
           loading={loading}
           quantity={quantity}
           onQuantityChange={onQuantityChange}
+          href={ctaHref}
         />
       </div>
     </div>

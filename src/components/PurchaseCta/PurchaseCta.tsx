@@ -1,5 +1,6 @@
 import { BuyButton, QuantitySelector, Select } from '@faststore/ui'
 
+import Button from '../Button/Button'
 import Skeleton from '../Skeleton/Skeleton'
 import styles from './PurchaseCta.module.scss'
 import type { PurchaseCtaProps } from './PurchaseCta.types'
@@ -11,6 +12,10 @@ import type { PurchaseCtaProps } from './PurchaseCta.types'
  *
  * Every add-to-cart in this project routes through here, so `loading` is
  * handled once rather than at each of the three call sites.
+ *
+ * With `href` set the button becomes a link instead -- customisable sets keep
+ * this exact row but send the shopper to the set builder, since their parent SKU
+ * is priced at zero and cannot be added to the cart directly.
  */
 export default function PurchaseCta({
   buyProps,
@@ -24,6 +29,7 @@ export default function PurchaseCta({
   frequency,
   onFrequencyChange,
   className,
+  href,
 }: PurchaseCtaProps) {
   const rootClassName = [styles.purchaseCta, className]
     .filter(Boolean)
@@ -76,14 +82,24 @@ export default function PurchaseCta({
         </div>
       )}
 
-      <BuyButton
-        {...buyProps}
-        variant="primary"
-        className={styles.purchaseCta__buy}
-        disabled={disabled}
-      >
-        {buttonLabel}
-      </BuyButton>
+      {href ? (
+        <Button
+          className={styles.purchaseCta__buy}
+          href={href}
+          colorScheme="green"
+        >
+          {buttonLabel}
+        </Button>
+      ) : (
+        <BuyButton
+          {...buyProps}
+          variant="primary"
+          className={styles.purchaseCta__buy}
+          disabled={disabled}
+        >
+          {buttonLabel}
+        </BuyButton>
+      )}
     </div>
   )
 }

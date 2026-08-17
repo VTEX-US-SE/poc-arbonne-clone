@@ -5,6 +5,10 @@ import type {
   ArbAssemblySetQueryQuery,
   ArbAssemblySetQueryQueryVariables,
 } from '@generated/graphql'
+import {
+  useBuyButton_unstable as useBuyButton,
+  // @ts-ignore next-line
+} from '@faststore/core/experimental'
 import { useQuery } from 'src/sdk/graphql/useQuery'
 import { useSession } from 'src/sdk/session'
 
@@ -13,6 +17,10 @@ import {
   bestOffer,
   groupTotal,
   isGroupSatisfied,
+  parseQtyParam,
+  setCartItems,
+  SET_PARAM,
+  QTY_PARAM,
 } from '../../utils/assemblySet'
 import { slugHref } from '../../utils/href'
 import Link from '../Link/Link'
@@ -26,9 +34,6 @@ import type {
 } from './AssemblySet.types'
 import SetGroup from './SetGroup/SetGroup'
 import Stepper from './Stepper/Stepper'
-
-/** Query-string key carrying the parent set's product id, e.g. `?set=1657`. */
-const SET_PARAM = 'set'
 
 /**
  * Customisable set builder ("Build Your Best ..."). Reads the VTEX assembly
@@ -52,6 +57,18 @@ export default function AssemblySet({
 
   const fromQuery = router.query[SET_PARAM]
   const setId = typeof fromQuery === 'string' ? fromQuery : ''
+  const qtyFromQuery = router.query[QTY_PARAM]
+
+  // `router.query` is empty until hydration on a statically generated page, so
+  // the quantity the PDP passed arrives after the first render rather than being
+  // available to `useState`'s initialiser.
+  useEffect(() => {
+    const parsed = parseQtyParam(qtyFromQuery)
+
+    if (parsed) {
+      setSets(parsed)
+    }
+  }, [qtyFromQuery])
 
   const variables = useMemo(
     () => ({
@@ -123,6 +140,16 @@ export default function AssemblySet({
 
     return (value: number) => formatter.format(value)
   }, [locale])
+
+  // `useBuyButton` takes an array, adds every item and opens the cart sidebar
+  // itself -- the same path the PDP and product cards use, so the "Added to
+  // cart" banner and analytics behave identically here. Must sit above the
+  // early returns below: a hook cannot be called after them.
+  const cartItems = useMemo(
+    () => setCartItems(groups, quantities, sets),
+    [groups, quantities, sets]
+  )
+  const buyProps = useBuyButton(cartItems.length > 0 ? cartItems : null)
 
   if (!router.isReady || (setId && isLoading)) {
     return <AssemblySetSkeleton />
@@ -242,6 +269,7 @@ export default function AssemblySet({
 
           <div className={styles.assemblySet__actions}>
             <button
+              {...buyProps}
               type="button"
               className={styles.assemblySet__cta}
               disabled={!canAddToCart}

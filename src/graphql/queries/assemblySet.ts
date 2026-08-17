@@ -29,8 +29,29 @@ export const query = gql(`
             maxQuantity
             initialQuantity
             product {
+              id: productID
               sku
               name
+              gtin
+              unitMultiplier
+              brand {
+                name
+              }
+              isVariantOf {
+                productGroupID
+                name
+                skuVariants {
+                  activeVariations
+                  slugsMap
+                  availableVariations
+                }
+              }
+              additionalProperty {
+                propertyID
+                name
+                value
+                valueReference
+              }
               image {
                 url
                 alternateName
@@ -38,8 +59,13 @@ export const query = gql(`
               offers {
                 offers {
                   price
+                  priceWithTaxes
                   listPrice
+                  listPriceWithTaxes
                   availability
+                  seller {
+                    identifier
+                  }
                 }
               }
             }

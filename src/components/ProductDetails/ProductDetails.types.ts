@@ -8,6 +8,12 @@ export interface ProductDetailsFrequency {
 export interface ProductDetailsProps {
   refIdSuffix?: string
   sizePropertyName?: string
+  /**
+   * Label for the customise CTA. Separate from `addToCartLabel` because the PDP
+   * is one content type: a single label cannot read correctly on both a normal
+   * product and a set.
+   */
+  customizeLabel?: string
   priceLabel?: string
   quantityLabel?: string
   addToCartLabel?: string
@@ -31,6 +37,12 @@ interface PurchaseSurfaceProps {
   loading?: boolean
   quantity: number
   onQuantityChange: (value: number) => void
+  /**
+   * Turns the CTA into a link to this href instead of an add-to-cart. Set for
+   * customisable sets, whose parent SKU is priced at zero -- the shopper has to
+   * compose the set before anything can go in the cart.
+   */
+  ctaHref?: string
 }
 
 export interface PurchaseOptionsProps

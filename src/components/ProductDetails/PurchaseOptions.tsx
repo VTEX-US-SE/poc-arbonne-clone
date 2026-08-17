@@ -30,6 +30,7 @@ export default function PurchaseOptions({
   quantity,
   onQuantityChange,
   onStickyChange,
+  ctaHref,
 }: PurchaseOptionsProps) {
   const [purchaseOption, setPurchaseOption] =
     useState<PurchaseOption>('oneTime')
@@ -90,6 +91,7 @@ export default function PurchaseOptions({
             loading={loading}
             quantity={quantity}
             onQuantityChange={onQuantityChange}
+            href={ctaHref}
           />
         )}
       </div>
@@ -125,6 +127,7 @@ export default function PurchaseOptions({
             loading={loading}
             quantity={quantity}
             onQuantityChange={onQuantityChange}
+            href={ctaHref}
             frequencies={frequencyOptions}
             frequency={selectedFrequency}
             onFrequencyChange={setFrequency}

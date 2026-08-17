@@ -15,11 +15,19 @@
 }
 
 /* The set builder is a focused page: header and footer are suppressed so it
-   matches the design. Global sections are CMS-owned and can't be excluded per
-   page, so the page opts out via its own marker attribute instead. */
+   matches the design -- the back link is the only way out. Global sections are
+   CMS-owned and can't be excluded per page, so the page opts out via its own
+   marker attribute instead.
+   Core's own `Navbar` and `Footer` sections need hiding alongside ours: they
+   carry no `data-arb-*` marker, so hiding only ours left core's navbar rendering
+   (its own search field, EN/USD selector and Sign in). Targeting the `.section`
+   wrapper rather than the inner bar also drops the section's spacing, instead of
+   leaving a gap where it used to be. */
 body:has([data-arb-assembly-set]) {
   [data-arb-header],
-  [data-arb-footer] {
+  [data-arb-footer],
+  .section-navbar,
+  .section-footer {
     display: none;
   }
 

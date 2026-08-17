@@ -10,6 +10,7 @@ import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
 import { RichText } from 'src/components/ui/RichText'
 
 import GalleryImage from './GalleryImage'
+import { setBuilderHref } from '../../utils/assemblySet'
 import Skeleton from '../Skeleton/Skeleton'
 import styles from './ProductDetails.module.scss'
 import type { ProductDetailsProps } from './ProductDetails.types'
@@ -37,6 +38,7 @@ const KLARNA_BADGE_SRC =
 export default function ProductDetails({
   refIdSuffix = 'US',
   sizePropertyName = 'Volume',
+  customizeLabel = 'START CUSTOMIZING',
   priceLabel = 'YOUR PRICE',
   quantityLabel,
   addToCartLabel,
@@ -66,6 +68,14 @@ export default function ProductDetails({
     (property) => property.name === sizePropertyName
   )?.value
 
+  // Cast rather than relying on generated types: `assemblyOptions` reaches the
+  // PDP through our own `ClientProduct` fragment override, so it only appears
+  // in `@generated` after codegen has run at least once.
+  const assemblyOptions = (
+    product as { assemblyOptions?: unknown[] } | undefined
+  )?.assemblyOptions
+  const isCustomisableSet = Boolean(assemblyOptions?.length)
+
   const buyProps = useBuyButton(
     product && offer
       ? {
@@ -93,6 +103,19 @@ export default function ProductDetails({
   if (!product) {
     return null
   }
+
+  // Carries the quantity chosen here, so the builder's "Quantity of Customized
+  // Sets" opens on the same number rather than resetting to 1.
+  const builderHref = isCustomisableSet
+    ? setBuilderHref(product.id, quantity)
+    : undefined
+
+  const description = product.description ? (
+    <RichText
+      className={styles.productDetails__description}
+      content={product.description}
+    />
+  ) : null
 
   return (
     <section className={styles.productDetails}>
@@ -127,25 +150,36 @@ export default function ProductDetails({
           )}
         </p>
 
+        {/* A set's copy explains how many items to pick and what the discount
+            is, so it has to be read before the CTA rather than after it. */}
+        {isCustomisableSet && description}
+
         <p className={styles.productDetails__priceLabel}>{priceLabel}</p>
-        <div className={styles.productDetails__price}>
-          <Skeleton loading={isValidating} width="8rem" height="2.625rem">
-            {formattedPrice}
-          </Skeleton>
-        </div>
-        {instalmentsText && (
-          <div className={styles.productDetails__instalments}>
-            <Image
-              className={styles.productDetails__klarna}
-              src={KLARNA_BADGE_SRC}
-              alt="Klarna"
-              width={71}
-              height={33}
-            />
-            <p className={styles.productDetails__instalmentsText}>
-              {instalmentsText}
-            </p>
-          </div>
+
+        {/* No price or instalments on a set: the parent SKU is priced at zero,
+            so `priceLabel` stands in until the builder totals the selection. */}
+        {!isCustomisableSet && (
+          <>
+            <div className={styles.productDetails__price}>
+              <Skeleton loading={isValidating} width="8rem" height="2.625rem">
+                {formattedPrice}
+              </Skeleton>
+            </div>
+            {instalmentsText && (
+              <div className={styles.productDetails__instalments}>
+                <Image
+                  className={styles.productDetails__klarna}
+                  src={KLARNA_BADGE_SRC}
+                  alt="Klarna"
+                  width={71}
+                  height={33}
+                />
+                <p className={styles.productDetails__instalmentsText}>
+                  {instalmentsText}
+                </p>
+              </div>
+            )}
+          </>
         )}
 
         <PurchaseOptions
@@ -154,22 +188,20 @@ export default function ProductDetails({
           replenishText={replenishText}
           replenishFrequencies={replenishFrequencies}
           quantityLabel={quantityLabel}
-          addToCartLabel={addToCartLabel}
-          replenishCtaLabel={replenishCtaLabel}
+          addToCartLabel={isCustomisableSet ? customizeLabel : addToCartLabel}
+          replenishCtaLabel={
+            isCustomisableSet ? customizeLabel : replenishCtaLabel
+          }
           buyProps={buyProps}
           disabled={outOfStock}
           loading={isValidating}
           quantity={quantity}
           onQuantityChange={setQuantity}
           onStickyChange={setShowStickyBar}
+          ctaHref={builderHref}
         />
 
-        {product.description && (
-          <RichText
-            className={styles.productDetails__description}
-            content={product.description}
-          />
-        )}
+        {!isCustomisableSet && description}
       </div>
 
       {showStickyBar && (
@@ -177,7 +209,8 @@ export default function ProductDetails({
           priceLabel={priceLabel}
           formattedPrice={formattedPrice}
           quantityLabel={quantityLabel}
-          buttonLabel={addToCartLabel}
+          buttonLabel={isCustomisableSet ? customizeLabel : addToCartLabel}
+          ctaHref={builderHref}
           buyProps={buyProps}
           disabled={outOfStock}
           loading={isValidating}

@@ -18,6 +18,12 @@
       "type": "string",
       "default": "Volume"
     },
+    "customizeLabel": {
+      "title": "Set Builder Button Label",
+      "description": "Only shown on customisable sets. Separate from Add to Cart Label because one label cannot read correctly on both a normal product and a set.",
+      "type": "string",
+      "default": "START CUSTOMIZING"
+    },
     "priceLabel": {
       "title": "Price Label",
       "type": "string",

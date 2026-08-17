@@ -12,7 +12,7 @@ import Link from '../Link/Link'
 import SearchBox from '../SearchBox/SearchBox'
 import styles from './Header.module.scss'
 import type { HeaderProps } from './Header.types'
-import LocaleFlag from './LocaleFlag'
+import LocaleFlag from '../LocaleFlag/LocaleFlag'
 import SkipLink from './SkipLink'
 
 /**

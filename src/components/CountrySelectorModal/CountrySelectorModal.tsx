@@ -5,6 +5,7 @@ import {
   // @ts-ignore next-line
 } from '@faststore/core/experimental'
 
+import { localeLabel } from '../../utils/locale'
 import BaseModal from '../BaseModal/BaseModal'
 import styles from './CountrySelectorModal.module.scss'
 import type { CountrySelectorModalProps } from './CountrySelectorModal.types'
@@ -36,10 +37,10 @@ export default function CountrySelectorModal({
     }
   }, [pendingLocale, localeCode, save])
 
-  const localeEntries = Object.entries(
-    (languages ?? {}) as Record<string, string>
-  )
-  const isLocalized = localeEntries.length > 1
+  // Only the codes are used: the hook's values drop the region code, and
+  // `localeLabel` needs it -- see src/utils/locale.ts.
+  const localeCodes = Object.keys((languages ?? {}) as Record<string, string>)
+  const isLocalized = localeCodes.length > 1
   const switching = pendingLocale !== null
 
   const handleClose = () => {
@@ -68,10 +69,11 @@ export default function CountrySelectorModal({
       <ModalBody>
         <ul className={styles.countrySelectorModal__list}>
           {isLocalized
-            ? localeEntries.map(([code, name]) => (
+            ? localeCodes.map((code) => (
                 <LocaleRow
                   key={code}
-                  label={name}
+                  label={localeLabel(code)}
+                  locale={code}
                   active={code === localeCode}
                   pending={code === pendingLocale}
                   disabled={switching}

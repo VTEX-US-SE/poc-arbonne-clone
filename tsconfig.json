@@ -18,7 +18,8 @@
     "paths": {
       "src/*": [".faststore/src/*"],
       "@generated": [".faststore/@generated/index.ts"],
-      "@generated/*": [".faststore/@generated/*"]
+      "@generated/*": [".faststore/@generated/*"],
+      "discovery.config": [".faststore/discovery.config.js"]
     }
   },
   "include": ["*.d.ts", "**/*.ts", "**/*.tsx"],

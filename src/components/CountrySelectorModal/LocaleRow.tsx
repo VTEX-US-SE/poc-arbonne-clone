@@ -1,5 +1,6 @@
 import { Icon } from '@faststore/ui'
 
+import LocaleFlag from '../LocaleFlag/LocaleFlag'
 import styles from './CountrySelectorModal.module.scss'
 import type { LocaleRowProps } from './CountrySelectorModal.types'
 
@@ -11,6 +12,7 @@ import type { LocaleRowProps } from './CountrySelectorModal.types'
  */
 export default function LocaleRow({
   label,
+  locale,
   active,
   pending,
   disabled,
@@ -28,6 +30,7 @@ export default function LocaleRow({
         disabled={disabled}
         onClick={onSelect}
       >
+        <LocaleFlag locale={locale} />
         <span className={styles.countrySelectorModal__label}>{label}</span>
 
         {pending ? (

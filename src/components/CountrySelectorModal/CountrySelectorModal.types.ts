@@ -5,6 +5,11 @@ export interface CountryOption {
 
 export interface LocaleRowProps {
   label: string
+  /**
+   * Locale code for this row's flag, e.g. `fr-CA`. Omitted by the CMS fallback
+   * rows, which have no binding behind them and so render without a flag.
+   */
+  locale?: string
   active?: boolean
   pending?: boolean
   disabled?: boolean

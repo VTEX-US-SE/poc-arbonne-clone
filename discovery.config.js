@@ -10,6 +10,10 @@ module.exports = {
     author: 'Arbonne',
   },
 
+  localization: {
+    enabled: true,
+  },
+
   theme: 'custom-theme',
 
   platform: 'vtex',

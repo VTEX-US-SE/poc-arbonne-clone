@@ -142,16 +142,6 @@
         }
       }
     },
-    "loginUrl": {
-      "title": "Login URL",
-      "type": "string",
-      "default": "#"
-    },
-    "otpLoginUrl": {
-      "title": "One-Time-Code Login URL",
-      "type": "string",
-      "default": "#"
-    },
     "createAccountText": {
       "title": "Create Account Description",
       "type": "string",

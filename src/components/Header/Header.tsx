@@ -28,8 +28,6 @@ import SkipLink from './SkipLink'
 export default function Header({
   logo,
   navItems = [],
-  loginUrl,
-  otpLoginUrl,
   createAccountText,
   searchPlaceholder,
   accountCards,
@@ -200,8 +198,6 @@ export default function Header({
       <LoginModal
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
-        loginUrl={loginUrl}
-        otpLoginUrl={otpLoginUrl}
         createAccountText={createAccountText}
         accountCards={accountCards}
       />

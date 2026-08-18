@@ -218,8 +218,7 @@ choice.
 
 `#858585` on white is **3.7:1** — below AA's 4.5:1 for normal text.
 
-Used as text at: `SearchBox.module.scss:47` (placeholder),
-`LoginModal.module.scss:51` (the "OR" divider),
+Used as text at: `SearchBox.module.scss:47` (placeholder) and
 `AssemblySet.module.scss:265` (disabled stepper).
 
 Used as a border/fill at `AssemblySet.module.scss:140, 333` and

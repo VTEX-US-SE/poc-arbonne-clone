@@ -16,6 +16,11 @@
   box-shadow: none;
 
   :global([data-fs-modal-header]) {
+    // Core reserves 3rem on the right for the close button, but that button is
+    // absolutely positioned -- the padding only drags the centered title 12px
+    // off-axis from the body below it. Even it out.
+    --fs-modal-header-padding: var(--fs-spacing-4);
+
     [data-fs-modal-header-title] {
       text-align: center;
       font-family: var(--arb-font-body);
@@ -33,22 +38,17 @@
   }
 
   :global(div[data-fs-modal-body]) {
-    padding: 1rem 1.25rem 2.5rem;
+    padding: 0 1.25rem 2.5rem;
   }
 
   &__loginRow {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--fs-spacing-3);
-    padding-bottom: var(--fs-spacing-4);
+    justify-content: center;
+    padding-bottom: var(--fs-spacing-5);
   }
 
-  &__or {
-    font-family: var(--arb-font-body);
-    font-size: 0.875rem;
-    font-weight: var(--fs-text-weight-bold);
-    color: var(--arb-color-gray-muted-text);
+  &__loginCta {
+    min-width: 15rem;
   }
 
   &__divider {
@@ -157,12 +157,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 
     :global(div[data-fs-modal-body]) {
-      padding: 1rem 3.5rem 4rem;
-    }
-
-    &__loginRow {
-      flex-direction: row;
-      justify-content: center;
+      padding: 0 3.5rem 4rem;
     }
 
     &__cards {

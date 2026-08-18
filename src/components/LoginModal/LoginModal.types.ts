@@ -10,8 +10,6 @@ export interface LoginAccountCard {
 export interface LoginModalProps {
   open: boolean
   onClose?: () => void
-  loginUrl?: string
-  otpLoginUrl?: string
   createAccountText?: string
   accountCards?: LoginAccountCard[]
 }

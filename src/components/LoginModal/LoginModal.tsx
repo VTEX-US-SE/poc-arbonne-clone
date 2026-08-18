@@ -7,15 +7,14 @@ import styles from './LoginModal.module.scss'
 import type { LoginModalProps } from './LoginModal.types'
 
 /**
- * Sign-in modal: the two login routes, then the account types available to
- * new customers. Authentication itself is not wired up -- the buttons link
- * out to the account URLs from the CMS.
+ * Sign-in modal: a way into the login page, then the account types available
+ * to new customers. `/login` is FastStore's own route, which hands off to
+ * VTEX ID -- that page already offers both password and one-time access code,
+ * so the modal does not split them.
  */
 export default function LoginModal({
   open,
   onClose,
-  loginUrl,
-  otpLoginUrl,
   createAccountText = 'To create an account, add an account type to your cart and proceed through the checkout process.',
   accountCards = [],
 }: LoginModalProps) {
@@ -28,23 +27,15 @@ export default function LoginModal({
     >
       <ModalHeader title="Already Registered?" onClose={onClose} />
       <ModalBody>
-        {(loginUrl || otpLoginUrl) && (
-          <div className={styles.loginModal__loginRow}>
-            {loginUrl && (
-              <Button href={loginUrl} colorScheme="green">
-                LOGIN
-              </Button>
-            )}
-            {loginUrl && otpLoginUrl && (
-              <span className={styles.loginModal__or}>OR</span>
-            )}
-            {otpLoginUrl && (
-              <Button href={otpLoginUrl} colorScheme="greenOutline">
-                LOG IN WITH A ONE-TIME CODE
-              </Button>
-            )}
-          </div>
-        )}
+        <div className={styles.loginModal__loginRow}>
+          <Button
+            href="/login"
+            colorScheme="green"
+            className={styles.loginModal__loginCta}
+          >
+            LOGIN
+          </Button>
+        </div>
 
         <hr className={styles.loginModal__divider} />
 

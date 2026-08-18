@@ -30,8 +30,6 @@ export interface SkipLinkProps {
 export interface HeaderProps {
   logo?: HeaderLogo
   navItems?: HeaderNavItem[]
-  loginUrl?: string
-  otpLoginUrl?: string
   createAccountText?: string
   searchPlaceholder?: string
   accountCards?: LoginAccountCard[]

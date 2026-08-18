@@ -144,6 +144,13 @@
       }
     }
 
+    /* The set layout leads with the description instead of ending on it, so its
+       top margin would open a gap under the reference code rather than
+       separating it from the buy box. */
+    &__info[data-customisable-set] &__description {
+      margin-top: 0;
+    }
+
     &__options {
       margin-top: var(--fs-spacing-4);
     }

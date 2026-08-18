@@ -6,7 +6,6 @@ export interface ProductDetailsFrequency {
 }
 
 export interface ProductDetailsProps {
-  refIdSuffix?: string
   sizePropertyName?: string
   /**
    * Label for the customise CTA. Separate from `addToCartLabel` because the PDP
@@ -65,6 +64,7 @@ export interface StickyBarProps
   extends
     PurchaseSurfaceProps,
     Pick<ProductDetailsProps, 'priceLabel' | 'quantityLabel'> {
-  formattedPrice: string
+  /** Omitted for a customisable set, which has no price to show yet. */
+  formattedPrice?: string
   buttonLabel?: string
 }

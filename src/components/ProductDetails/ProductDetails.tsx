@@ -6,11 +6,13 @@ import {
   // @ts-ignore next-line
 } from '@faststore/core/experimental'
 import { usePDP } from 'src/sdk/overrides/PageProvider'
+import { useSession } from 'src/sdk/session'
 import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
 import { RichText } from 'src/components/ui/RichText'
 
 import GalleryImage from './GalleryImage'
 import { setBuilderHref } from '../../utils/assemblySet'
+import { regionCodeFor } from '../../utils/locale'
 import Skeleton from '../Skeleton/Skeleton'
 import styles from './ProductDetails.module.scss'
 import type { ProductDetailsProps } from './ProductDetails.types'
@@ -36,7 +38,6 @@ const KLARNA_BADGE_SRC =
  * options around it are mocked in code.
  */
 export default function ProductDetails({
-  refIdSuffix = 'US',
   sizePropertyName = 'Volume',
   customizeLabel = 'START CUSTOMIZING',
   priceLabel = 'YOUR PRICE',
@@ -53,6 +54,10 @@ export default function ProductDetails({
   const [selectedImageIdx, setSelectedImageIdx] = useState(0)
   const [showStickyBar, setShowStickyBar] = useState(false)
   const { data } = usePDP()
+  const { locale } = useSession()
+  // The reference code's country comes from the active binding, so it follows a
+  // locale switch instead of being pinned by an editor.
+  const regionCode = regionCodeFor(locale)
   const product = data?.product
   const isValidating = Boolean(data?.isValidating)
 
@@ -138,14 +143,17 @@ export default function ProductDetails({
         </ImageGallery>
       </div>
 
-      <div className={styles.productDetails__info}>
+      <div
+        className={styles.productDetails__info}
+        data-customisable-set={isCustomisableSet || undefined}
+      >
         <h1 className={styles.productDetails__title}>{product.name}</h1>
 
         <p className={styles.productDetails__meta}>
           {sizeLabel && <span>{sizeLabel}</span>}
           {product.gtin && (
             <span>
-              # {product.gtin} {refIdSuffix}
+              # {product.gtin} {regionCode}
             </span>
           )}
         </p>
@@ -207,7 +215,7 @@ export default function ProductDetails({
       {showStickyBar && (
         <StickyBar
           priceLabel={priceLabel}
-          formattedPrice={formattedPrice}
+          formattedPrice={isCustomisableSet ? undefined : formattedPrice}
           quantityLabel={quantityLabel}
           buttonLabel={isCustomisableSet ? customizeLabel : addToCartLabel}
           ctaHref={builderHref}

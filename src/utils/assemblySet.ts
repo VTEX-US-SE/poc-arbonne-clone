@@ -9,8 +9,12 @@ const IN_STOCK = 'https://schema.org/InStock'
 export const SET_PARAM = 'set'
 export const QTY_PARAM = 'qty'
 
-/** Highest quantity accepted from the URL -- see `setBuilderHref`. */
-const MAX_QTY = 99
+/**
+ * Highest number of set copies allowed, from the URL or the stepper. Each copy
+ * costs two Checkout requests (add parent, compose), so this bounds the work a
+ * single click can trigger as well as validating URL input.
+ */
+export const MAX_QTY = 10
 
 /**
  * Link into the set builder for a parent product, carrying how many copies of
@@ -74,50 +78,23 @@ export const isGroupSatisfied = (
 }
 
 /**
- * The composed set as cart items -- one per selected child SKU, its quantity
- * multiplied by how many copies of the set were asked for.
- *
- * The children go in individually rather than as a VTEX assembly, because
- * Checkout does not yet register the attachment as an assembly option (see
- * `docs/assembly-options.md`). Swap this for the composition endpoint once that
- * is resolved; the call site does not change.
+ * The chosen children in the shape the Checkout composition endpoint wants.
+ * Out-of-stock items are dropped: a composition seeded from `initialQuantity`
+ * could otherwise carry one, and Checkout would reject the whole call.
  */
-export const setCartItems = (
+export const setSelection = (
   groups: AssemblyGroup[],
-  quantities: Record<string, number>,
-  sets: number
+  quantities: Record<string, number>
 ) =>
   groups
     .flatMap((group) => group.items)
     .flatMap((item) => {
       const offer = bestOffer(item)
-      const quantity = (quantities[item.skuId] ?? 0) * sets
+      const quantity = quantities[item.skuId] ?? 0
 
-      if (!item.product || !offer || quantity === 0) {
+      if (!offer || quantity === 0 || !isInStock(item)) {
         return []
       }
 
-      const { product } = item
-
-      return [
-        {
-          id: product.id,
-          price: offer.price,
-          priceWithTaxes: offer.priceWithTaxes,
-          listPrice: offer.listPrice,
-          listPriceWithTaxes: offer.listPriceWithTaxes,
-          seller: offer.seller,
-          quantity,
-          itemOffered: {
-            sku: product.sku,
-            name: product.name,
-            gtin: product.gtin,
-            image: [product.image?.[0]],
-            brand: product.brand,
-            isVariantOf: product.isVariantOf,
-            additionalProperty: product.additionalProperty,
-            unitMultiplier: product.unitMultiplier,
-          },
-        },
-      ]
+      return [{ skuId: item.skuId, quantity, seller: offer.seller.identifier }]
     })

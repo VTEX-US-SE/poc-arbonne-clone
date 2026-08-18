@@ -7,11 +7,6 @@
   "type": "object",
   "required": [],
   "properties": {
-    "refIdSuffix": {
-      "title": "Reference Code Suffix",
-      "type": "string",
-      "default": "US"
-    },
     "sizePropertyName": {
       "title": "Pack Size Property",
       "description": "Product specification holding the pack size, e.g. Volume",

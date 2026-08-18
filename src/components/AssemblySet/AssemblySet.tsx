@@ -5,10 +5,8 @@ import type {
   ArbAssemblySetQueryQuery,
   ArbAssemblySetQueryQueryVariables,
 } from '@generated/graphql'
-import {
-  useBuyButton_unstable as useBuyButton,
-  // @ts-ignore next-line
-} from '@faststore/core/experimental'
+import { useCart } from 'src/sdk/cart'
+import { redirectToCheckout } from 'src/sdk/cart/redirectToCheckout'
 import { useQuery } from 'src/sdk/graphql/useQuery'
 import { useSession } from 'src/sdk/session'
 
@@ -18,10 +16,12 @@ import {
   groupTotal,
   isGroupSatisfied,
   parseQtyParam,
-  setCartItems,
+  setSelection,
+  MAX_QTY,
   SET_PARAM,
   QTY_PARAM,
 } from '../../utils/assemblySet'
+import { addComposedSet } from '../../utils/assemblyCheckout'
 import { slugHref } from '../../utils/href'
 import Link from '../Link/Link'
 
@@ -32,6 +32,7 @@ import type {
   AssemblyOption,
   AssemblySetProps,
 } from './AssemblySet.types'
+import SetAddedModal from './SetAddedModal/SetAddedModal'
 import SetGroup from './SetGroup/SetGroup'
 import Stepper from './Stepper/Stepper'
 
@@ -51,9 +52,17 @@ export default function AssemblySet({
   ctaLabel = 'ADD TO CART',
 }: AssemblySetProps) {
   const { channel, locale } = useSession()
+  const { id: orderFormId } = useCart()
   const router = useRouter()
   const [quantities, setQuantities] = useState<Record<string, number>>({})
   const [sets, setSets] = useState(1)
+  const [adding, setAdding] = useState(false)
+  const [added, setAdded] = useState<{
+    total: number
+    notice?: string
+    orderFormId: string
+  } | null>(null)
+  const [addError, setAddError] = useState<string | null>(null)
 
   const fromQuery = router.query[SET_PARAM]
   const setId = typeof fromQuery === 'string' ? fromQuery : ''
@@ -108,28 +117,24 @@ export default function AssemblySet({
     )
   }, [groups])
 
-  const totals = useMemo(() => {
-    return groups
-      .flatMap((group) => group.items)
-      .reduce(
-        (acc, item) => {
+  const selectedTotal = useMemo(
+    () =>
+      groups
+        .flatMap((group) => group.items)
+        .reduce((total, item) => {
           const quantity = quantities[item.skuId] ?? 0
           const offer = bestOffer(item)
 
-          if (!offer || quantity === 0) {
-            return acc
-          }
+          return offer ? total + offer.price * quantity : total
+        }, 0),
+    [groups, quantities]
+  )
 
-          return {
-            price: acc.price + offer.price * quantity,
-            listPrice: acc.listPrice + offer.listPrice * quantity,
-          }
-        },
-        { price: 0, listPrice: 0 }
-      )
-  }, [groups, quantities])
-
-  const yourPrice = totals.price * sets
+  // The parent SKU carries its own small price and Checkout charges it on top of
+  // the children, so it belongs in every set total -- without it this panel
+  // understates the cart by the parent price per set.
+  const parentPrice = product?.offers?.offers?.[0]?.price ?? 0
+  const yourPrice = (selectedTotal + parentPrice) * sets
   const pcPrice = yourPrice * (1 - pcDiscountPercent / 100)
 
   const formatAmount = useMemo(() => {
@@ -141,15 +146,45 @@ export default function AssemblySet({
     return (value: number) => formatter.format(value)
   }, [locale])
 
-  // `useBuyButton` takes an array, adds every item and opens the cart sidebar
-  // itself -- the same path the PDP and product cards use, so the "Added to
-  // cart" banner and analytics behave identically here. Must sit above the
-  // early returns below: a hook cannot be called after them.
-  const cartItems = useMemo(
-    () => setCartItems(groups, quantities, sets),
-    [groups, quantities, sets]
+  const selection = useMemo(
+    () => setSelection(groups, quantities),
+    [groups, quantities]
   )
-  const buyProps = useBuyButton(cartItems.length > 0 ? cartItems : null)
+
+  /**
+   * Composes the set on the orderForm rather than adding the children as loose
+   * cart items: only Checkout can bind them to the parent, and only then is the
+   * parent's own price charged and set-level promotions able to fire.
+   */
+  const onAddToCart = async () => {
+    if (!product?.sku || selection.length === 0) {
+      return
+    }
+
+    setAdding(true)
+    setAddError(null)
+
+    try {
+      const orderForm = await addComposedSet({
+        parentSku: product.sku,
+        selection,
+        sets,
+        orderFormId: orderFormId || undefined,
+      })
+
+      setAdded({
+        total: orderForm.value / 100,
+        notice: orderForm.messages?.[0],
+        orderFormId: orderForm.orderFormId,
+      })
+    } catch (error) {
+      setAddError(
+        error instanceof Error ? error.message : 'Could not add this set.'
+      )
+    } finally {
+      setAdding(false)
+    }
+  }
 
   if (!router.isReady || (setId && isLoading)) {
     return <AssemblySetSkeleton />
@@ -262,23 +297,49 @@ export default function AssemblySet({
                 decreaseLabel="Fewer sets"
                 increaseLabel="More sets"
                 onDecrease={() => setSets((value) => Math.max(value - 1, 1))}
-                onIncrease={() => setSets((value) => value + 1)}
+                canIncrease={sets < MAX_QTY}
+                onIncrease={() =>
+                  setSets((value) => Math.min(value + 1, MAX_QTY))
+                }
               />
             </div>
           </div>
 
           <div className={styles.assemblySet__actions}>
             <button
-              {...buyProps}
               type="button"
               className={styles.assemblySet__cta}
-              disabled={!canAddToCart}
+              disabled={!canAddToCart || adding}
+              onClick={onAddToCart}
             >
-              {ctaLabel}
+              {adding ? 'ADDING…' : ctaLabel}
             </button>
+
+            {addError && (
+              <p className={styles.assemblySet__error} role="alert">
+                {addError}
+              </p>
+            )}
           </div>
         </div>
       </div>
+
+      <SetAddedModal
+        open={added !== null}
+        setName={product?.name}
+        sets={sets}
+        lines={selection.map(({ skuId, quantity }) => ({
+          name:
+            groups
+              .flatMap((group) => group.items)
+              .find((item) => item.skuId === skuId)?.product?.name ?? skuId,
+          quantity,
+        }))}
+        formattedTotal={added ? formatAmount(added.total) : undefined}
+        notice={added?.notice}
+        onKeepCustomizing={() => setAdded(null)}
+        onCheckout={() => redirectToCheckout(added?.orderFormId)}
+      />
     </section>
   )
 }

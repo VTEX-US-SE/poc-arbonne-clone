@@ -27,11 +27,13 @@ export default function StickyBar({
           <span className={styles.productDetails__priceLabel}>
             {priceLabel}
           </span>
-          <div className={styles.productDetails__price}>
-            <Skeleton loading={loading} width="6rem" height="2.625rem">
-              {formattedPrice}
-            </Skeleton>
-          </div>
+          {formattedPrice && (
+            <div className={styles.productDetails__price}>
+              <Skeleton loading={loading} width="6rem" height="2.625rem">
+                {formattedPrice}
+              </Skeleton>
+            </div>
+          )}
         </div>
 
         <PurchaseCta

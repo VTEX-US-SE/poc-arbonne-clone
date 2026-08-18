@@ -11,6 +11,5 @@ export type ProductCardProduct = ProductSummary_ProductFragment
 export interface ProductCardProps {
   product: ProductCardProduct
   index?: number
-  refIdSuffix?: string
   [prop: string]: unknown
 }

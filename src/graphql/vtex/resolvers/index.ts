@@ -1,3 +1,4 @@
+import { addComposedSet, type ComposedSetInput } from './composedSet'
 import { parseAttachment, type RawAttachment } from './parseComposition'
 
 interface AssemblyItemRoot {
@@ -33,6 +34,11 @@ const resolvers = {
           }
         })
         .filter(Boolean),
+  },
+
+  Mutation: {
+    arbAddComposedSet: (_root: unknown, { data }: { data: ComposedSetInput }) =>
+      addComposedSet(data),
   },
 
   ArbAssemblyItem: {

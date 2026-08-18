@@ -117,6 +117,14 @@
     justify-content: center;
   }
 
+  &__error {
+    margin: var(--fs-spacing-2) 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--fs-color-danger-text);
+    text-align: center;
+  }
+
   &__cta {
     box-sizing: border-box;
     min-width: 12.5rem;

@@ -7,7 +7,9 @@ import {
   // @ts-ignore next-line
 } from '@faststore/core/experimental'
 import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
+import { useSession } from 'src/sdk/session'
 
+import { regionCodeFor } from '../../utils/locale'
 import styles from './ProductCard.module.scss'
 import type { ProductCardProps } from './ProductCard.types'
 
@@ -21,9 +23,10 @@ const OUT_OF_STOCK = 'https://schema.org/OutOfStock'
 export default function ProductCard({
   product,
   index = 0,
-  refIdSuffix = 'US',
   ...rest
 }: ProductCardProps) {
+  const { locale } = useSession()
+  const regionCode = regionCodeFor(locale)
   const [quantity, setQuantity] = useState(1)
 
   const dataProps = Object.fromEntries(
@@ -102,7 +105,7 @@ export default function ProductCard({
 
       {gtin && (
         <p className={styles.productCard__refId}>
-          # {gtin} {refIdSuffix}
+          # {gtin} {regionCode}
         </p>
       )}
 

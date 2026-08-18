@@ -1,0 +1,114 @@
+@use 'sass:meta';
+
+.setAddedModal {
+  @include meta.load-css(
+    '~@faststore/ui/src/components/atoms/Icon/styles.scss'
+  );
+
+  --fs-modal-max-width: 30rem;
+
+  color: var(--arb-color-text);
+
+  &__set {
+    display: flex;
+    gap: var(--fs-spacing-2);
+    align-items: center;
+    margin: 0 0 var(--fs-spacing-4);
+    font-family: var(--arb-font-heading);
+    font-size: 1.125rem;
+    font-weight: var(--fs-text-weight-bold);
+  }
+
+  &__tick {
+    flex: 0 0 auto;
+    color: var(--arb-color-green);
+  }
+
+  &__lines {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      gap: var(--fs-spacing-3);
+      justify-content: space-between;
+      padding: var(--fs-spacing-2) 0;
+      font-family: var(--arb-font-body);
+      font-size: 0.9375rem;
+      border-bottom: 1px solid var(--arb-color-gray-line);
+    }
+  }
+
+  &__quantity {
+    flex: 0 0 auto;
+    color: var(--arb-color-gray-muted);
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    margin: var(--fs-spacing-4) 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+
+    strong {
+      font-family: var(--arb-font-display);
+      font-size: 1.375rem;
+    }
+  }
+
+  /* Checkout returns warnings such as `itemMaxQuantityLimitReached` with a 200,
+     so this is a normal outcome rather than an error state. */
+  &__notice {
+    margin: var(--fs-spacing-3) 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--arb-color-green-dark);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fs-spacing-3);
+    margin-top: var(--fs-spacing-5);
+
+    > * {
+      flex: 1 1 10rem;
+    }
+  }
+
+  &__primary,
+  &__secondary {
+    box-sizing: border-box;
+    height: 3.125rem;
+    padding: 0 var(--fs-spacing-4);
+    font-family: var(--arb-font-display);
+    font-size: 1.0625rem;
+    letter-spacing: 1.06px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  &__primary {
+    color: var(--arb-color-white);
+    background-color: var(--arb-color-green);
+    border: none;
+
+    &:hover {
+      background-color: var(--arb-color-green-dark);
+    }
+  }
+
+  &__secondary {
+    color: var(--arb-color-green-bright);
+    background-color: var(--arb-color-white);
+    border: 2px solid var(--arb-color-green);
+
+    &:hover {
+      color: var(--arb-color-white);
+      background-color: var(--arb-color-green);
+    }
+  }
+}

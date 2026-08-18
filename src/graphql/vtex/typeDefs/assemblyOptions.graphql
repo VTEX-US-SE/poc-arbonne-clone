@@ -40,3 +40,47 @@ type ArbAssemblyItem {
   priceTable: String
   product: StoreProduct
 }
+
+extend type Mutation {
+  """
+  Composes a customisable set into the cart: adds the parent SKU and binds the
+  chosen children to it through Checkout's assembly endpoint. Server-side so the
+  whole set lands atomically -- a half-finished sequence from the browser leaves
+  orphan parent lines in the shopper's cart.
+  """
+  arbAddComposedSet(data: ArbComposedSetInput!): ArbComposedSetResult!
+}
+
+input ArbComposedSetInput {
+  """
+  Existing cart to compose into. A new orderForm is created when omitted.
+  """
+  orderFormId: String
+  """
+  Parent SKU carrying the assembly attachment.
+  """
+  parentSku: String!
+  """
+  How many copies of the set. Each becomes its own parent line.
+  """
+  sets: Int!
+  items: [ArbComposedSetItemInput!]!
+}
+
+input ArbComposedSetItemInput {
+  skuId: String!
+  quantity: Int!
+  seller: String!
+}
+
+type ArbComposedSetResult {
+  orderFormId: String!
+  """
+  Cart total in cents, as Checkout reports it.
+  """
+  value: Int!
+  """
+  Checkout warnings, e.g. a quantity limit that was clamped.
+  """
+  messages: [String!]!
+}

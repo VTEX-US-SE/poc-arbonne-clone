@@ -4,6 +4,22 @@ Findings from a full read of `src/` (24 components, ~6.9k lines), ordered by
 leverage. Each item names the file and line it lives at, why it matters, and
 the smallest change that resolves it.
 
+> **Status — verified against the tree, not from memory.**
+>
+> Most of this has since shipped: §1.1 (PDP quantity desync), §1.3 and §1.4
+> (locale rows and switch feedback), §2.1 (`next/link`), §2.2 (`:focus-visible`),
+> §2.3 (`aria-current`), §2.4 (PLP hover reveal), §2.8 (skip link), §3.3
+> (showcase loading), and §3.5's dead CTA, unbounded `sets` and out-of-stock
+> seeding.
+>
+> Still open: §3.1 (`slugHref` returning `'#'`), §3.2 (search has no no-results
+> state and no debounce), §3.6 (mobile caret never rotates), and the self-hosted
+> fonts 404ing in local dev — see the static-assets note in
+> [`AGENTS.md`](../AGENTS.md), which explains why flattening alone won't fix it.
+>
+> §1.2 (duplicate `quantity-selector-input` ids) is upstream in
+> `@faststore/components` and unresolved.
+
 **Out of scope here** — the mega-menu open interaction is a separate
 workstream and is deliberately excluded. See [Deferred](#deferred) at the
 bottom for exactly what that covers, so the two efforts don't collide.
@@ -244,7 +260,7 @@ The best-built component in the repo. Gaps, roughly in priority order:
   indistinguishable from "still loading". Add an explicit empty state.
 - **No loading state.** `useSuggestions` exposes only `data`; while a request
   is in flight the previous term's results stay on screen.
-- **No debounce.** `useDeferredValue` defers *rendering*, not the request, so
+- **No debounce.** `useDeferredValue` defers _rendering_, not the request, so
   `useSuggestions(deferredTerm)` fires near-per-keystroke. Add ~250ms.
 - **ArrowDown does nothing.** The docstring (lines 24-25) explains suggestions
   are `<button>`s "so they are reachable by Tab without a custom roving-focus
@@ -362,7 +378,7 @@ clamping, gated CTA are all deliberate. Remaining gaps:
   2.3). `MobileTabItem` also has `padding: 0`
   (`MobileTabItem.module.scss:10`), so the tap target is exactly the content.
 - **`useIsMobile` returns `false` on first render** (documented,
-  `hooks/useIsMobile.ts:13`), so `SearchBox` server-renders the *desktop*
+  `hooks/useIsMobile.ts:13`), so `SearchBox` server-renders the _desktop_
   markup and swaps after hydration — a visible flash on slow phones. The branch
   in `SearchBox.tsx:139-174` is purely presentational; rendering both and
   hiding one in CSS removes the hook, the flash, and a state update.

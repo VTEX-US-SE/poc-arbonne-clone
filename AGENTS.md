@@ -60,6 +60,59 @@ outside the native schema, use API extensions:
 - From resolvers, call your own store domain, not `vtexcommercestable` directly.
 - Type generation runs on `yarn dev` and `yarn build`; schema changes only take
   effect after one of those.
+- **Custom mutations work**: `extend type Mutation { ... }` in
+  `src/graphql/vtex/typeDefs/*.graphql`, resolved from a `Mutation` key in
+  `src/graphql/vtex/resolvers/index.ts`. See `arbAddComposedSet`.
+- **Two generators, and the order matters.** `faststore generate-types` merges
+  our typeDefs into `.faststore/@generated/schema.graphql`; only then can
+  `graphql-codegen` validate documents against it. Running codegen first fails
+  with `Unknown type "<YourInput>"`. `yarn dev` does both — invoking either by
+  hand while it runs makes the watcher restart the server (~30s of connection
+  refused, not a crash).
+- `request` from `src/sdk/graphql/request` is
+  `request<Query, Variables>(operation, variables)` and returns `data`, which
+  may be `undefined`. Core's own `sdk/cart/index.ts` passes those generics the
+  other way round; it is wrong, don't copy it.
+
+### Overriding the PDP/PLP queries
+
+Fragments in **`src/fragments/`** override core's stubs of the same name and
+add fields to the built-in page queries.
+
+- `usePDP` merges **`ServerProduct`** (SSR / `getStaticProps`) with
+  **`ClientProduct`** (client SWR). Override _both_ or the page renders without
+  your field until the client query resolves — a visible flash of the wrong
+  layout, and wrong output for anything server-rendered.
+- Ask only for what you need: fields whose resolvers hydrate other entities are
+  charged on every product page.
+
+## Static assets
+
+`public/` is copied into the build by a filter that keeps only paths ending in
+`json`, `txt`, `xml`, `ico`, `svg` — plus the literal `public`. `fs-extra`
+applies that filter to **directories too** and does not recurse when it returns
+false, so:
+
+- **Subdirectories of `public/` are dropped entirely.** `public/flags/us.svg`
+  never reaches the build even though `svg` is allowed. Keep assets flat:
+  `public/flag-us.svg`.
+- **`woff2` is not in the allowlist at all**, so self-hosted fonts under
+  `public/fonts/` are unreachable in local dev and `@font-face` `url('/fonts/…')`
+  404s. They are served in production by WebOps' edge, which is why this is easy
+  to miss.
+
+## Local dev vs deployed
+
+WebOps' edge proxies paths that have no route in `yarn dev`:
+
+| Path                                                | local             | deployed |
+| --------------------------------------------------- | ----------------- | -------- |
+| `/api/graphql`                                      | works             | works    |
+| `/api/checkout/*`, `/api/sessions`, `/api/segments` | 404 (405 on POST) | 200      |
+
+Unmatched `/api/*` falls through to the catch-all page, so the symptom is a CMS
+`Content not found` for a slug like `api/checkout/pub/orderForm`, not a clean 404. Prefer doing platform calls in a resolver behind `/api/graphql` rather than
+fetching those paths from the browser.
 
 ## CMS content types
 

@@ -21,8 +21,13 @@ yarn build    # production build
 ## Layout
 
 ```
-src/components/<Name>/    components, flat — <Name>.tsx, .module.scss, .types.ts
+src/components/<Name>/    components — <Name>.tsx, .module.scss, .types.ts
 src/components/index.tsx  section registry the CMS renders from
+src/fragments/            overrides of core's page-query fragments
+src/graphql/queries/      client GraphQL documents, one per operation
+src/graphql/vtex/         server-side schema extensions and resolvers
+src/hooks/                stateful helpers, anything doing I/O
+src/utils/                pure helpers
 src/themes/               global tokens and theme overrides
 cms/faststore/components/ CMS schema, one .jsonc per section
 cms/faststore/pages/      CMS page content types

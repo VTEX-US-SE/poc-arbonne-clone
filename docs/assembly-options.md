@@ -1,7 +1,8 @@
 # Assembly options — customisable sets
 
-How "Build Your Best ..." works on this store, what is proven, and the one
-thing still blocked.
+How "Build Your Best ..." works on this store, end to end: catalog attachment,
+storefront builder, and the Checkout call that binds a composed set to its
+parent.
 
 ## The model
 
@@ -23,10 +24,10 @@ ordinary VTEX promotions.
 Two different shapes come back for the same attachment, and which one you get
 depends on the endpoint:
 
-| Source | Shape |
-| --- | --- |
+| Source             | Shape                                                       |
+| ------------------ | ----------------------------------------------------------- |
 | Intelligent Search | `attachments[].fields[].domain_values` (nested, snake_case) |
-| Legacy catalog | `attachments[].domainValues` — a JSON **string** |
+| Legacy catalog     | `attachments[].domainValues` — a JSON **string**            |
 
 `@faststore/api`'s TypeScript type declares only the legacy shape while its
 client calls Intelligent Search, so following the type gives `undefined`.
@@ -34,14 +35,14 @@ client calls Intelligent Search, so following the type gives `undefined`.
 
 ## What we built
 
-| File | Purpose |
-| --- | --- |
-| `src/graphql/vtex/typeDefs/assemblyOptions.graphql` | `extend type StoreProduct { assemblyOptions }` |
-| `src/graphql/vtex/resolvers/parseComposition.ts` | composition parser, both shapes |
-| `src/graphql/vtex/resolvers/index.ts` | resolver; hydrates children via `skuLoader` |
-| `src/components/AssemblySet/` | the picker section |
-| `cms/faststore/components/cms_component__assemblyset.jsonc` | CMS schema |
-| `scripts/check-composition.mjs` | parser self-check — `node scripts/check-composition.mjs` |
+| File                                                        | Purpose                                                  |
+| ----------------------------------------------------------- | -------------------------------------------------------- |
+| `src/graphql/vtex/typeDefs/assemblyOptions.graphql`         | `extend type StoreProduct { assemblyOptions }`           |
+| `src/graphql/vtex/resolvers/parseComposition.ts`            | composition parser, both shapes                          |
+| `src/graphql/vtex/resolvers/index.ts`                       | resolver; hydrates children via `skuLoader`              |
+| `src/components/AssemblySet/`                               | the picker section                                       |
+| `cms/faststore/components/cms_component__assemblyset.jsonc` | CMS schema                                               |
+| `scripts/check-composition.mjs`                             | parser self-check — `node scripts/check-composition.mjs` |
 
 **One page serves every set.** A single `landingPage` at `/assembly-option`
 carries the section, and the parent's **product id** arrives in the query
@@ -61,10 +62,10 @@ section renders nothing.
 The **Hint Text** CMS field supports three tokens, expanded per group from the
 catalog composition so the copy never contradicts the rules:
 
-| Token | Value |
-| --- | --- |
-| `{max}` | most items the group allows |
-| `{min}` | fewest the group requires |
+| Token        | Value                         |
+| ------------ | ----------------------------- |
+| `{max}`      | most items the group allows   |
+| `{min}`      | fewest the group requires     |
 | `{selected}` | how many are currently chosen |
 
 `Choose {max} products to unlock 10% off your set.` stays correct when the
@@ -85,7 +86,7 @@ options), though it would need the slug to come from page context instead.
 1. **Create the option** — Products → Assembly options. Name, group name, group
    min/max, member SKUs with their own min/max/initial. Leave the price table
    empty to use the sales-channel price.
-2. **Associate it with the parent SKU** — the app does *not* do this. Catalog →
+2. **Associate it with the parent SKU** — the app does _not_ do this. Catalog →
    Products and SKUs → SKU → **Customizations → Attachments**. Skipping this is
    silent: everything looks configured and nothing renders.
 3. **Save the SKU** — the association alone does not trigger a reindex.
@@ -105,39 +106,89 @@ curl -s "https://arbonnepoc.vtexcommercestable.com.br/api/intelligent-search/v1/
 - Attachment `Id 3`, `vtex.assembly-option.Build Your Best Skin`,
   `[1-4]#1[0-4][0];#4373[0-4][0];` — associated to SKU `1657`
   (`skuattachment Id 21`).
-- Attachment `Id 4`, `spike-manual-composition` — a hand-built attachment in
-  VTEX's documented syntax, kept as a reproduction case for the ticket below.
-  Safe to delete once resolved.
+- Attachment `Id 4`, `spike-manual-composition` — a hand-built attachment kept
+  as a reproduction case while composition was thought to be unsupported. That
+  is resolved, so this one can be deleted.
+- Parent SKU `1657` is priced at `0.01`; see [Parent price](#parent-price).
+- The attachment is named "Build Your Best **Skin**" and its group "Skincare
+  items", while SKU `1657` is the **Nutrition** set. Either it is shared across
+  sets or `1657` is wired to the wrong one — worth checking in Admin, since the
+  storefront reads the group name into the builder's headline.
 
-## Blocked: Checkout does not register the assembly
+## Adding a set to the cart
 
-Everything reaches the catalog, the legacy catalog API, and Intelligent Search.
-Checkout alone refuses it:
+Resolved. The section that stood here recorded this as blocked on VTEX; two of
+its findings were wrong.
+
+**The `assemblyId` is `{attachmentName}_{groupName}`,** not the attachment name.
+Read it off the orderForm rather than composing it — the shape is VTEX's:
 
 ```
-GET  /api/checkout/pub/orderForm/{id}
-     → itemMetadata.items[0].assemblyOptions: []
+itemMetadata.items[].assemblyOptions[]
+  id:   vtex.assembly-option.Build Your Best Skin_Skincare items   ← what Checkout wants
+  name: vtex.assembly-option.Build Your Best Skin
+```
 
+Trying variations of `name` is what produced the earlier `CHK0172`. The old note
+that `itemMetadata.items[0].assemblyOptions` came back empty no longer holds
+either — it returns the full composition, so something also changed server-side
+(a reindex, or the no-op SKU Save this page already recommends).
+
+The flow, per copy of a set:
+
+```
 POST /api/checkout/pub/orderForm/{id}/items
-     with `options: [...]` → silently ignored, no children, no message
+     {"orderItems": [{"id": parentSku, "quantity": 1, "seller": "1"}]}
 
 POST /api/checkout/pub/orderForm/{id}/items/{index}/assemblyOptions/{assemblyId}
-     {"composition": {"items": [{"id","quantity","seller"}]}, "inputValues": {}}
-     → 400 CHK0172 "Assembly '<id>' was not found for this item"
+     {"composition": {"items": [{id, quantity, seller}]}, "inputValues": {}}
 ```
 
-That last endpoint is the correct one — the payload passes validation and fails
-at lookup. The `options` array on the items POST is not supported here.
+Children come back carrying `parentItemIndex`, so Checkout charges the parent's
+own price on top and set-level promotions can key on the binding.
 
-**Ruled out:** `assemblyId` spelling (5 forms), metadata cache (21 min of
-polling plus an instant empty on a second SKU), parent price of 0, composition
-trailing `;` (reproduced with attachment 4 in the documented syntax), and
-`vtex.product-customizer` (a frontend-only app — no `node` or `graphql`
-builder, so it cannot affect checkout).
+### One parent line per copy
 
-**Open question for VTEX:** what registers an attachment as an assembly option
-with Checkout? Their docs distinguish seller vs marketplace account behaviour
-for assembly options at checkout, which is the remaining suspect.
+Not one parent with scaled children. Both alternatives were tested and fail:
 
-Until that is answered, the Add to Cart button is inert. Wiring it is one
-function against the endpoint above.
+| Attempt                   | Result                                                |
+| ------------------------- | ----------------------------------------------------- |
+| parent qty 3, child qty 2 | `400 CHK0023 Invalid quantity for item`               |
+| parent qty 3, child qty 6 | `200` but `itemMaxQuantityLimitReached`, clamped to 4 |
+
+Composition quantities must be a multiple of the parent quantity, and per-item
+and per-group maxima are **absolute per line, not per set**. Adding the parent
+again produces a second, independent line once the first is composed — which is
+what makes N copies expressible at all. The calls are sequential because copy
+N's parent index depends on the lines copy N-1 added, so `MAX_QTY` (10) caps
+what one click can trigger.
+
+### Where it lives
+
+Server-side, behind the `arbAddComposedSet` mutation
+(`src/graphql/vtex/resolvers/composedSet.ts`), not in the browser. Two reasons:
+a dropped connection mid-sequence would otherwise strand orphan parent lines in
+the shopper's cart, and `/api/checkout/*` has no route in local dev while
+`/api/graphql` does. The client calls it through `hooks/useAddComposedSet`.
+
+Checkout validates the composition against the catalog, so the public endpoints
+are not a hole: injecting a SKU absent from the composition returns
+`400 CHK0172 Invalid item assembly`, quantities are clamped to the declared
+maxima, and prices never come from the payload.
+
+### Parent price
+
+The parent carries a real (small) price and Checkout charges it on top of the
+children, so it belongs in any total the storefront displays — the builder's
+"Your Price" adds it. A price of exactly `0` makes the SKU unavailable and, with
+`hideUnavailableItems: true`, drops it from search and PLP; the account uses
+`0.01` instead.
+
+### Still open
+
+FastStore's cart model has no concept of an assembly binding — its `CartItem`
+fragment carries no `parentItemIndex` or `parentAssemblyBinding`, and
+`validateCart` round-trips the whole cart from the client store. So the cart
+sidebar cannot represent a set, and composing must not be followed by a
+FastStore cart validation that would flatten the binding. `SetAddedModal`
+confirms the set instead, then hands over to Checkout.

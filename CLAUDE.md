@@ -39,6 +39,28 @@ Migrated off the legacy VBase CMS.
 - Content **entries** live in the CP data plane, not this repo. Migrating
   schema does not migrate content.
 
+## Localization
+
+`discovery.config.js` carries only `localization: { enabled: true }`. The
+**locales, regions and currencies are injected by the CLI** from the account's
+real VTEX bindings into `.faststore/discovery.config.default.js`, and
+`.faststore/discovery.config.js` is a `deepmerge(default, ours)` shim — so
+grepping that file for `localization` finds nothing while
+`require()`-ing it returns the full block. Read it, don't grep it.
+
+Three bindings exist: `en-US` (USD), `fr-CA` (CAD), `es-US` (USD), on sales
+channels 1/2/3.
+
+- `useBindingSelector`'s `languages` gives `{ code: label }` and **throws the
+  region away**. Its labels only disambiguate when two locales share a language
+  name, so distinct names render with no country at all — and `en-US`/`es-US`
+  differ _only_ by language while sharing a region. `utils/locale.ts` builds
+  `Français (CA)` from the config instead, and `regionCodeFor` feeds both the
+  flag and the PDP reference code.
+- **Picking a locale navigates to the binding's own URL**, which points at the
+  deployed host. Switching language from `localhost:3000` therefore lands on
+  production — expect local changes to "disappear" at that point.
+
 ## Component registry — do not nest under `customizations`
 
 The CLI copies the **entire** project `src/` tree verbatim into
@@ -59,7 +81,7 @@ The CLI copies the **entire** project `src/` tree verbatim into
 - **Every component gets its own folder, including sub-components**, holding
   its `.tsx`, its `.module.scss` and its `.types.ts`:
   `AssemblySet/ItemCard/ItemCard.tsx`. Only the registry section itself sits at
-  `src/components/<Name>/<Name>.tsx` — nesting *that* one breaks the CLI copy.
+  `src/components/<Name>/<Name>.tsx` — nesting _that_ one breaks the CLI copy.
 - A sub-component owns its own stylesheet under its own BEM root
   (`.itemCard { &__body {} }`), not a slice of the parent's. If two
   sub-components need the same block, that block is its own component —
@@ -74,7 +96,7 @@ The CLI copies the **entire** project `src/` tree verbatim into
   operation (`queries/assemblySet.ts`), never inside the component. Codegen's
   glob is `./src/**/*.{ts,tsx}` relative to `.faststore/`, so it picks them up
   wherever they sit in `src/`.
-  `src/graphql/vtex/` is the *server* side — resolvers and typeDefs for the API
+  `src/graphql/vtex/` is the _server_ side — resolvers and typeDefs for the API
   — and is unrelated.
 - **Pure helpers live in `src/utils/`**, named for their domain
   (`utils/assemblySet.ts`), alongside `href.ts` and `highlight.tsx`. Domain
@@ -163,11 +185,29 @@ directly and re-load its CSS per component.
   short labels. `Button` compensates automatically with a negative-margin span
   using each scheme's own `letterSpacing`; consumers pass nothing.
 
+## Assembly sets
+
+Composed sets are added through Checkout's assembly endpoint from the
+`arbAddComposedSet` mutation, never as loose cart items. The mechanics, the
+`{attachmentName}_{groupName}` assemblyId, and the per-line quantity rules are
+in [`docs/assembly-options.md`](./docs/assembly-options.md) — read it before
+touching `resolvers/composedSet.ts`.
+
+- Detecting a set on the PDP needs `assemblyOptions` in **both** the
+  `ServerProduct` and `ClientProduct` fragments.
+- The parent SKU is priced `0.01` and Checkout charges it on top of the
+  children, so it belongs in the builder's displayed total. `0` would make the
+  SKU unavailable and, with `hideUnavailableItems: true`, hide the set entirely.
+- FastStore's cart cannot represent the binding, so the cart sidebar is not a
+  valid confirmation for a set — `SetAddedModal` is.
+
 ## Build cache
 
 `.faststore/` is generated from `src/` and `discovery.config.js`. Its watcher
 has missed changes a few times — moved/renamed files, and the registry after a
-location fix.
+location fix. On a **move** it copies the new location but leaves the old copy
+behind, so the same component ends up compiled twice with duplicate CSS modules;
+delete the stale directory inside `.faststore/` rather than the whole tree.
 
 **Never delete it while `yarn dev` is running.** The watcher expects the
 directory to persist; removing it mid-session causes `ENOENT:

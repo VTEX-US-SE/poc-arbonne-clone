@@ -25,7 +25,12 @@ interface OrderForm {
 /** Highest number of copies a single call will compose -- each costs two requests. */
 const MAX_SETS = 10
 
-const base = `https://${storeConfig.api.storeId}.${storeConfig.api.environment}.com.br`
+/**
+ * Our own store domain, not `vtexcommercestable` -- AGENTS.md forbids resolvers
+ * calling the platform host directly, and the store domain keeps the request in
+ * the store's own edge context.
+ */
+const base = storeConfig.storeUrl
 
 async function post(path: string, body: unknown): Promise<OrderForm> {
   const response = await fetch(`${base}/api/checkout/pub/orderForm${path}`, {

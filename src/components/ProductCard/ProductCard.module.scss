@@ -81,6 +81,31 @@
       letter-spacing: 0.0125rem;
     }
 
+    /* Stands where the price sits on a normal card, so the two line up in a
+       mixed grid. */
+    &__setPrompt {
+      margin: 0;
+      padding: 0 var(--fs-spacing-4);
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      line-height: 1.5;
+      letter-spacing: 0.0125rem;
+    }
+
+    &__setActions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fs-spacing-3);
+      margin-top: auto;
+      padding: var(--fs-spacing-4) var(--fs-spacing-4) var(--fs-spacing-5);
+
+      /* Each scheme sizes to its own label, so the two buttons would otherwise
+         be different widths stacked on each other. */
+      [data-fs-button] {
+        width: 100%;
+      }
+    }
+
     &__cart {
       box-sizing: border-box;
       margin-top: auto;

@@ -35,14 +35,15 @@ client calls Intelligent Search, so following the type gives `undefined`.
 
 ## What we built
 
-| File                                                        | Purpose                                                  |
-| ----------------------------------------------------------- | -------------------------------------------------------- |
-| `src/graphql/vtex/typeDefs/assemblyOptions.graphql`         | `extend type StoreProduct { assemblyOptions }`           |
-| `src/graphql/vtex/resolvers/parseComposition.ts`            | composition parser, both shapes                          |
-| `src/graphql/vtex/resolvers/index.ts`                       | resolver; hydrates children via `skuLoader`              |
-| `src/components/AssemblySet/`                               | the picker section                                       |
-| `cms/faststore/components/cms_component__assemblyset.jsonc` | CMS schema                                               |
-| `scripts/check-composition.mjs`                             | parser self-check — `node scripts/check-composition.mjs` |
+| File                                                        | Purpose                                                            |
+| ----------------------------------------------------------- | ------------------------------------------------------------------ |
+| `src/graphql/vtex/typeDefs/assemblyOptions.graphql`         | `extend type StoreProduct { assemblyOptions }`                     |
+| `src/graphql/vtex/resolvers/parseComposition.ts`            | composition parser, both shapes                                    |
+| `src/graphql/vtex/resolvers/index.ts`                       | resolver; hydrates children via `skuLoader`                        |
+| `src/components/AssemblySet/`                               | the picker section                                                 |
+| `cms/faststore/components/cms_component__assemblyset.jsonc` | CMS schema                                                         |
+| `scripts/check-composition.mjs`                             | parser self-check — `node scripts/check-composition.mjs`           |
+| `scripts/check-assembly-set.mjs`                            | selection rules self-check — `node scripts/check-assembly-set.mjs` |
 
 **One page serves every set.** A single `landingPage` at `/assembly-option`
 carries the section, and the parent's **product id** arrives in the query
@@ -183,6 +184,25 @@ children, so it belongs in any total the storefront displays — the builder's
 "Your Price" adds it. A price of exactly `0` makes the SKU unavailable and, with
 `hideUnavailableItems: true`, drops it from search and PLP; the account uses
 `0.01` instead.
+
+### Out of stock children
+
+Stock is enforced in one place: `initialQuantities`, which seeds an unavailable
+child at 0 rather than at its declared `initialQuantity`.
+
+It has to be there because four things read the same `quantities` map — the
+min/max gate, the progress bar, the displayed price and the composition sent to
+Checkout. Filtering only in the last of those (as `setSelection` does) left the
+first three counting an item that would never be bought: the CTA enabled on an
+under-filled set, and the price shown was higher than the price charged. An
+out-of-stock card also hides its stepper, so the shopper could not have cleared
+the seed themselves.
+
+`scripts/check-assembly-set.mjs` guards the invariant.
+
+What is **not** handled: if enough children go out of stock that the in-stock
+pool falls below the group minimum, the gate can never be satisfied and the CTA
+stays disabled with no explanation. Today the minimum is 1, so it cannot arise.
 
 ### Still open
 

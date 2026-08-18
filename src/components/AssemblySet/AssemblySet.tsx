@@ -14,6 +14,7 @@ import { query } from '../../graphql/queries/assemblySet'
 import {
   bestOffer,
   groupTotal,
+  initialQuantities,
   isGroupSatisfied,
   parseQtyParam,
   setSelection,
@@ -108,13 +109,7 @@ export default function AssemblySet({
   )
 
   useEffect(() => {
-    setQuantities(
-      Object.fromEntries(
-        groups.flatMap((group) =>
-          group.items.map((item) => [item.skuId, item.initialQuantity])
-        )
-      )
-    )
+    setQuantities(initialQuantities(groups))
   }, [groups])
 
   const selectedTotal = useMemo(

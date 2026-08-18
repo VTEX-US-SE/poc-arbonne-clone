@@ -62,6 +62,26 @@ export const bestOffer = (item: AssemblyItem) =>
 export const isInStock = (item: AssemblyItem) =>
   bestOffer(item)?.availability === IN_STOCK
 
+/**
+ * Opening quantities for a set: each item's declared `initialQuantity`, except
+ * out-of-stock ones, which start at 0.
+ *
+ * This is the single place stock is enforced on selection. An out-of-stock item
+ * hides its stepper, so a shopper could never clear a nonzero seed -- yet it
+ * would still count toward the group gate, the progress bar and the displayed
+ * price, while `setSelection` dropped it from the composition sent to Checkout.
+ * Zeroing here keeps all four in agreement by construction.
+ */
+export const initialQuantities = (groups: AssemblyGroup[]) =>
+  Object.fromEntries(
+    groups.flatMap((group) =>
+      group.items.map((item): [string, number] => [
+        item.skuId,
+        isInStock(item) ? item.initialQuantity : 0,
+      ])
+    )
+  )
+
 /** Total picked across one group -- this is what the min/max gate measures. */
 export const groupTotal = (
   group: AssemblyGroup,

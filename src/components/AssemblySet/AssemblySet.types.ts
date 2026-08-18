@@ -48,3 +48,10 @@ export interface AssemblySetSkeletonProps {
 
 /** Applies a new quantity to one SKU, clamped by its group's own gate. */
 export type QuantityChangeHandler = (skuId: string, next: number) => void
+
+/** One chosen child SKU, in the shape Checkout's composition endpoint wants. */
+export interface SetSelection {
+  skuId: string
+  quantity: number
+  seller: string
+}

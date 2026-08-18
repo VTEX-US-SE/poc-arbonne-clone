@@ -21,8 +21,8 @@ import {
   SET_PARAM,
   QTY_PARAM,
 } from '../../utils/assemblySet'
-import { addComposedSet } from '../../utils/assemblyCheckout'
 import { slugHref } from '../../utils/href'
+import useAddComposedSet from '../../hooks/useAddComposedSet'
 import Link from '../Link/Link'
 
 import styles from './AssemblySet.module.scss'
@@ -56,13 +56,13 @@ export default function AssemblySet({
   const router = useRouter()
   const [quantities, setQuantities] = useState<Record<string, number>>({})
   const [sets, setSets] = useState(1)
-  const [adding, setAdding] = useState(false)
-  const [added, setAdded] = useState<{
-    total: number
-    notice?: string
-    orderFormId: string
-  } | null>(null)
-  const [addError, setAddError] = useState<string | null>(null)
+  const {
+    addSet,
+    adding,
+    added,
+    error: addError,
+    dismiss,
+  } = useAddComposedSet()
 
   const fromQuery = router.query[SET_PARAM]
   const setId = typeof fromQuery === 'string' ? fromQuery : ''
@@ -150,41 +150,6 @@ export default function AssemblySet({
     () => setSelection(groups, quantities),
     [groups, quantities]
   )
-
-  /**
-   * Composes the set on the orderForm rather than adding the children as loose
-   * cart items: only Checkout can bind them to the parent, and only then is the
-   * parent's own price charged and set-level promotions able to fire.
-   */
-  const onAddToCart = async () => {
-    if (!product?.sku || selection.length === 0) {
-      return
-    }
-
-    setAdding(true)
-    setAddError(null)
-
-    try {
-      const orderForm = await addComposedSet({
-        parentSku: product.sku,
-        selection,
-        sets,
-        orderFormId: orderFormId || undefined,
-      })
-
-      setAdded({
-        total: orderForm.value / 100,
-        notice: orderForm.messages?.[0],
-        orderFormId: orderForm.orderFormId,
-      })
-    } catch (error) {
-      setAddError(
-        error instanceof Error ? error.message : 'Could not add this set.'
-      )
-    } finally {
-      setAdding(false)
-    }
-  }
 
   if (!router.isReady || (setId && isLoading)) {
     return <AssemblySetSkeleton />
@@ -310,7 +275,14 @@ export default function AssemblySet({
               type="button"
               className={styles.assemblySet__cta}
               disabled={!canAddToCart || adding}
-              onClick={onAddToCart}
+              onClick={() =>
+                addSet({
+                  parentSku: product?.sku,
+                  selection,
+                  sets,
+                  orderFormId: orderFormId || undefined,
+                })
+              }
             >
               {adding ? 'ADDING…' : ctaLabel}
             </button>
@@ -337,7 +309,7 @@ export default function AssemblySet({
         }))}
         formattedTotal={added ? formatAmount(added.total) : undefined}
         notice={added?.notice}
-        onKeepCustomizing={() => setAdded(null)}
+        onKeepCustomizing={dismiss}
         onCheckout={() => redirectToCheckout(added?.orderFormId)}
       />
     </section>

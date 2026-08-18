@@ -1,6 +1,7 @@
 import type {
   AssemblyGroup,
   AssemblyItem,
+  SetSelection,
 } from '../components/AssemblySet/AssemblySet.types'
 
 const IN_STOCK = 'https://schema.org/InStock'
@@ -85,7 +86,7 @@ export const isGroupSatisfied = (
 export const setSelection = (
   groups: AssemblyGroup[],
   quantities: Record<string, number>
-) =>
+): SetSelection[] =>
   groups
     .flatMap((group) => group.items)
     .flatMap((item) => {

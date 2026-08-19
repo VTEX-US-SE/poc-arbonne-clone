@@ -1,4 +1,4 @@
-import storeConfig from 'discovery.config'
+import { messagesFrom, postOrderForm, type OrderForm } from './orderForm'
 
 export interface ComposedSetInput {
   orderFormId?: string | null
@@ -7,48 +7,8 @@ export interface ComposedSetInput {
   items: Array<{ skuId: string; quantity: number; seller: string }>
 }
 
-interface OrderFormItem {
-  id: string
-  parentItemIndex: number | null
-}
-
-interface OrderForm {
-  orderFormId: string
-  value: number
-  items: OrderFormItem[]
-  itemMetadata?: {
-    items?: Array<{ id: string; assemblyOptions?: Array<{ id: string }> }>
-  }
-  messages?: Array<{ text?: string }>
-}
-
 /** Highest number of copies a single call will compose -- each costs two requests. */
 const MAX_SETS = 10
-
-/**
- * Our own store domain, not `vtexcommercestable` -- AGENTS.md forbids resolvers
- * calling the platform host directly, and the store domain keeps the request in
- * the store's own edge context.
- */
-const base = storeConfig.storeUrl
-
-async function post(path: string, body: unknown): Promise<OrderForm> {
-  const response = await fetch(`${base}/api/checkout/pub/orderForm${path}`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', accept: 'application/json' },
-    body: JSON.stringify(body),
-  })
-
-  if (!response.ok) {
-    const detail = await response.json().catch(() => null)
-
-    throw new Error(
-      detail?.error?.message ?? `Checkout returned ${response.status}`
-    )
-  }
-
-  return response.json()
-}
 
 /**
  * The `assemblyId` Checkout expects, read off the orderForm rather than built
@@ -105,12 +65,15 @@ export async function addComposedSet({
   const copies = Math.min(Math.max(sets, 1), MAX_SETS)
   let orderForm = orderFormId
     ? ({ orderFormId } as OrderForm)
-    : await post('', {})
+    : await postOrderForm('', {})
 
   for (let copy = 0; copy < copies; copy++) {
-    const withParent = await post(`/${orderForm.orderFormId}/items?sc=1`, {
-      orderItems: [{ id: parentSku, quantity: 1, seller: '1' }],
-    })
+    const withParent = await postOrderForm(
+      `/${orderForm.orderFormId}/items?sc=1`,
+      {
+        orderItems: [{ id: parentSku, quantity: 1, seller: '1' }],
+      }
+    )
 
     const assemblyId = assemblyIdFor(withParent, parentSku)
     const parentIndex = uncomposedParentIndex(withParent, parentSku)
@@ -119,7 +82,7 @@ export async function addComposedSet({
       throw new Error('This set is not configured as an assembly in Checkout.')
     }
 
-    orderForm = await post(
+    orderForm = await postOrderForm(
       `/${withParent.orderFormId}/items/${parentIndex}/assemblyOptions/${encodeURIComponent(assemblyId)}?sc=1`,
       {
         composition: {
@@ -137,8 +100,6 @@ export async function addComposedSet({
   return {
     orderFormId: orderForm.orderFormId,
     value: orderForm.value,
-    messages: (orderForm.messages ?? [])
-      .map((message) => message.text)
-      .filter((text): text is string => Boolean(text)),
+    messages: messagesFrom(orderForm),
   }
 }

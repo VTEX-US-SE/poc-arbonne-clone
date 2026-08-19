@@ -1,0 +1,86 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "JoinForm",
+  "$componentTitle": "[ARB] Preferred Client Registration Form",
+  "title": "[ARB] Preferred Client Registration Form",
+  "description": "Preferred Client registration form -- the account step production runs inside its own checkout, moved ahead of the cart",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "requiredNote": {
+      "title": "Required Field Note",
+      "type": "string",
+      "default": "* indicates a required field"
+    },
+    "skuId": {
+      "title": "Registration SKU",
+      "type": "string",
+      "default": "9048"
+    },
+    "customerType": {
+      "title": "Customer Type",
+      "type": "string",
+      "default": "preferredClient"
+    },
+    "requiredMessage": {
+      "title": "Required Field Message",
+      "type": "string",
+      "default": "This field is required"
+    },
+    "consultantCommsLabel": {
+      "title": "Consultant Communications Opt-in Label",
+      "type": "string"
+    },
+    "marketingEmailLabel": {
+      "title": "Marketing Email Opt-in Label",
+      "type": "string"
+    },
+    "textMarketingLabel": {
+      "title": "Text Marketing Opt-in Label",
+      "type": "string"
+    },
+    "consultantCommsTooltip": {
+      "title": "Consultant Communications Tooltip",
+      "type": "string"
+    },
+    "marketingEmailTooltip": {
+      "title": "Marketing Email Tooltip",
+      "type": "string"
+    },
+    "smsDisclaimer": {
+      "title": "SMS Legal Disclaimer",
+      "type": "string",
+      "widget": {
+        "ui:widget": "draftjs-rich-text"
+      }
+    },
+    "privacyNoticeText": {
+      "title": "Privacy Notice Text",
+      "type": "string",
+      "widget": {
+        "ui:widget": "draftjs-rich-text"
+      }
+    },
+    "termsPrintUrl": {
+      "title": "Terms & Conditions Document URL",
+      "description": "Linked as \"Print a copy\", and recorded on the order as the exact agreement the shopper accepted. Point it at a new URL whenever the terms change.",
+      "type": "string"
+    },
+    "termsText": {
+      "title": "Terms & Conditions Text",
+      "type": "string",
+      "widget": {
+        "ui:widget": "draftjs-rich-text"
+      }
+    },
+    "ctaLabel": {
+      "title": "CTA Label",
+      "type": "string",
+      "default": "PROCEED TO CHECKOUT"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

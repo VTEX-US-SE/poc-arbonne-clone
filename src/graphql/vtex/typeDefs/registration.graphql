@@ -1,0 +1,48 @@
+extend type Mutation {
+  """
+  Starts a registration: stamps the enrollment answers onto the cart as
+  customData, then adds the registration SKU. Server-side so the acceptance
+  timestamp is ours rather than the browser's, and so the one-per-account
+  quantity guard cannot be skipped from the client.
+  """
+  arbAddRegistration(data: ArbRegistrationInput!): ArbRegistrationResult!
+}
+
+input ArbRegistrationInput {
+  """
+  Existing cart to register against. A new orderForm is created when omitted.
+  """
+  orderFormId: String
+  """
+  SKU of the registration product.
+  """
+  skuId: String!
+  """
+  Account type this page enrolls into, e.g. `preferredClient`.
+  """
+  customerType: String!
+  """
+  Consultant the new account is attributed to.
+  """
+  sponsorId: String!
+  birthDate: String
+  consultantComms: Boolean!
+  marketingEmail: Boolean!
+  textMarketing: Boolean!
+  """
+  Revision of the terms the shopper actually accepted.
+  """
+  agreementVersion: String
+}
+
+type ArbRegistrationResult {
+  orderFormId: String!
+  """
+  Cart total in cents, as Checkout reports it.
+  """
+  value: Int!
+  """
+  Checkout warnings, e.g. a quantity limit that was clamped.
+  """
+  messages: [String!]!
+}

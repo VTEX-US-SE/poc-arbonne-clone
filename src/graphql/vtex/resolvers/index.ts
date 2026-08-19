@@ -1,4 +1,5 @@
 import { addComposedSet, type ComposedSetInput } from './composedSet'
+import { addRegistration, type RegistrationInput } from './registration'
 import { parseAttachment, type RawAttachment } from './parseComposition'
 
 interface AssemblyItemRoot {
@@ -39,6 +40,11 @@ const resolvers = {
   Mutation: {
     arbAddComposedSet: (_root: unknown, { data }: { data: ComposedSetInput }) =>
       addComposedSet(data),
+
+    arbAddRegistration: (
+      _root: unknown,
+      { data }: { data: RegistrationInput }
+    ) => addRegistration(data),
   },
 
   ArbAssemblyItem: {

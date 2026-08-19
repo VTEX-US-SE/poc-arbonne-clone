@@ -1,3 +1,5 @@
+import type { LoginAccountCard } from '../LoginModal/LoginModal.types'
+
 export interface HeaderLogo {
   src?: string
   alt?: string
@@ -35,15 +37,6 @@ export interface HeaderProps {
   accountCards?: LoginAccountCard[]
   countryOptions?: CountryOption[]
   mobileNavItems?: MobileNavItem[]
-}
-
-export interface LoginAccountCard {
-  title: string
-  subtitle?: string
-  description?: string
-  price?: string
-  addToCartUrl?: string
-  learnMoreUrl?: string
 }
 
 export interface CountryOption {

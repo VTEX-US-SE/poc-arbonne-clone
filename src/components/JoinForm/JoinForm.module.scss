@@ -1,0 +1,354 @@
+@use 'sass:meta';
+
+.joinForm {
+  @include meta.load-css(
+    '~@faststore/ui/src/components/atoms/Loader/styles.scss'
+  );
+
+  display: block;
+  background-color: var(--arb-color-cream-light);
+
+  &__inner {
+    box-sizing: border-box;
+    max-width: 45rem;
+    margin: 0 auto;
+    padding: var(--fs-spacing-5) var(--fs-spacing-3) 6rem;
+  }
+
+  &__requiredNote {
+    margin: 0 0 var(--fs-spacing-5);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    text-align: right;
+    color: var(--arb-color-text);
+  }
+
+  &__sectionTitle {
+    margin: 0 0 var(--fs-spacing-3);
+    font-family: var(--arb-font-body);
+    font-size: 1.25rem;
+    font-weight: var(--fs-text-weight-bold);
+    letter-spacing: 0.2px;
+    color: var(--arb-color-text);
+
+    &--lead {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__card {
+    margin-bottom: var(--fs-spacing-5);
+    padding: var(--fs-spacing-4);
+    background-color: var(--arb-color-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 var(--fs-spacing-4);
+  }
+
+  &__field {
+    margin-bottom: var(--fs-spacing-4);
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: var(--fs-spacing-1);
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    letter-spacing: 0.2px;
+    color: var(--arb-color-text);
+  }
+
+  &__input {
+    box-sizing: border-box;
+    scroll-margin-block: 6rem;
+    width: 100%;
+    padding: var(--fs-spacing-1) 0;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    color: var(--arb-color-text);
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--arb-color-text);
+    border-radius: 0;
+    outline: none;
+
+    /* `mm/dd/yyyy` is the browser's own format hint, not a placeholder we can
+       set -- uppercasing it is the only way to reach the text. */
+    &[type='date'] {
+      text-transform: uppercase;
+
+      &::-webkit-datetime-edit {
+        text-transform: uppercase;
+      }
+    }
+
+    &:focus-visible {
+      border-bottom-color: var(--arb-color-green);
+      box-shadow: 0 1px 0 0 var(--arb-color-green);
+    }
+
+    &[aria-invalid='true'] {
+      border-bottom-color: #d70202;
+    }
+  }
+
+  /* Blocks that can carry an error below them own the section spacing, so the
+     message sits tight under its card instead of a gap away. */
+  &__group {
+    margin-bottom: var(--fs-spacing-5);
+  }
+
+  &__group &__card,
+  &__group &__agreement {
+    margin-bottom: 0;
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: var(--fs-spacing-2) 0 0;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    color: #d70202;
+
+    svg {
+      flex: none;
+    }
+  }
+
+  &__optIns {
+    margin-top: var(--fs-spacing-2);
+  }
+
+  &__check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-bottom: var(--fs-spacing-2);
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    flex: none;
+    scroll-margin-block: 6rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    accent-color: var(--arb-color-green);
+  }
+
+  &__checkLabel {
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    line-height: 1.43;
+    color: var(--arb-color-text);
+  }
+
+  &__disclaimer {
+    margin: var(--fs-spacing-2) 0 0 2.125rem;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--arb-color-gray-muted-text);
+  }
+
+  &__tooltip {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    /* `__check`'s gap is sized for checkbox-to-label; the icon belongs tight
+       against the text it annotates, so most of that gap is pulled back. */
+    margin-left: -0.5rem;
+  }
+
+  &__tooltipTrigger {
+    display: inline-flex;
+    padding: 0;
+    color: var(--arb-color-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__tooltipBubble {
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    z-index: var(--fs-z-index-top);
+    box-sizing: border-box;
+    width: max-content;
+    max-width: 15rem;
+    padding: var(--fs-spacing-2);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--arb-color-white);
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 0.25rem;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  &__tooltip:hover &__tooltipBubble,
+  &__tooltipTrigger:focus-visible + &__tooltipBubble {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__consultant {
+    box-sizing: border-box;
+    scroll-margin-block: 6rem;
+    width: 100%;
+    padding: var(--fs-spacing-1) 0;
+    font-family: var(--arb-font-body);
+    font-size: 1.25rem;
+    letter-spacing: 0.2px;
+    color: var(--arb-color-green);
+    background: none;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: var(--arb-color-green);
+      opacity: 1;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--arb-color-green);
+      outline-offset: 4px;
+    }
+  }
+
+  &__agreement {
+    margin-bottom: var(--fs-spacing-5);
+    padding: var(--fs-spacing-4);
+    background-color: rgba(36, 99, 70, 0.1);
+    border-radius: 0.5625rem;
+  }
+
+  &__agreementText {
+    flex: 1;
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    line-height: 1.79;
+    letter-spacing: 0.2px;
+    color: var(--arb-color-text);
+
+    p {
+      margin: 0 0 var(--fs-spacing-3);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  /* Rich-text links. The CMS editor emits an inline `color` on a span inside
+     the anchor, and an inline style outranks any selector -- `!important` is
+     the only thing that reaches it, so the nested rule is load-bearing. */
+  &__agreementText,
+  &__disclaimer {
+    a {
+      color: var(--arb-color-green);
+      text-decoration: underline;
+
+      * {
+        color: inherit !important;
+      }
+    }
+  }
+
+  &__termsHeader {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--fs-spacing-3);
+  }
+
+  &__print {
+    font-family: var(--arb-font-body);
+    font-size: 1rem;
+    letter-spacing: 0.16px;
+    color: var(--arb-color-green);
+  }
+
+  &__srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &__bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: var(--fs-z-index-top);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--fs-spacing-2) var(--fs-spacing-3);
+    background-color: var(--arb-color-white);
+    border-top: 1px solid #cfcfcf;
+  }
+
+  &__submit {
+    min-width: 11.8125rem;
+    height: 3rem;
+    padding: 0 var(--fs-spacing-4);
+    font-family: var(--arb-font-display);
+    font-size: 1.0625rem;
+    letter-spacing: 1.06px;
+    color: var(--arb-color-white);
+    background-color: var(--arb-color-green);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    [data-fs-loader] {
+      --fs-loader-light-item-bkg-color: var(--arb-color-white);
+
+      /* `Loader` is a flex row with no justification, so as a block-level child
+         it spans the button and packs its dots at the start. */
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    &__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &__inner {
+      padding-inline: 0;
+    }
+
+    &__card,
+    &__agreement {
+      padding: var(--fs-spacing-5) var(--fs-spacing-4);
+    }
+  }
+}

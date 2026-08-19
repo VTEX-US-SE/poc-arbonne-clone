@@ -5,6 +5,7 @@ import Header from './Header/Header'
 import HeroBanner from './HeroBanner/HeroBanner'
 import ImageOverlayCard from './ImageOverlayCard/ImageOverlayCard'
 import ImageTextSplit from './ImageTextSplit/ImageTextSplit'
+import JoinForm from './JoinForm/JoinForm'
 import LegalDisclaimer from './LegalDisclaimer/LegalDisclaimer'
 import ProductDetails from './ProductDetails/ProductDetails'
 import ProductShowcases from './ProductShowcases/ProductShowcases'
@@ -26,6 +27,7 @@ export default {
   TwoColumnCards,
   ProductShowcases,
   ProductDetails,
+  JoinForm,
   AssemblySet,
   LegalDisclaimer,
   Footer,

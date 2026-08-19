@@ -18,16 +18,27 @@
    matches the design -- the back link is the only way out. Global sections are
    CMS-owned and can't be excluded per page, so the page opts out via its own
    marker attribute instead.
-   Core's own `Navbar` and `Footer` sections need hiding alongside ours: they
-   carry no `data-arb-*` marker, so hiding only ours left core's navbar rendering
-   (its own search field, EN/USD selector and Sign in). Targeting the `.section`
-   wrapper rather than the inner bar also drops the section's spacing, instead of
-   leaving a gap where it used to be. */
+   Core's own `Footer` section needs hiding alongside ours: it carries no
+   `data-arb-*` marker, so hiding only ours would leave it rendering. Targeting
+   the `.section` wrapper rather than the inner bar also drops the section's
+   spacing, instead of leaving a gap where it used to be. */
 body:has([data-arb-assembly-set]) {
   [data-arb-header],
   [data-arb-footer],
-  .section-navbar,
   .section-footer {
+    display: none;
+  }
+
+  padding-bottom: 0;
+}
+
+/* The registration form owns the bottom of the viewport: its PROCEED TO
+   CHECKOUT bar sits where the mobile tab bar would, the way production's does.
+   Same marker-attribute opt-out as the set builder above -- and the body
+   padding that reserves room for the tab bar goes with it, or the fixed bar
+   would float above a 5.25rem gap. */
+body:has([data-arb-join-form]) {
+  [data-arb-mobile-tabbar] {
     display: none;
   }
 

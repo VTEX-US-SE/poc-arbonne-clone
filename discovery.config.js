@@ -32,7 +32,7 @@ module.exports = {
       symbol: '$',
     },
     locale: 'en-US',
-    channel: '{"salesChannel":"1","regionId":""}',
+    channel: '{"salesChannel":"4","regionId":""}',
     country: 'USA',
     deliveryMode: null,
     addressType: null,

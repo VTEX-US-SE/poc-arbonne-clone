@@ -1,10 +1,17 @@
 import { ModalBody, ModalHeader } from '@faststore/ui'
 
+import AccountCardCta from './AccountCardCta/AccountCardCta'
 import BaseModal from '../BaseModal/BaseModal'
 import Button from '../Button/Button'
 import Link from '../Link/Link'
 import styles from './LoginModal.module.scss'
 import type { LoginModalProps } from './LoginModal.types'
+
+/**
+ * ponytail: the account type this modal sells, when a card carries no `skuId`.
+ * A second card (Consultant) would set its own in the CMS.
+ */
+const REGISTRATION_SKU = '9048'
 
 /**
  * Sign-in modal: a way into the login page, then the account types available
@@ -59,15 +66,10 @@ export default function LoginModal({
               {card.price && (
                 <p className={styles.loginModal__cardPrice}>{card.price}</p>
               )}
-              {card.addToCartUrl && (
-                <Button
-                  href={card.addToCartUrl}
-                  colorScheme="green"
-                  className={styles.loginModal__cardCta}
-                >
-                  ADD TO CART
-                </Button>
-              )}
+              <AccountCardCta
+                skuId={card.skuId ?? REGISTRATION_SKU}
+                className={styles.loginModal__cardCta}
+              />
               {card.learnMoreUrl && (
                 <Link
                   className={styles.loginModal__cardLearnMore}

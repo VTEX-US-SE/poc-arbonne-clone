@@ -61,24 +61,58 @@ export async function addRegistration({
     signedAt: new Date().toISOString(),
   })
 
-  let orderForm = await postOrderForm(`/${cartId}/items?sc=1`, {
-    orderItems: [{ id: skuId, quantity: 1, seller: '1' }],
-  })
-
-  // Checkout merges a repeated SKU into its existing line and increments the
-  // quantity, so a second submit -- browser back, double click -- would sell
-  // two registrations. Registration is one-per-account, so clamp it back.
-  const index = orderForm.items.findIndex((item) => item.id === skuId)
-
-  if (index >= 0 && orderForm.items[index].quantity > 1) {
-    orderForm = await postOrderForm(`/${cartId}/items/update?sc=1`, {
-      orderItems: [{ index, quantity: 1 }],
-    })
-  }
+  const orderForm = await addSingleLine(cartId, skuId)
 
   return {
     orderFormId: orderForm.orderFormId,
     value: orderForm.value,
     messages: messagesFrom(orderForm),
   }
+}
+
+export interface AddSkuInput {
+  orderFormId?: string | null
+  skuId: string
+}
+
+/**
+ * Adds one SKU to the cart, for a CTA that redirects to checkout straight
+ * after.
+ *
+ * Nothing is written to customData: the enrollment answers are collected in
+ * Checkout itself now, so this only has to put the line on the cart.
+ */
+export async function addSkuToCart({ orderFormId, skuId }: AddSkuInput) {
+  if (!skuId) {
+    throw new Error('No SKU to add.')
+  }
+
+  const cartId = orderFormId ?? (await postOrderForm('', {})).orderFormId
+  const orderForm = await addSingleLine(cartId, skuId)
+
+  return {
+    orderFormId: orderForm.orderFormId,
+    value: orderForm.value,
+    messages: messagesFrom(orderForm),
+  }
+}
+
+/**
+ * Checkout merges a repeated SKU into its existing line and increments the
+ * quantity, so a second attempt -- browser back, double click -- would sell two
+ * registrations. Registration is one-per-account, so clamp it back.
+ */
+async function addSingleLine(cartId: string, skuId: string) {
+  const orderForm = await postOrderForm(`/${cartId}/items?sc=1`, {
+    orderItems: [{ id: skuId, quantity: 1, seller: '1' }],
+  })
+  const index = orderForm.items.findIndex((item) => item.id === skuId)
+
+  if (index >= 0 && orderForm.items[index].quantity > 1) {
+    return postOrderForm(`/${cartId}/items/update?sc=1`, {
+      orderItems: [{ index, quantity: 1 }],
+    })
+  }
+
+  return orderForm
 }

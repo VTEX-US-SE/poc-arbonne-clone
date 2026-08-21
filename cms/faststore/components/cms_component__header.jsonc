@@ -176,8 +176,9 @@
             "title": "Price Label",
             "type": "string"
           },
-          "addToCartUrl": {
-            "title": "Add to Cart URL",
+          "skuId": {
+            "title": "Registration SKU",
+            "description": "SKU the card's ADD TO CART button adds before redirecting to checkout. Defaults to 9048.",
             "type": "string"
           },
           "learnMoreUrl": {

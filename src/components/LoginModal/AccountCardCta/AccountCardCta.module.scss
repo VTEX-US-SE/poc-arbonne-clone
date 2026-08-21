@@ -1,0 +1,9 @@
+.accountCardCta {
+  &__error {
+    margin-top: var(--fs-spacing-1);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    text-align: center;
+    color: var(--fs-color-danger-text);
+  }
+}

@@ -27,7 +27,6 @@ input ArbRegistrationInput {
   sponsorId: String!
   birthDate: String
   consultantComms: Boolean!
-  marketingEmail: Boolean!
   textMarketing: Boolean!
   """
   Revision of the terms the shopper actually accepted.

@@ -9,7 +9,6 @@ export interface RegistrationPayload {
   sponsorId: string
   birthDate?: string
   consultantComms: boolean
-  marketingEmail: boolean
   textMarketing: boolean
   agreementVersion?: string
 }

@@ -19,7 +19,6 @@ interface Values {
   birthDate: string
   consultant: string
   consultantComms: boolean
-  marketingEmail: boolean
   textMarketing: boolean
   privacy: boolean
   terms: boolean
@@ -31,7 +30,6 @@ const EMPTY: Values = {
   birthDate: '',
   consultant: '',
   consultantComms: false,
-  marketingEmail: false,
   textMarketing: false,
   privacy: false,
   terms: false,
@@ -138,10 +136,8 @@ export default function JoinForm({
   skuId = '9048',
   customerType = 'preferredClient',
   consultantCommsLabel = 'Yes, I want to receive communications from an Independent Consultant.',
-  marketingEmailLabel = 'Yes, I want to Opt in to Arbonne Marketing Email Communications.',
   textMarketingLabel = 'Yes, I want to opt in to Arbonne Text Marketing Communications.',
   consultantCommsTooltip = 'Yes, allow my Consultant to contact me via phone, email, text, and social media messenger. I understand I can opt out at any time.',
-  marketingEmailTooltip,
   smsDisclaimer = 'By checking this box AND OPTING IN, you agree to receive recurring promotional text messages (SMS/MMS) from Arbonne, including recurring SMS/Text messages sent using an automatic telephone dialing system, at the mobile number provided. Message and data rates may apply, and message frequency may vary. Reply STOP to 258323 to opt out or HELP for assistance. See our Terms & Conditions and Privacy Policy.',
   privacyNoticeText = 'Our Privacy Notice Explains What Personal Information We Collect, Process, Store, Disclose to Third Parties, and The Associated Purpose. Please Click To Acknowledge That You Have Read And Understand The Privacy Notice, And That You Have Read, Understand, And Agree To Be Bound By The Website Terms of Use and Terms and Conditions for the Supply of Goods.',
   termsPrintUrl,
@@ -185,7 +181,6 @@ export default function JoinForm({
       sponsorId: values.consultant.trim(),
       birthDate: values.birthDate,
       consultantComms: values.consultantComms,
-      marketingEmail: values.marketingEmail,
       textMarketing: values.textMarketing,
       orderFormId: orderFormId || undefined,
     })
@@ -196,7 +191,7 @@ export default function JoinForm({
   }
 
   const optIns: Array<{
-    name: 'consultantComms' | 'marketingEmail' | 'textMarketing'
+    name: 'consultantComms' | 'textMarketing'
     label: string
     tooltip?: string
   }> = [
@@ -204,11 +199,6 @@ export default function JoinForm({
       name: 'consultantComms',
       label: consultantCommsLabel,
       tooltip: consultantCommsTooltip,
-    },
-    {
-      name: 'marketingEmail',
-      label: marketingEmailLabel,
-      tooltip: marketingEmailTooltip,
     },
     { name: 'textMarketing', label: textMarketingLabel },
   ]

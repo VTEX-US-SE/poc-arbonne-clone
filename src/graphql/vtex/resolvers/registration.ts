@@ -19,7 +19,6 @@ export interface RegistrationInput {
   sponsorId: string
   birthDate?: string | null
   consultantComms: boolean
-  marketingEmail: boolean
   textMarketing: boolean
   agreementVersion?: string | null
 }
@@ -43,7 +42,6 @@ export async function addRegistration({
   sponsorId,
   birthDate,
   consultantComms,
-  marketingEmail,
   textMarketing,
   agreementVersion,
 }: RegistrationInput) {
@@ -58,7 +56,6 @@ export async function addRegistration({
     sponsorId,
     birthDate: birthDate ?? '',
     consultantComms: String(consultantComms),
-    marketingEmail: String(marketingEmail),
     textMarketing: String(textMarketing),
     agreementVersion: agreementVersion ?? '',
     signedAt: new Date().toISOString(),

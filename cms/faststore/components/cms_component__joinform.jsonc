@@ -31,20 +31,12 @@
       "title": "Consultant Communications Opt-in Label",
       "type": "string"
     },
-    "marketingEmailLabel": {
-      "title": "Marketing Email Opt-in Label",
-      "type": "string"
-    },
     "textMarketingLabel": {
       "title": "Text Marketing Opt-in Label",
       "type": "string"
     },
     "consultantCommsTooltip": {
       "title": "Consultant Communications Tooltip",
-      "type": "string"
-    },
-    "marketingEmailTooltip": {
-      "title": "Marketing Email Tooltip",
       "type": "string"
     },
     "smsDisclaimer": {

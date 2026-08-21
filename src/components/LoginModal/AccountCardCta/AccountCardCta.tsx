@@ -1,3 +1,5 @@
+import { Loader } from '@faststore/ui'
+
 import storeConfig from 'discovery.config'
 import { useCart } from 'src/sdk/cart'
 import { redirectToCheckout } from 'src/sdk/cart/redirectToCheckout'
@@ -39,6 +41,11 @@ export default function AccountCardCta({
         onClick={async (event) => {
           event.preventDefault()
 
+          // `disabled` on an anchor does not block clicks, so the guard is here.
+          if (adding) {
+            return
+          }
+
           const cartId = await addSku({
             skuId,
             orderFormId: orderFormId || undefined,
@@ -49,7 +56,7 @@ export default function AccountCardCta({
           }
         }}
       >
-        {label}
+        {adding ? <Loader variant="light" /> : label}
       </Button>
       {error && <p className={styles.accountCardCta__error}>{error}</p>}
     </>

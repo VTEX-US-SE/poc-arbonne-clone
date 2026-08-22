@@ -89,8 +89,13 @@ export default function AccountCardCta({
       colorScheme="green"
       className={[styles.accountCardCta, className].filter(Boolean).join(' ')}
       disabled={!product || !offer}
-      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-        buyProps.onClick(event)
+      // `HTMLElement`, not `HTMLButtonElement`: `Button` renders an anchor when
+      // given an `href` and a button otherwise, so its `onClick` is the
+      // intersection of both handler types and the parameter has to satisfy
+      // each of them. `useBuyButton` only knows about buttons, and without an
+      // `href` that is what this renders -- so the narrowing is sound.
+      onClick={(event: React.MouseEvent<HTMLElement>) => {
+        buyProps.onClick(event as React.MouseEvent<HTMLButtonElement>)
 
         // After the add, so a failure cannot leave the cart with neither. The
         // id is the composed `sku::seller::propertyIDs`, not the SKU.

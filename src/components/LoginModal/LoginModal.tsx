@@ -25,6 +25,8 @@ export default function LoginModal({
   createAccountText = 'To create an account, add an account type to your cart and proceed through the checkout process.',
   accountCards = [],
 }: LoginModalProps) {
+  const accountSkus = accountCards.map((card) => card.skuId ?? REGISTRATION_SKU)
+
   return (
     <BaseModal
       open={open}
@@ -69,6 +71,8 @@ export default function LoginModal({
               <AccountCardCta
                 skuId={card.skuId ?? REGISTRATION_SKU}
                 className={styles.loginModal__cardCta}
+                onAdded={onClose}
+                exclusiveSkus={accountSkus}
               />
               {card.learnMoreUrl && (
                 <Link

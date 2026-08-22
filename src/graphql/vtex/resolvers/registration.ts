@@ -70,33 +70,6 @@ export async function addRegistration({
   }
 }
 
-export interface AddSkuInput {
-  orderFormId?: string | null
-  skuId: string
-}
-
-/**
- * Adds one SKU to the cart, for a CTA that redirects to checkout straight
- * after.
- *
- * Nothing is written to customData: the enrollment answers are collected in
- * Checkout itself now, so this only has to put the line on the cart.
- */
-export async function addSkuToCart({ orderFormId, skuId }: AddSkuInput) {
-  if (!skuId) {
-    throw new Error('No SKU to add.')
-  }
-
-  const cartId = orderFormId ?? (await postOrderForm('', {})).orderFormId
-  const orderForm = await addSingleLine(cartId, skuId)
-
-  return {
-    orderFormId: orderForm.orderFormId,
-    value: orderForm.value,
-    messages: messagesFrom(orderForm),
-  }
-}
-
 /**
  * Checkout merges a repeated SKU into its existing line and increments the
  * quantity, so a second attempt -- browser back, double click -- would sell two

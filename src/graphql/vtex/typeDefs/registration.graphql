@@ -8,23 +8,6 @@ extend type Mutation {
   arbAddRegistration(data: ArbRegistrationInput!): ArbRegistrationResult!
 }
 
-extend type Mutation {
-  """
-  Adds one SKU to the cart and returns it, for a CTA that then redirects to
-  checkout. No customData: the enrollment answers are collected in Checkout
-  itself, so nothing here has to be gathered up front.
-  """
-  arbAddSkuToCart(data: ArbAddSkuInput!): ArbRegistrationResult!
-}
-
-input ArbAddSkuInput {
-  """
-  Existing cart to add to. A new orderForm is created when omitted.
-  """
-  orderFormId: String
-  skuId: String!
-}
-
 input ArbRegistrationInput {
   """
   Existing cart to register against. A new orderForm is created when omitted.

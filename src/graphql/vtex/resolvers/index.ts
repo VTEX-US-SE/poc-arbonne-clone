@@ -1,10 +1,5 @@
 import { addComposedSet, type ComposedSetInput } from './composedSet'
-import {
-  addRegistration,
-  addSkuToCart,
-  type AddSkuInput,
-  type RegistrationInput,
-} from './registration'
+import { addRegistration, type RegistrationInput } from './registration'
 import { parseAttachment, type RawAttachment } from './parseComposition'
 
 interface AssemblyItemRoot {
@@ -50,9 +45,6 @@ const resolvers = {
       _root: unknown,
       { data }: { data: RegistrationInput }
     ) => addRegistration(data),
-
-    arbAddSkuToCart: (_root: unknown, { data }: { data: AddSkuInput }) =>
-      addSkuToCart(data),
   },
 
   ArbAssemblyItem: {

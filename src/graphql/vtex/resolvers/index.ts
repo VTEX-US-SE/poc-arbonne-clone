@@ -1,3 +1,4 @@
+import { getAgentMessages, sendAgentMessage } from './agentChat'
 import { addComposedSet, type ComposedSetInput } from './composedSet'
 import { addRegistration, type RegistrationInput } from './registration'
 import { parseAttachment, type RawAttachment } from './parseComposition'
@@ -17,6 +18,11 @@ interface ResolverContext {
 }
 
 const resolvers = {
+  Query: {
+    arbAgentMessages: (_root: unknown, { urn }: { urn: string }) =>
+      getAgentMessages(urn),
+  },
+
   StoreProduct: {
     assemblyOptions: (root: SkuRoot) =>
       (root.attachments ?? [])
@@ -38,6 +44,15 @@ const resolvers = {
   },
 
   Mutation: {
+    arbSendAgentMessage: (
+      _root: unknown,
+      {
+        from,
+        message,
+        contactName,
+      }: { from: string; message: string; contactName?: string }
+    ) => sendAgentMessage({ from, message, contactName }),
+
     arbAddComposedSet: (_root: unknown, { data }: { data: ComposedSetInput }) =>
       addComposedSet(data),
 

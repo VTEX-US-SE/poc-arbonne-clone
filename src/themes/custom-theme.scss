@@ -32,6 +32,21 @@ body:has([data-arb-assembly-set]) {
   padding-bottom: 0;
 }
 
+/* The Beauty Consultant is a campaign-style landing experience. Its component
+   adds this marker only while mounted, so navigating away restores the global
+   store chrome without coupling the rule to a locale-specific URL. */
+body[data-arb-beauty-consultant],
+body:has([data-arb-beauty-consultant]) {
+  [data-arb-header],
+  [data-arb-mobile-tabbar],
+  [data-arb-footer],
+  .section-footer {
+    display: none;
+  }
+
+  padding-bottom: 0;
+}
+
 /* The registration form owns the bottom of the viewport: its PROCEED TO
    CHECKOUT bar sits where the mobile tab bar would, the way production's does.
    Same marker-attribute opt-out as the set builder above -- and the body

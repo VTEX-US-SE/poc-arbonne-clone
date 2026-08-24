@@ -1,0 +1,67 @@
+.agentProductCard {
+  display: flex;
+  gap: var(--fs-spacing-3);
+  box-sizing: border-box;
+  padding: var(--fs-spacing-2);
+  color: var(--arb-color-white);
+  text-decoration: none;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 1rem;
+  -webkit-backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.75rem);
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    transform 150ms ease;
+
+  &[data-disabled] {
+    opacity: 0.7;
+  }
+
+  &:is(a):hover {
+    background: rgb(255 255 255 / 18%);
+    border-color: rgb(255 255 255 / 38%);
+    transform: translateY(-2px);
+  }
+
+  /* Product shots are shot on white, so they keep a light tile of their own
+     rather than being knocked back by the glass behind them. */
+  &__image {
+    flex: 0 0 5.5rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    object-fit: contain;
+    background: var(--arb-color-white);
+    border-radius: 0.75rem;
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--fs-spacing-0);
+    min-width: 0;
+  }
+
+  &__name {
+    font-family: var(--arb-font-heading);
+    font-size: var(--arb-consultant-type-prompt, 0.875rem);
+    font-weight: var(--fs-text-weight-bold);
+    line-height: 1.35;
+  }
+
+  &__price {
+    font-size: var(--arb-consultant-type-prompt, 0.875rem);
+    font-weight: var(--fs-text-weight-bold);
+  }
+
+  &__action {
+    margin-top: auto;
+    color: rgb(207 228 215 / 88%);
+    font-size: var(--arb-consultant-type-caption, 0.75rem);
+    font-weight: var(--fs-text-weight-bold);
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+}

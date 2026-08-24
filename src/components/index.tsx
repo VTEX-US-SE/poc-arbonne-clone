@@ -1,4 +1,5 @@
 import AssemblySet from './AssemblySet/AssemblySet'
+import BeautyConsultant from './BeautyConsultant/BeautyConsultant'
 import CategoryHero from './CategoryHero/CategoryHero'
 import Footer from './Footer/Footer'
 import Header from './Header/Header'
@@ -20,6 +21,7 @@ import TwoColumnCards from './TwoColumnCards/TwoColumnCards'
  */
 export default {
   HeroBanner,
+  BeautyConsultant,
   CategoryHero,
   ImageTextSplit,
   ImageOverlayCard,

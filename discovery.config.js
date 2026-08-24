@@ -1,3 +1,16 @@
+// Sales channel used for server-side rendering, and as the initial client
+// session before localization swaps in the URL binding's channel (en-US is 1,
+// fr-CA 2, es-US 3). Set SALES_CHANNEL in WebOps Settings, or in vtex.env for
+// local dev, to point an environment somewhere else.
+//
+// Keep the default on a publicly readable channel: channel 4 exists on this
+// account but is authentication-gated, so Intelligent Search answers 401 to
+// anonymous reads and every server-rendered listing 500s.
+const configuredSalesChannel = process.env.SALES_CHANNEL?.trim()
+const salesChannel = /^\d+$/.test(configuredSalesChannel ?? '')
+  ? configuredSalesChannel
+  : '1'
+
 module.exports = {
   contentSource: {
     type: 'CP',
@@ -32,7 +45,7 @@ module.exports = {
       symbol: '$',
     },
     locale: 'en-US',
-    channel: '{"salesChannel":"1","regionId":""}',
+    channel: JSON.stringify({ salesChannel, regionId: '' }),
     country: 'USA',
     deliveryMode: null,
     addressType: null,

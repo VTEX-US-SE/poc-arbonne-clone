@@ -60,6 +60,32 @@ channels 1/2/3.
 - **Picking a locale navigates to the binding's own URL**, which points at the
   deployed host. Switching language from `localhost:3000` therefore lands on
   production — expect local changes to "disappear" at that point.
+- Without credentials in `vtex.env` the CLI cannot fetch the real bindings and
+  falls back to the starter template's `pt-BR` / `brandless.fast.store` block,
+  so locally rendered URLs carry `locale=pt-BR`. That is the missing
+  credentials, not a misconfigured locale.
+
+## Sales channel
+
+`session.channel` in `discovery.config.js` is built from `SALES_CHANNEL`
+(WebOps Settings in deployed environments, `vtex.env` locally), defaulting to
+`1`. Non-numeric or empty values fall back rather than reaching the API.
+
+- **The config value only governs SSR.** `fetchServerManyProducts` reads
+  `storeConfig.session.channel` directly, while in the browser
+  `getInitialSession`/`reconcileSessionLocale` overwrite `salesChannel` with the
+  URL binding's channel whenever localization is enabled. A wrong value here
+  therefore breaks server-rendered listings while the homepage still looks fine.
+- **Channel 4 is authentication-gated.** Intelligent Search answers
+  `401 Authentication required for this sales channel` to anonymous reads, and
+  core's `fetchServerManyProducts` swallows the resulting error and returns
+  `undefined`, which core then destructures — so the symptom is
+  `(intermediate value) is not iterable` and a 500 on **every** listing and on
+  any unmatched path, including the `/fonts/*.woff2` requests that fall through
+  to the catch-all route. It cost a debugging session; a nonexistent channel is
+  easier to spot, answering `400 Invalid sales channel` instead.
+- Only 1, 2 and 3 are publicly readable. Using 4 as a default needs its auth
+  requirement lifted in Admin; otherwise it belongs to logged-in sessions only.
 
 ## Component registry — do not nest under `customizations`
 

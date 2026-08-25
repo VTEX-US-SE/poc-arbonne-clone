@@ -1,0 +1,19 @@
+extend type StoreProduct {
+  """
+  This SKU's Preferred Client price -- the fully-promoted `Price` from the
+  account's `preferredclient` trade policy, the green "PC Price" prod shows to
+  guests and PC sessions alike. `null` when the lookup fails or when the PC
+  price is not below the shopper's own selling price (nothing to advertise).
+  Independent of the viewer's login: it is a public price-table read, not an
+  entitlement.
+  """
+  pcPrice: Float
+
+  """
+  Retail *sale* price -- the promoted price from the `retail` trade policy, the
+  "SALE PRICE" column. Null unless retail is genuinely on promotion (below its
+  own SRP); a tier discount alone is not a sale.
+  """
+  salePrice: Float
+}
+

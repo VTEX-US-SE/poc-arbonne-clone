@@ -102,6 +102,38 @@
       line-height: 1.17;
     }
 
+    &__priceGrid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: var(--fs-spacing-6);
+      margin-top: var(--fs-spacing-5);
+    }
+
+    &__priceCol {
+      display: flex;
+      flex-direction: column;
+
+      .productDetails__priceLabel {
+        margin-top: 0;
+      }
+    }
+
+    &__priceInfo {
+      margin-left: var(--fs-spacing-1);
+      color: var(--arb-color-gray-muted-text);
+      cursor: help;
+    }
+
+    /* SALE PRICE / PC PRICE reference cells -- smaller than YOUR PRICE, plain
+       body colour (the green PC treatment is a card-only cue). */
+    &__priceSecondary {
+      font-family: var(--arb-font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.17;
+    }
+
     &__instalments {
       display: flex;
       align-items: center;
@@ -185,7 +217,7 @@
       padding: 0;
     }
 
-    &__stickyBar &__price {
+    &__stickyBarPriceValue {
       padding-right: var(--fs-spacing-1);
     }
 

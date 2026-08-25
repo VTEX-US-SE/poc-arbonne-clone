@@ -1,5 +1,5 @@
+import Price from '../Price/Price'
 import PurchaseCta from '../PurchaseCta/PurchaseCta'
-import Skeleton from '../Skeleton/Skeleton'
 import styles from './ProductDetails.module.scss'
 import type { StickyBarProps } from './ProductDetails.types'
 
@@ -7,10 +7,14 @@ import type { StickyBarProps } from './ProductDetails.types'
  * Compact price + add-to-cart floated once the real purchase options scroll
  * off the top. Always the one-time CTA -- the sticky bar is a shortcut, not a
  * second place to configure a subscription.
+ *
+ * Reuses `Price` for the same struck-SRP treatment as the main block, minus the
+ * PC line to keep the bar compact.
  */
 export default function StickyBar({
   priceLabel,
-  formattedPrice,
+  price,
+  listPrice,
   quantityLabel,
   buttonLabel,
   buyProps,
@@ -27,12 +31,15 @@ export default function StickyBar({
           <span className={styles.productDetails__priceLabel}>
             {priceLabel}
           </span>
-          {formattedPrice && (
-            <div className={styles.productDetails__price}>
-              <Skeleton loading={loading} width="6rem" height="2.625rem">
-                {formattedPrice}
-              </Skeleton>
-            </div>
+          {price !== undefined && (
+            <Price
+              className={styles.productDetails__stickyBarPriceValue}
+              variant="detail"
+              price={price}
+              listPrice={listPrice}
+              pcPrice={null}
+              loading={loading}
+            />
           )}
         </div>
 

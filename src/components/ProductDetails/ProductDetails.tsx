@@ -14,7 +14,7 @@ import GalleryImage from './GalleryImage'
 import { setBuilderHref } from '../../utils/assemblySet'
 import { regionCodeFor } from '../../utils/locale'
 import { replenishAttachment } from '../../utils/replenish'
-import Skeleton from '../Skeleton/Skeleton'
+import Price from '../Price/Price'
 import styles from './ProductDetails.module.scss'
 import type {
   ProductDetailsProps,
@@ -46,6 +46,9 @@ export default function ProductDetails({
   sizePropertyName = 'Volume',
   customizeLabel = 'START CUSTOMIZING',
   priceLabel = 'YOUR PRICE',
+  salePriceLabel = 'SALE PRICE',
+  pcPriceLabel = 'PC PRICE',
+  priceInfo = 'Your price reflects any active promotion. Preferred Clients pay the PC Price.',
   quantityLabel,
   addToCartLabel,
   replenishCtaLabel,
@@ -71,7 +74,25 @@ export default function ProductDetails({
   const offer = product?.offers?.offers?.[0]
   const outOfStock = offer?.availability === OUT_OF_STOCK
   const formatPrice = usePriceFormatter({ decimals: true })
-  const formattedPrice = formatPrice(offer?.price ?? 0)
+
+  // Cast, same reason as `assemblyOptions` below: `pcPrice` and `salePrice`
+  // reach the PDP through the `ClientProduct` / `ServerProduct` fragment
+  // overrides, so they only appear in `@generated` after codegen has run.
+  const productExtras = product as
+    | { pcPrice?: number | null; salePrice?: number | null }
+    | undefined
+
+  const price = offer?.price ?? 0
+  const listPrice = offer?.listPrice ?? 0
+  const pcPrice = productExtras?.pcPrice
+
+  // SALE PRICE is the retail promo price (`salePrice`), independent of the
+  // shopper's tier. Shown only when a promo is actually running *and* it differs
+  // from what they pay -- otherwise it just duplicates YOUR PRICE.
+  const salePrice = productExtras?.salePrice ?? null
+  // number when a genuine, differing retail promo exists; null hides the column.
+  const shownSalePrice =
+    salePrice !== null && salePrice !== price ? salePrice : null
 
   const selectedImage =
     product?.image?.[selectedImageIdx] ?? product?.image?.[0]
@@ -184,16 +205,60 @@ export default function ProductDetails({
             is, so it has to be read before the CTA rather than after it. */}
         {isCustomisableSet && description}
 
-        <p className={styles.productDetails__priceLabel}>{priceLabel}</p>
-
-        {/* No price or instalments on a set: the parent SKU is priced at zero,
-            so `priceLabel` stands in until the builder totals the selection. */}
-        {!isCustomisableSet && (
+        {/* No price grid or instalments on a set: the parent SKU is priced at
+            zero, so a lone label stands in until the builder totals the
+            selection. */}
+        {isCustomisableSet ? (
+          <p className={styles.productDetails__priceLabel}>{priceLabel}</p>
+        ) : (
           <>
-            <div className={styles.productDetails__price}>
-              <Skeleton loading={isValidating} width="8rem" height="2.625rem">
-                {formattedPrice}
-              </Skeleton>
+            {/* Prod's three columns. YOUR PRICE reuses `Price` (selling +
+                struck SRP); SALE PRICE and PC PRICE are reference cells shown
+                only when they exist. YOUR PRICE is the guest's sale price
+                today -- once session tier is wired it swaps to `pcPrice` for a
+                signed-in PC while these two columns stay put. */}
+            <div className={styles.productDetails__priceGrid}>
+              <div className={styles.productDetails__priceCol}>
+                <p className={styles.productDetails__priceLabel}>
+                  {priceLabel}
+                  <span
+                    className={styles.productDetails__priceInfo}
+                    title={priceInfo}
+                    aria-label={priceInfo}
+                  >
+                    &#9432;
+                  </span>
+                </p>
+                <Price
+                  price={price}
+                  listPrice={listPrice}
+                  pcPrice={null}
+                  loading={isValidating}
+                  variant="detail"
+                />
+              </div>
+
+              {shownSalePrice !== null && (
+                <div className={styles.productDetails__priceCol}>
+                  <p className={styles.productDetails__priceLabel}>
+                    {salePriceLabel}
+                  </p>
+                  <span className={styles.productDetails__priceSecondary}>
+                    {formatPrice(shownSalePrice)}
+                  </span>
+                </div>
+              )}
+
+              {pcPrice != null && (
+                <div className={styles.productDetails__priceCol}>
+                  <p className={styles.productDetails__priceLabel}>
+                    {pcPriceLabel}
+                  </p>
+                  <span className={styles.productDetails__priceSecondary}>
+                    {formatPrice(pcPrice)}
+                  </span>
+                </div>
+              )}
             </div>
             {instalmentsText && (
               <div className={styles.productDetails__instalments}>
@@ -239,7 +304,8 @@ export default function ProductDetails({
       {showStickyBar && (
         <StickyBar
           priceLabel={priceLabel}
-          formattedPrice={isCustomisableSet ? undefined : formattedPrice}
+          price={isCustomisableSet ? undefined : price}
+          listPrice={listPrice}
           quantityLabel={quantityLabel}
           buttonLabel={isCustomisableSet ? customizeLabel : addToCartLabel}
           ctaHref={builderHref}

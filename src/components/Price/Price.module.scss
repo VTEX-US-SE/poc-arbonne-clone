@@ -1,0 +1,59 @@
+.price {
+  &__row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--fs-spacing-2);
+    flex-wrap: wrap;
+  }
+
+  &__selling {
+    font-family: var(--arb-font-display);
+    font-weight: 400;
+    line-height: 1.17;
+  }
+
+  &__srp {
+    font-family: var(--arb-font-body);
+    color: var(--arb-color-gray-muted-text);
+    text-decoration: line-through;
+  }
+
+  &__pc {
+    margin: var(--fs-spacing-1) 0 0;
+    font-family: var(--arb-font-body);
+    font-weight: 700;
+    color: var(--arb-color-green);
+  }
+
+  &[data-variant='detail'] {
+    .price__selling {
+      font-size: 2.25rem;
+    }
+
+    .price__srp {
+      font-size: 1rem;
+    }
+
+    .price__pc {
+      font-size: 1.125rem;
+    }
+  }
+
+  &[data-variant='card'] {
+    /* The card's original price treatment -- body font, not the display face. */
+    .price__selling {
+      font-family: var(--arb-font-body);
+      font-size: 1rem;
+      font-weight: var(--fs-text-weight-semibold);
+      line-height: 1.88;
+    }
+
+    .price__srp {
+      font-size: 0.875rem;
+    }
+
+    .price__pc {
+      font-size: 0.875rem;
+    }
+  }
+}

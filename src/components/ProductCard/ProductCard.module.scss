@@ -71,14 +71,10 @@
       letter-spacing: 0.0125rem;
     }
 
+    /* Typography lives in `Price`; the card only supplies the row inset. */
     &__price {
       margin: 0;
       padding: 0 var(--fs-spacing-4);
-      font-family: var(--arb-font-body);
-      font-size: 1rem;
-      font-weight: var(--fs-text-weight-semibold);
-      line-height: 1.88;
-      letter-spacing: 0.0125rem;
     }
 
     /* Stands where the price sits on a normal card, so the two line up in a

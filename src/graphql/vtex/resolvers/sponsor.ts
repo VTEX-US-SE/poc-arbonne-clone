@@ -1,6 +1,7 @@
 import storeConfig from 'discovery.config'
 
 export interface Sponsor {
+  arbonneId?: string
   displayName?: string
   displayDescription?: string
   profilePicture?: string
@@ -15,6 +16,9 @@ export interface Sponsor {
  * the only thing that should be keeping it server-side.
  */
 const FIELDS: Array<keyof Sponsor> = [
+  // Returned as well as filtered on: the sponsor of record is found from `CL`,
+  // so nothing else on that path knows the id.
+  'arbonneId',
   'displayName',
   'displayDescription',
   'profilePicture',

@@ -8,6 +8,7 @@ import { gql } from '@generated'
 export const query = gql(`
   query ArbSponsorQuery($arbonneId: String!) {
     arbSponsor(arbonneId: $arbonneId) {
+      arbonneId
       displayName
       displayDescription
       profilePicture

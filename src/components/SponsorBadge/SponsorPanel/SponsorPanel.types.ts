@@ -7,6 +7,8 @@ export interface SponsorPanelProps {
   asModal?: boolean
   onClose: () => void
   onClear: () => void
+  /** Whether this sponsor came from a followed link, and so can be dropped. */
+  canClear?: boolean
   arbonneId: string
   displayName?: string | null
   profilePicture?: string | null

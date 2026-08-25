@@ -19,7 +19,8 @@ import type { SponsorBadgeProps } from './SponsorBadge.types'
 export default function SponsorBadge({
   variant = 'compact',
 }: SponsorBadgeProps) {
-  const { arbonneId, sponsor, loading, clear } = useSponsorAttribution()
+  const { arbonneId, sponsor, loading, canClear, clear } =
+    useSponsorAttribution()
   const isMobile = useIsMobile()
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -118,6 +119,7 @@ export default function SponsorBadge({
 
       <SponsorPanel
         arbonneId={arbonneId}
+        canClear={canClear}
         asModal={isMobile}
         displayName={sponsor.displayName}
         onClear={clear}

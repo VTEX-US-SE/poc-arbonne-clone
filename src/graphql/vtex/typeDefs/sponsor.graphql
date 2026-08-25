@@ -4,6 +4,13 @@ extend type Query {
   no consultant matches.
   """
   arbSponsor(arbonneId: String!): ArbSponsor
+  """
+  The consultant the signed-in shopper is already bound to, from their own `CL`
+  record. Takes no argument on purpose: the shopper is identified from their auth
+  cookie, so this cannot be pointed at anyone else. `null` when signed out or
+  unbound.
+  """
+  arbSponsorOfRecord: ArbSponsor
 }
 
 """
@@ -11,6 +18,7 @@ The subset of a Sponsors List row a storefront visitor may see. Deliberately
 omits `userId`, which is the customer's CL document id.
 """
 type ArbSponsor {
+  arbonneId: String
   displayName: String
   displayDescription: String
   profilePicture: String

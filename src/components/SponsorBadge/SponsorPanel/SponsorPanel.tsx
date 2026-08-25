@@ -21,6 +21,7 @@ import type { SponsorPanelProps } from './SponsorPanel.types'
 export default function SponsorPanel({
   open,
   asModal = false,
+  canClear = false,
   onClose,
   onClear,
   arbonneId,
@@ -63,18 +64,20 @@ export default function SponsorPanel({
         </Button>
       </div>
 
-      <div className={styles.sponsorPanel__footer}>
-        <button
-          className={styles.sponsorPanel__clear}
-          onClick={() => {
-            onClear()
-            onClose()
-          }}
-          type="button"
-        >
-          Not your consultant?
-        </button>
-      </div>
+      {canClear && (
+        <div className={styles.sponsorPanel__footer}>
+          <button
+            className={styles.sponsorPanel__clear}
+            onClick={() => {
+              onClear()
+              onClose()
+            }}
+            type="button"
+          >
+            Not your consultant?
+          </button>
+        </div>
+      )}
     </>
   )
 

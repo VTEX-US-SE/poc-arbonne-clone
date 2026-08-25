@@ -1,0 +1,35 @@
+@use 'sass:meta';
+@use '../../styles/mixins';
+
+.sponsorShelf {
+  @include meta.load-css(
+    '~@faststore/ui/src/components/molecules/Carousel/styles'
+  );
+  @include meta.load-css(
+    '~@faststore/ui/src/components/organisms/ProductShelf/styles'
+  );
+  @include mixins.section-spacing;
+
+  display: block;
+  max-width: 75rem;
+  margin-right: auto;
+  margin-left: auto;
+
+  /* The `scroll` track sets `white-space: nowrap` inline and every card
+     inherits it, so names run sideways out of the card instead of wrapping.
+     Full height keeps cards level when they wrap to different line counts. */
+  &__item {
+    height: 100%;
+    white-space: normal;
+  }
+
+  &__loading {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--fs-spacing-4);
+
+    @media (min-width: 64rem) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}

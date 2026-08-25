@@ -11,5 +11,10 @@ export type ProductCardProduct = ProductSummary_ProductFragment
 export interface ProductCardProps {
   product: ProductCardProduct
   index?: number
+  /**
+   * Drops the hover lift and leaves the cart open. For contexts that clip their
+   * overflow, where a card growing past its own box is cut off, not revealed.
+   */
+  staticCard?: boolean
   [prop: string]: unknown
 }

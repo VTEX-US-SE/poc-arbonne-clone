@@ -11,6 +11,7 @@ import ProductDetails from './ProductDetails/ProductDetails'
 import ProductShowcases from './ProductShowcases/ProductShowcases'
 import SectionHeader from './SectionHeader/SectionHeader'
 import SponsorHero from './SponsorHero/SponsorHero'
+import SponsorShelf from './SponsorShelf/SponsorShelf'
 import TwoColumnCards from './TwoColumnCards/TwoColumnCards'
 
 /**
@@ -29,6 +30,7 @@ export default {
   ProductShowcases,
   ProductDetails,
   SponsorHero,
+  SponsorShelf,
   JoinForm,
   AssemblySet,
   LegalDisclaimer,

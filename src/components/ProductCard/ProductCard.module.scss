@@ -235,3 +235,38 @@
     }
   }
 }
+
+/* Static variant. Cancels everything that leaves the card's own box -- the 12%
+   lift, the raised stacking and the outer shadow -- and leaves the cart open
+   instead of revealing it on hover. For contexts that clip their overflow, such
+   as a carousel track, where an escaping hover is cut off rather than shown.
+   The background change stays: it is the one cue that stays inside the box. */
+.productCard--static {
+  /* The card's grey foot is there for the grid, where the cart is out of flow
+     and the padding sits under the price. In flow the cart lands on top of it,
+     so the padding shows up below the buttons instead. */
+  padding-bottom: 0;
+  /* Without the hover lift and its shadow there is nothing separating one card
+     from the next, so the outline does that job instead. `box-sizing` is
+     already `border-box`, so this costs no width. */
+  border: 1px solid var(--arb-color-border-soft);
+
+  @media (min-width: 64rem) and (hover: hover) {
+    &:hover,
+    &:focus-within {
+      z-index: auto;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.productCard--static .productCard__cart,
+.productCard--static .productCard__setActions {
+  @media (min-width: 64rem) and (hover: hover) {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+  }
+}

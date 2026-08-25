@@ -37,6 +37,7 @@ const SET_PRICE_LABEL = 'Customize your set to see your final price'
 export default function ProductCard({
   product,
   index = 0,
+  staticCard = false,
   ...rest
 }: ProductCardProps) {
   const { locale } = useSession()
@@ -107,7 +108,15 @@ export default function ProductCard({
   })
 
   return (
-    <article className={styles.productCard} {...dataProps}>
+    <article
+      className={[
+        styles.productCard,
+        staticCard && styles['productCard--static'],
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      {...dataProps}
+    >
       <a className={styles.productCard__link} {...linkProps}>
         <span className={styles.productCard__media}>
           {image && (

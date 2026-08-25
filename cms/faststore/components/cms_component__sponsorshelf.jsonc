@@ -1,0 +1,19 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "SponsorShelf",
+  "$componentTitle": "[ARB] Sponsor Shelf",
+  "title": "[ARB] Sponsor Shelf",
+  "description": "Carousel of the collection the consultant picked. The collection comes from their Sponsors List row, not from here; renders nothing without ?sponsor=",
+  "type": "object",
+  "properties": {
+    "numberOfItems": {
+      "title": "Products to Load",
+      "type": "number",
+      "default": 8
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

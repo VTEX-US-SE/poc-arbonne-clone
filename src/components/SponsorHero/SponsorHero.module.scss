@@ -15,6 +15,30 @@
     border-radius: var(--fs-border-radius);
   }
 
+  &__notFound {
+    padding: var(--fs-spacing-7) var(--fs-spacing-4);
+    text-align: center;
+
+    @media (min-width: 64rem) {
+      padding: var(--fs-spacing-9) var(--fs-spacing-7);
+    }
+  }
+
+  /* `__greeting` is capped at 60rem and left-aligned for the profile layout;
+     centred here it would otherwise sit off to one side inside the wider card. */
+  &__notFound &__greeting {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /* `Button` renders block-level, so the parent's `text-align: center` does not
+     reach it -- this centres it whatever its own display type turns out to be. */
+  &__notFoundActions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--fs-spacing-5);
+  }
+
   &__banner {
     display: block;
 

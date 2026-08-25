@@ -1,4 +1,5 @@
 import useSponsor from '../../hooks/useSponsor'
+import Button from '../Button/Button'
 import SponsorHeroSkeleton from './SponsorHeroSkeleton'
 import styles from './SponsorHero.module.scss'
 
@@ -11,10 +12,34 @@ import styles from './SponsorHero.module.scss'
  * stands on its own.
  */
 export default function SponsorHero() {
-  const { sponsor, loading } = useSponsor()
+  const { sponsor, loading, notFound } = useSponsor()
 
   if (loading) {
     return <SponsorHeroSkeleton />
+  }
+
+  // A link to a consultant who is not there. Says so, rather than quietly
+  // rendering the page as if no consultant had been asked for.
+  if (notFound) {
+    return (
+      <section className={styles.sponsorHero}>
+        <div className={styles.sponsorHero__card}>
+          <div className={styles.sponsorHero__notFound}>
+            <h1 className={styles.sponsorHero__name}>Consultant not found</h1>
+            <p className={styles.sponsorHero__greeting}>
+              This link does not match any Arbonne Independant Consultant. The
+              link may be out of date, or the consultant may no longer be
+              active.
+            </p>
+            <div className={styles.sponsorHero__notFoundActions}>
+              <Button colorScheme="green" href="/">
+                CONTINUE TO ARBONNE
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
   }
 
   if (!sponsor) {

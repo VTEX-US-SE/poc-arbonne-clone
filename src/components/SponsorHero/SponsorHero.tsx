@@ -27,7 +27,7 @@ export default function SponsorHero() {
           <div className={styles.sponsorHero__notFound}>
             <h1 className={styles.sponsorHero__name}>Consultant not found</h1>
             <p className={styles.sponsorHero__greeting}>
-              This link does not match any Arbonne Independant Consultant. The
+              This link does not match any Arbonne Independent Consultant. The
               link may be out of date, or the consultant may no longer be
               active.
             </p>

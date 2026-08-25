@@ -51,7 +51,7 @@ export default function SponsorPanel({
           Hey there, it&apos;s {displayName}.
         </p>
         <p className={styles.sponsorPanel__label}>
-          Your Independant Consultant
+          Your Independent Consultant
         </p>
 
         <Button
@@ -84,7 +84,7 @@ export default function SponsorPanel({
   if (asModal) {
     return (
       <BaseModal
-        ariaLabel="Your Independant Consultant"
+        ariaLabel="Your Independent Consultant"
         className={`${styles.sponsorPanel} ${styles['sponsorPanel--modal']}`}
         onClose={onClose}
         open={open}
@@ -96,7 +96,7 @@ export default function SponsorPanel({
 
   return (
     <div
-      aria-label="Your Independant Consultant"
+      aria-label="Your Independent Consultant"
       className={styles.sponsorPanel}
       role="dialog"
     >

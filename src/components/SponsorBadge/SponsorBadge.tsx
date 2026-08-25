@@ -93,7 +93,7 @@ export default function SponsorBadge({
             </span>
 
             <span className={styles.sponsorBadge__side}>
-              Independant Consultant
+              Independent Consultant
             </span>
           </>
         ) : (
@@ -106,7 +106,7 @@ export default function SponsorBadge({
 
             <span className={styles.sponsorBadge__text}>
               <span className={styles.sponsorBadge__label}>
-                Your Independant Consultant
+                Your Independent Consultant
               </span>
               <span className={styles.sponsorBadge__name}>
                 {sponsor.displayName} {arbonneId}

@@ -1,0 +1,115 @@
+.sponsorPanel {
+  position: absolute;
+  top: calc(100% + var(--fs-spacing-2));
+  left: 0;
+  z-index: var(--fs-z-index-highest);
+  width: min(23rem, calc(100vw - 2rem));
+  overflow: hidden;
+  background-color: var(--arb-color-white);
+  border: 1px solid var(--arb-color-border-soft);
+  border-radius: var(--fs-border-radius);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+
+  /* The mobile badge sits in a centred strip, so anchoring the panel to its
+     left edge would push it off the right of a narrow screen. */
+  @media (max-width: 63.9375rem) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* A fixed brand image rather than the consultant's own upload, so it is set
+     here rather than inline. No overlay: the copy relies on its own shadow. */
+  &__banner {
+    position: relative;
+    box-sizing: border-box;
+    padding: var(--fs-spacing-6) var(--fs-spacing-5);
+    background-image: url('https://arbonnepoc.vtexassets.com/assets/vtex.file-manager-graphql/images/ff2a8439-e42f-44b5-8a3c-dc8fa2502bd7___23e361e9c6b7975bf651712be6da706c.jpg');
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+  }
+
+  &__close {
+    position: absolute;
+    top: var(--fs-spacing-3);
+    right: var(--fs-spacing-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--arb-color-white);
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &__avatar {
+    box-sizing: border-box;
+    display: block;
+    width: 6rem;
+    height: 6rem;
+    margin: 0 auto var(--fs-spacing-4);
+    overflow: hidden;
+    background-color: var(--arb-color-gray-light);
+    border: 3px solid var(--arb-color-white);
+    border-radius: 50%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__greeting {
+    margin: 0 0 var(--fs-spacing-1);
+    font-family: var(--arb-font-heading);
+    font-size: 1.375rem;
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--arb-color-white);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  }
+
+  &__label {
+    margin: 0 0 var(--fs-spacing-5);
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    color: var(--arb-color-white);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  }
+
+  &__cta {
+    display: inline-flex;
+  }
+
+  &__footer {
+    padding: var(--fs-spacing-4);
+    text-align: center;
+  }
+
+  &__clear {
+    padding: 0;
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    color: var(--arb-color-green);
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--arb-color-green-dark);
+    }
+  }
+}
+
+/* As a modal it is placed by `Modal` itself, so the anchoring the popover needs
+   has to come back off. */
+.sponsorPanel--modal {
+  position: static;
+  left: auto;
+  transform: none;
+}

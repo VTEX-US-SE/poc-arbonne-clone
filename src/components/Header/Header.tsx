@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Icon } from '@faststore/ui'
 
 import { slugHref } from '../../utils/href'
+import AccountButton from '../AccountButton/AccountButton'
 import CartButton from '../CartButton/CartButton'
 import CountrySelectorModal from '../CountrySelectorModal/CountrySelectorModal'
 import LoginModal from '../LoginModal/LoginModal'
@@ -14,6 +15,8 @@ import styles from './Header.module.scss'
 import type { HeaderProps } from './Header.types'
 import LocaleFlag from '../LocaleFlag/LocaleFlag'
 import SkipLink from './SkipLink'
+import SponsorBadge from '../SponsorBadge/SponsorBadge'
+import useAttributeSession from '../../hooks/useAttributeSession'
 
 /**
  * Site-wide header: centered logo, utility icons, and a top nav row whose
@@ -34,6 +37,10 @@ export default function Header({
   countryOptions = [],
   mobileNavItems = [],
 }: HeaderProps) {
+  // Mounted here because the header is on every page, so the session's
+  // consultant stays in step wherever the shopper navigates.
+  useAttributeSession()
+
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
   const [countryOpen, setCountryOpen] = useState(false)
@@ -76,6 +83,8 @@ export default function Header({
         <SkipLink />
 
         <div className={styles.header__topRow}>
+          <SponsorBadge />
+
           {logo?.src && (
             <Link className={styles.header__logo} href={logo.url ?? '/'}>
               <img src={logo.src} alt={logo.alt || 'Arbonne'} />
@@ -84,15 +93,10 @@ export default function Header({
 
           <div className={styles.header__utility}>
             <SearchBox placeholder={searchPlaceholder} />
-            <button
-              type="button"
+            <AccountButton
               className={styles.header__iconButton}
-              aria-label="Login"
-              onClick={() => setLoginOpen(true)}
-            >
-              <Icon name="User" width={24} height={24} />
-              <span>Login</span>
-            </button>
+              onLoginClick={() => setLoginOpen(true)}
+            />
             <CartButton />
             <button
               type="button"
@@ -126,6 +130,9 @@ export default function Header({
             <SearchBox placeholder={searchPlaceholder} />
             <CartButton />
           </div>
+        </div>
+        <div className={styles.header__mobileSponsor}>
+          <SponsorBadge variant="strip" />
         </div>
 
         <nav className={styles.header__nav}>

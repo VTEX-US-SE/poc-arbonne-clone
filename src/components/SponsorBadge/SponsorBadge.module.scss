@@ -1,0 +1,107 @@
+/* Anchors the panel, which is positioned against this. Visibility belongs to
+   the header: it renders one of these per breakpoint, and only one is ever
+   displayed. */
+.sponsorBadge__root {
+  position: relative;
+}
+
+.sponsorBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-spacing-2);
+  padding: 0;
+  /* A `button` is centred by the browser, which shows up as the shorter line
+     sitting off-centre under the longer one. The strip variant sets its own
+     alignment per cell and overrides this. */
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+
+  &__avatar {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    overflow: hidden;
+    background-color: var(--arb-color-gray-light);
+    border-radius: 50%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.35;
+  }
+
+  /* One family, three weights of emphasis: the relationship is the headline,
+     the consultant reads as their name, and the opt-out stays quiet. */
+  &__label {
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    font-weight: var(--fs-text-weight-bold);
+    color: var(--arb-color-text);
+  }
+
+  &__name {
+    font-family: var(--arb-font-body);
+    font-size: 0.875rem;
+    font-weight: var(--fs-text-weight-regular);
+    color: var(--arb-color-gray-muted-text);
+  }
+}
+
+/* Mobile band, as production renders it: name and role either side of the
+   avatar, which is larger and lifts out of the strip. */
+.sponsorBadge--strip {
+  gap: var(--fs-spacing-4);
+  justify-content: center;
+  width: 100%;
+
+  .sponsorBadge__avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    /* Lifts clear of the band without adding to its height. */
+    margin-top: -1.25rem;
+    margin-bottom: -1.25rem;
+    border: 3px solid var(--arb-color-white);
+  }
+
+  .sponsorBadge__side {
+    flex: 1;
+    font-family: var(--arb-font-body);
+    font-size: 0.75rem;
+    font-weight: var(--fs-text-weight-semibold);
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+    color: var(--arb-color-text);
+
+    &:first-child {
+      text-align: right;
+    }
+
+    &:last-child {
+      text-align: left;
+    }
+  }
+
+  /* Blocks rather than a nested flex column, so each line keeps whichever
+     alignment its cell already sets. */
+  .sponsorBadge__sideName,
+  .sponsorBadge__sideId {
+    display: block;
+  }
+
+  .sponsorBadge__sideId {
+    font-weight: var(--fs-text-weight-regular);
+    color: var(--arb-color-gray-muted-text);
+  }
+}

@@ -35,15 +35,13 @@ client calls Intelligent Search, so following the type gives `undefined`.
 
 ## What we built
 
-| File                                                        | Purpose                                                            |
-| ----------------------------------------------------------- | ------------------------------------------------------------------ |
-| `src/graphql/vtex/typeDefs/assemblyOptions.graphql`         | `extend type StoreProduct { assemblyOptions }`                     |
-| `src/graphql/vtex/resolvers/parseComposition.ts`            | composition parser, both shapes                                    |
-| `src/graphql/vtex/resolvers/index.ts`                       | resolver; hydrates children via `skuLoader`                        |
-| `src/components/AssemblySet/`                               | the picker section                                                 |
-| `cms/faststore/components/cms_component__assemblyset.jsonc` | CMS schema                                                         |
-| `scripts/check-composition.mjs`                             | parser self-check — `node scripts/check-composition.mjs`           |
-| `scripts/check-assembly-set.mjs`                            | selection rules self-check — `node scripts/check-assembly-set.mjs` |
+| File                                                        | Purpose                                        |
+| ----------------------------------------------------------- | ---------------------------------------------- |
+| `src/graphql/vtex/typeDefs/assemblyOptions.graphql`         | `extend type StoreProduct { assemblyOptions }` |
+| `src/graphql/vtex/resolvers/parseComposition.ts`            | composition parser, both shapes                |
+| `src/graphql/vtex/resolvers/index.ts`                       | resolver; hydrates children via `skuLoader`    |
+| `src/components/AssemblySet/`                               | the picker section                             |
+| `cms/faststore/components/cms_component__assemblyset.jsonc` | CMS schema                                     |
 
 **One page serves every set.** A single `landingPage` at `/assembly-option`
 carries the section, and the parent's **product id** arrives in the query
@@ -197,8 +195,6 @@ first three counting an item that would never be bought: the CTA enabled on an
 under-filled set, and the price shown was higher than the price charged. An
 out-of-stock card also hides its stepper, so the shopper could not have cleared
 the seed themselves.
-
-`scripts/check-assembly-set.mjs` guards the invariant.
 
 What is **not** handled: if enough children go out of stock that the in-stock
 pool falls below the group minimum, the gate can never be satisfied and the CTA

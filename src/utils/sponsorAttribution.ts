@@ -7,6 +7,28 @@ const COOKIE_NAME = 'arb_sponsor'
  */
 const WINDOW_HOURS = 48
 
+/**
+ * Readers of the cookie, so a write reaches them without a reload.
+ *
+ * The header badge mounts before the landing page has resolved its consultant,
+ * so a one-shot read finds nothing and the badge would only appear on the next
+ * navigation. Notifying is cheaper than polling and keeps the cookie the single
+ * source of truth.
+ */
+const listeners = new Set<() => void>()
+
+export function subscribeSponsorAttribution(listener: () => void) {
+  listeners.add(listener)
+
+  return () => {
+    listeners.delete(listener)
+  }
+}
+
+function notify() {
+  listeners.forEach((listener) => listener())
+}
+
 /** The attributed consultant's Arbonne ID, or `null`. */
 export function readSponsorAttribution(): string | null {
   if (typeof document === 'undefined') {
@@ -42,6 +64,8 @@ export function writeSponsorAttribution(arbonneId: string) {
   document.cookie = `${COOKIE_NAME}=${encodeURIComponent(
     arbonneId
   )}; path=/; expires=${expires}; samesite=lax${secure}`
+
+  notify()
 }
 
 export function clearSponsorAttribution() {
@@ -50,4 +74,6 @@ export function clearSponsorAttribution() {
   }
 
   document.cookie = `${COOKIE_NAME}=; path=/; max-age=0; samesite=lax`
+
+  notify()
 }

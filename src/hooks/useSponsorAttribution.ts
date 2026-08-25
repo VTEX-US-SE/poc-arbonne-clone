@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import {
   clearSponsorAttribution,
   readSponsorAttribution,
+  subscribeSponsorAttribution,
 } from '../utils/sponsorAttribution'
 import useSponsorById from './useSponsorById'
 
@@ -20,15 +21,22 @@ import useSponsorById from './useSponsorById'
 export default function useSponsorAttribution() {
   const [arbonneId, setArbonneId] = useState('')
 
+  // Subscribed rather than read once: on a landing page the cookie is written
+  // after this has already mounted and found nothing.
   useEffect(() => {
-    setArbonneId(readSponsorAttribution() ?? '')
+    const sync = () => setArbonneId(readSponsorAttribution() ?? '')
+
+    sync()
+
+    return subscribeSponsorAttribution(sync)
   }, [])
 
   const { sponsor, loading } = useSponsorById(arbonneId)
 
+  // No local `setState` -- clearing notifies, which syncs this and every other
+  // reader.
   const clear = useCallback(() => {
     clearSponsorAttribution()
-    setArbonneId('')
   }, [])
 
   return { arbonneId, sponsor, loading, clear }

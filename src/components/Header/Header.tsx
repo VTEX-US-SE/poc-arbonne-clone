@@ -78,7 +78,9 @@ export default function Header({
         <SkipLink />
 
         <div className={styles.header__topRow}>
-          <SponsorBadge />
+          <div className={styles.header__sponsorSlot}>
+            <SponsorBadge />
+          </div>
 
           {logo?.src && (
             <Link className={styles.header__logo} href={logo.url ?? '/'}>

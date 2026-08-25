@@ -5,6 +5,7 @@ import {
   clearSponsorAttribution,
   readSponsorAttribution,
   subscribeSponsorAttribution,
+  writeSponsorToSession,
 } from '../utils/sponsorAttribution'
 import useSponsorById from './useSponsorById'
 import useSponsorOfRecord from './useSponsorOfRecord'
@@ -47,11 +48,28 @@ export default function useSponsorAttribution() {
   }, [])
 
   const sponsor = followed.sponsor ?? ofRecord.sponsor
+  const arbonneId = sponsor?.arbonneId ?? ''
+  const loading = followed.loading || ofRecord.loading
+
+  /**
+   * The order is attributed to whoever the badge is showing, so the stamp
+   * follows the same resolution rather than only the landing page: a shopper
+   * bound to a consultant carries them on every order, and following another
+   * consultant's link takes over while its cookie lives.
+   *
+   * Held back until the lookups settle -- writing mid-resolve would clear the
+   * value and then put it straight back.
+   */
+  useEffect(() => {
+    if (loading) return
+
+    writeSponsorToSession(arbonneId)
+  }, [arbonneId, loading])
 
   return {
-    arbonneId: sponsor?.arbonneId ?? '',
+    arbonneId,
     sponsor,
-    loading: followed.loading || ofRecord.loading,
+    loading,
     /**
      * Only a followed link can be dropped. The sponsor of record is the
      * shopper's own binding, which is not this control's to undo -- changing it

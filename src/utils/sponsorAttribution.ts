@@ -1,3 +1,5 @@
+import { sessionStore } from 'src/sdk/session'
+
 const COOKIE_NAME = 'arb_sponsor'
 
 /**
@@ -76,4 +78,44 @@ export function clearSponsorAttribution() {
   document.cookie = `${COOKIE_NAME}=; path=/; max-age=0; samesite=lax`
 
   notify()
+}
+
+/**
+ * Puts the attributed consultant on the session, which is what carries it to the
+ * order.
+ *
+ * Writing it onto the cart directly does not survive: `validateCart` spreads the
+ * session's `marketingData` over the cart's on every validation, so a value the
+ * session does not know about is cleared the next time anything touches the
+ * cart. On the session that same code reapplies it.
+ *
+ * `utmiPart` rather than `utmSource`: ad platforms own the `utm_*` family, and
+ * overwriting those would destroy paid-campaign attribution on the order.
+ *
+ * An empty `arbonneId` clears it. That matters after dropping a followed link
+ * with no binding to fall back to -- leaving the old value would keep crediting
+ * a consultant the shopper just rejected.
+ */
+export function writeSponsorToSession(arbonneId: string) {
+  const session = sessionStore.read()
+
+  if (!session || (session.marketingData?.utmiPart ?? '') === arbonneId) {
+    return
+  }
+
+  const current = session.marketingData
+
+  // Every field spelled out because `MarketingData` requires all six -- and it
+  // keeps the preservation of the others explicit rather than incidental.
+  sessionStore.set({
+    ...session,
+    marketingData: {
+      utmCampaign: current?.utmCampaign ?? '',
+      utmMedium: current?.utmMedium ?? '',
+      utmSource: current?.utmSource ?? '',
+      utmiCampaign: current?.utmiCampaign ?? '',
+      utmiPage: current?.utmiPage ?? '',
+      utmiPart: arbonneId,
+    },
+  })
 }

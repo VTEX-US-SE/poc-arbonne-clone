@@ -1,0 +1,26 @@
+channels:
+  - name: "Arbonne Beauty Consultant"
+    channel_type: "E2"
+    schemes:
+      - "external"
+    config:
+      mo_response_content_type: "application/json"
+      mo_response: '{"success": true}'
+      mt_response_check: ""
+      # Unused: the storefront polls /api/v2/messages.json for agent replies
+      # instead of receiving them on a callback, but the field is required.
+      send_url: "https://webhook.site/f5fbae61-60a2-4054-ba15-c6a9a43eb382"
+      send_method: "POST"
+      send_template: |
+        {
+          "recipient": "{{to}}",
+          "content": "{{text}}",
+          "sender_id": "{{channel}}"
+        }
+      content_type: "application/json"
+      # Courier unmarshals the rendered JSON into {messages:[{urn_path, text, ...}]}.
+      # A flat {from, text} object yields zero messages and then panics on msgs[0].
+      # Template data is the POST body itself: our BFF sends from, message, date, id.
+      receive_template: |
+        {"messages":[{"id":"{{.id}}","urn_path":"{{.from}}","text":"{{.message}}","contact_name":"{{.contact_name}}","date":"{{.date}}"}]}
+      send_authorization: ""

@@ -10,9 +10,15 @@ Settings for deployed environments:
 
 ```text
 WENI_TOKEN=<Weni API token>
-WENI_RECEIVE_URL=https://flows.weni.ai/c/<Arbonne channel>/receive
+WENI_RECEIVE_URL=https://flows.weni.ai/c/e2/4a2bc92b-57c0-4781-94a2-741bb103a02c/receive
 WENI_MESSAGES_URL=https://flows.weni.ai/api/v2/messages.json
 ```
+
+The receive URL is the E2 channel webhook. Courier renders `receive_template`
+as a Go template against the POST body and must emit
+`{"messages":[{"urn_path","text",...}]}` — a flat `{from,text}` object is
+accepted as JSON then panics. Recreate from `my_channel.yaml` if the UUID
+changes.
 
 `WENI_MESSAGES_URL` is optional and defaults to Weni's standard messages API.
 Never expose these values through CMS fields or browser-side environment

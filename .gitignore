@@ -54,3 +54,6 @@ lighthouserc.js
 /public/icons.svg
 /public/logo.svg
 /public/mockServiceWorker.js
+
+# local Weni CLI (do not commit)
+/venv

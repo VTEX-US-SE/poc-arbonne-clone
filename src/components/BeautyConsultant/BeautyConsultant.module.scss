@@ -1,0 +1,341 @@
+@use '../../styles/mixins';
+
+/* A glass panel floating on a dark botanical backdrop. The brand palette is
+   built for light surfaces, so the light-on-dark values here are local: the
+   tokens cover the fills that stay branded (the green send button, the shopper
+   bubble) while translucent whites carry the glass itself. */
+.beautyConsultant {
+  @include mixins.section-spacing;
+
+  /* The panel has to hold everything at once, so its vertical metrics follow
+     viewport height rather than fixed tokens: full size on a normal screen,
+     tightened on a short one. Each token stays the upper bound, so nothing here
+     grows past the design. */
+  --arb-consultant-inset: clamp(var(--fs-spacing-3), 3svh, var(--fs-spacing-4));
+  --arb-consultant-pad-block: clamp(
+    var(--fs-spacing-3),
+    4svh,
+    var(--fs-spacing-5)
+  );
+  --arb-consultant-gap: clamp(var(--fs-spacing-2), 3svh, var(--fs-spacing-5));
+  --arb-consultant-gap-sm: clamp(
+    var(--fs-spacing-1),
+    2svh,
+    var(--fs-spacing-3)
+  );
+  /* Viewport left for the panel once the section's own breathing room is
+     removed. Derived from the inset so the two can never drift apart. */
+  --arb-consultant-space: calc(100svh - (2 * var(--arb-consultant-inset)));
+
+  /* Typography — fluid steps on a ~1.2 ratio scale. Custom properties inherit
+     into ChatInput, MessageBubble and the other sub-components. */
+  --arb-consultant-type-eyebrow: clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem);
+  --arb-consultant-type-headline-intro: clamp(2rem, 1.65rem + 1.75vw, 2.875rem);
+  --arb-consultant-type-headline-chat: clamp(
+    1.125rem,
+    1.05rem + 0.35vw,
+    1.3125rem
+  );
+  --arb-consultant-type-body: clamp(0.9375rem, 0.9rem + 0.18vw, 1.0625rem);
+  --arb-consultant-type-ui: 1rem;
+  --arb-consultant-type-prompt: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  --arb-consultant-type-caption: 0.75rem;
+
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding: var(--arb-consultant-inset) var(--fs-spacing-3);
+  /* Overrides section-spacing above: this section owns the viewport, with the
+     header and footer suppressed, so a stacking gap would only expose strips of
+     body background around a full-bleed backdrop. */
+  margin: 0;
+  overflow: hidden;
+  color: var(--arb-color-white);
+  background-color: #05100c;
+  isolation: isolate;
+
+  /* Depth without an image: emerald blooms over near-black, vignetted so the
+     panel's edges keep their contrast wherever it sits. */
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: '';
+    background:
+      radial-gradient(70% 55% at 18% 10%, rgb(36 99 70 / 62%), transparent 68%),
+      radial-gradient(
+        55% 45% at 88% 88%,
+        rgb(111 157 109 / 30%),
+        transparent 70%
+      ),
+      radial-gradient(
+        65% 50% at 78% 18%,
+        rgb(223 156 138 / 12%),
+        transparent 65%
+      ),
+      radial-gradient(130% 95% at 50% 50%, transparent 20%, rgb(2 8 6 / 88%));
+  }
+
+  /* The CMS image sits behind everything, blurred and dimmed. Scaled up so the
+     blur radius has pixels to sample past each edge instead of fading out. */
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(2.75rem) saturate(115%) brightness(0.5);
+    transform: scale(1.12);
+  }
+
+  &__panel {
+    position: relative;
+    display: grid;
+    box-sizing: border-box;
+    width: min(100%, 34rem);
+    /* Never taller than the space the section actually offers: a fixed floor
+       would overflow a short window, and centred rows spill symmetrically into
+       the padding, so the copy ends up flush against the glass edges. Measured
+       against the viewport rather than the grid area, whose auto row grows with
+       the panel and would leave a percentage cap unresolved. */
+    max-height: var(--arb-consultant-space);
+    padding: var(--arb-consultant-pad-block) var(--fs-spacing-4);
+    overflow: hidden;
+    background: linear-gradient(
+      160deg,
+      rgb(255 255 255 / 15%),
+      rgb(255 255 255 / 6%)
+    );
+    border: 1px solid rgb(255 255 255 / 20%);
+    border-radius: 2rem;
+    box-shadow:
+      0 2rem 5rem rgb(0 0 0 / 45%),
+      inset 0 1px 0 rgb(255 255 255 / 30%),
+      inset 0 -1px 0 rgb(255 255 255 / 8%);
+    -webkit-backdrop-filter: blur(2rem) saturate(160%);
+    backdrop-filter: blur(2rem) saturate(160%);
+
+    /* Specular sheen across the top corner, the cue that reads as glass. */
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      content: '';
+      background: radial-gradient(
+        115% 75% at 18% 0%,
+        rgb(255 255 255 / 20%),
+        transparent 62%
+      );
+      pointer-events: none;
+    }
+
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  /* Blur is what separates the panel from the backdrop, so without support the
+     surface has to carry its own opacity or the copy sits on the photo. */
+  @supports not (backdrop-filter: blur(1px)) {
+    &__panel {
+      background: rgb(8 30 22 / 88%);
+    }
+  }
+
+  &[data-state='intro'] &__panel {
+    /* The opening screen is a compact card — height follows the copy, input,
+       and prompts instead of stretching to a viewport fraction and leaving
+       empty glass above and below the cluster. */
+    align-content: start;
+    row-gap: var(--arb-consultant-gap);
+    min-height: 0;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  &[data-state='chat'] &__panel {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    row-gap: var(--arb-consultant-gap-sm);
+    min-height: min(34rem, var(--arb-consultant-space));
+  }
+
+  /* The global focus ring is brand ink, which disappears on this surface. */
+  :where(a, button, input, [tabindex]):focus-visible {
+    outline: 2px solid var(--arb-color-white);
+    outline-offset: 2px;
+  }
+
+  &__intro {
+    text-align: center;
+  }
+
+  &__logo {
+    display: block;
+    width: auto;
+    max-width: 10rem;
+    max-height: clamp(1.75rem, 5svh, 2.5rem);
+    margin: 0 auto var(--arb-consultant-gap-sm);
+  }
+
+  &__eyebrow {
+    margin: 0 0 var(--arb-consultant-gap-sm);
+    color: rgb(207 228 215 / 88%);
+    font-family: var(--arb-font-heading);
+    font-size: var(--arb-consultant-type-eyebrow);
+    font-weight: var(--fs-text-weight-black);
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  &__headline {
+    margin: 0;
+    font-family: var(--arb-font-display);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0.15rem 1.5rem rgb(2 8 6 / 45%);
+  }
+
+  &[data-state='intro'] &__headline {
+    max-width: 16em;
+    margin-inline: auto;
+    font-size: var(--arb-consultant-type-headline-intro);
+    text-wrap: balance;
+  }
+
+  &[data-state='chat'] &__headline {
+    font-size: var(--arb-consultant-type-headline-chat);
+    line-height: 1.15;
+  }
+
+  &__copy {
+    max-width: 30rem;
+    margin: var(--arb-consultant-gap-sm) auto 0;
+    color: rgb(255 255 255 / 78%);
+    font-family: var(--arb-font-body);
+    font-size: var(--arb-consultant-type-body);
+    font-weight: var(--fs-text-weight-regular);
+    line-height: 1.55;
+  }
+
+  &__messages {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-spacing-3);
+    padding-right: var(--fs-spacing-1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: rgb(255 255 255 / 35%) transparent;
+    scrollbar-width: thin;
+  }
+
+  &__composer {
+    display: grid;
+    row-gap: var(--arb-consultant-gap-sm);
+  }
+
+  &__prompts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--arb-consultant-gap-sm);
+
+    @media (min-width: 36rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    button {
+      width: 100%;
+      padding: clamp(var(--fs-spacing-0), 1svh, var(--fs-spacing-1))
+        var(--fs-spacing-3);
+      color: rgb(255 255 255 / 92%);
+      font-family: var(--arb-font-body);
+      font-size: var(--arb-consultant-type-prompt);
+      font-weight: var(--fs-text-weight-bold);
+      line-height: 1.35;
+      cursor: pointer;
+      background: rgb(255 255 255 / 12%);
+      border: 1px solid rgb(255 255 255 / 22%);
+      border-radius: 999px;
+      -webkit-backdrop-filter: blur(0.5rem);
+      backdrop-filter: blur(0.5rem);
+
+      &:hover {
+        background: rgb(255 255 255 / 24%);
+        border-color: rgb(255 255 255 / 40%);
+      }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fs-spacing-0) var(--fs-spacing-3);
+    color: rgb(255 255 255 / 58%);
+    font-family: var(--arb-font-body);
+    font-size: var(--arb-consultant-type-caption);
+    line-height: 1.45;
+    text-align: center;
+
+    p {
+      margin: 0;
+    }
+
+    button {
+      padding: 0;
+      color: var(--arb-color-white);
+      font: inherit;
+      font-weight: var(--fs-text-weight-bold);
+      text-decoration: underline;
+      text-underline-offset: 0.2rem;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+    }
+  }
+
+  /* Two thirds of the viewport, capped so it stops growing on wide monitors. */
+  @media (min-width: 64rem) {
+    --arb-consultant-inset: clamp(
+      var(--fs-spacing-3),
+      4svh,
+      var(--fs-spacing-6)
+    );
+    --arb-consultant-pad-block: clamp(
+      var(--fs-spacing-3),
+      4svh,
+      var(--fs-spacing-7)
+    );
+    --arb-consultant-type-headline-intro: clamp(
+      2.25rem,
+      1.85rem + 1.5vw,
+      3.25rem
+    );
+
+    padding: var(--arb-consultant-inset) var(--fs-spacing-6);
+
+    &__panel {
+      width: min(66vw, 56rem);
+      min-height: 0;
+      height: min(max(26rem, 66vh), 44rem, var(--arb-consultant-space));
+      padding: var(--arb-consultant-pad-block) var(--fs-spacing-7);
+    }
+
+    &[data-state='intro'] &__panel {
+      width: min(100%, 42rem);
+      height: auto;
+      min-height: 0;
+      max-height: none;
+    }
+
+    &[data-state='intro'] &__headline {
+      max-width: 14em;
+    }
+  }
+}

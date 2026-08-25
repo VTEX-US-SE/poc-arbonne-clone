@@ -1,0 +1,18 @@
+type ArbAgentMessage {
+  id: ID!
+  direction: String!
+  text: String!
+  createdOn: String
+}
+
+extend type Query {
+  arbAgentMessages(urn: String!): [ArbAgentMessage!]!
+}
+
+extend type Mutation {
+  arbSendAgentMessage(
+    from: String!
+    message: String!
+    contactName: String
+  ): Boolean!
+}

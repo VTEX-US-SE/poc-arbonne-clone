@@ -1,6 +1,7 @@
 import { addComposedSet, type ComposedSetInput } from './composedSet'
 import { addRegistration, type RegistrationInput } from './registration'
 import { parseAttachment, type RawAttachment } from './parseComposition'
+import { sponsorByArbonneId } from './sponsor'
 
 interface AssemblyItemRoot {
   skuId: string
@@ -35,6 +36,11 @@ const resolvers = {
           }
         })
         .filter(Boolean),
+  },
+
+  Query: {
+    arbSponsor: (_root: unknown, { arbonneId }: { arbonneId: string }) =>
+      sponsorByArbonneId(arbonneId),
   },
 
   Mutation: {

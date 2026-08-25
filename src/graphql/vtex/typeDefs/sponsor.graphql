@@ -1,0 +1,20 @@
+extend type Query {
+  """
+  One consultant's public storefront profile, by their Arbonne ID. `null` when
+  no consultant matches.
+  """
+  arbSponsor(arbonneId: String!): ArbSponsor
+}
+
+"""
+The subset of a Sponsors List row a storefront visitor may see. Deliberately
+omits `userId`, which is the customer's CL document id.
+"""
+type ArbSponsor {
+  displayName: String
+  displayDescription: String
+  profilePicture: String
+  desktopImage: String
+  mobileImage: String
+  displayCollection: String
+}

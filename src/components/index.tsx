@@ -10,6 +10,7 @@ import LegalDisclaimer from './LegalDisclaimer/LegalDisclaimer'
 import ProductDetails from './ProductDetails/ProductDetails'
 import ProductShowcases from './ProductShowcases/ProductShowcases'
 import SectionHeader from './SectionHeader/SectionHeader'
+import SponsorHero from './SponsorHero/SponsorHero'
 import TwoColumnCards from './TwoColumnCards/TwoColumnCards'
 
 /**
@@ -27,6 +28,7 @@ export default {
   TwoColumnCards,
   ProductShowcases,
   ProductDetails,
+  SponsorHero,
   JoinForm,
   AssemblySet,
   LegalDisclaimer,

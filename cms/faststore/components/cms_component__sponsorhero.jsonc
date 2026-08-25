@@ -1,0 +1,13 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "SponsorHero",
+  "$componentTitle": "[ARB] Sponsor Hero",
+  "title": "[ARB] Sponsor Hero",
+  "description": "Consultant storefront header. Reads ?sponsor=<Arbonne ID> from the URL and takes every value from that consultant's Sponsors List row; renders nothing without it",
+  "type": "object",
+  "properties": {},
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

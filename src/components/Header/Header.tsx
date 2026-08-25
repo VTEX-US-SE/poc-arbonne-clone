@@ -16,7 +16,6 @@ import type { HeaderProps } from './Header.types'
 import LocaleFlag from '../LocaleFlag/LocaleFlag'
 import SkipLink from './SkipLink'
 import SponsorBadge from '../SponsorBadge/SponsorBadge'
-import useAttributeSession from '../../hooks/useAttributeSession'
 
 /**
  * Site-wide header: centered logo, utility icons, and a top nav row whose
@@ -37,10 +36,6 @@ export default function Header({
   countryOptions = [],
   mobileNavItems = [],
 }: HeaderProps) {
-  // Mounted here because the header is on every page, so the session's
-  // consultant stays in step wherever the shopper navigates.
-  useAttributeSession()
-
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
   const [countryOpen, setCountryOpen] = useState(false)

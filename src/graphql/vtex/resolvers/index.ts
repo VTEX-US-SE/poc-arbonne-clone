@@ -22,6 +22,9 @@ const resolvers = {
   Query: {
     arbAgentMessages: (_root: unknown, { urn }: { urn: string }) =>
       getAgentMessages(urn),
+
+    arbSponsor: (_root: unknown, { arbonneId }: { arbonneId: string }) =>
+      sponsorByArbonneId(arbonneId),
   },
 
   StoreProduct: {
@@ -42,11 +45,6 @@ const resolvers = {
           }
         })
         .filter(Boolean),
-  },
-
-  Query: {
-    arbSponsor: (_root: unknown, { arbonneId }: { arbonneId: string }) =>
-      sponsorByArbonneId(arbonneId),
   },
 
   Mutation: {

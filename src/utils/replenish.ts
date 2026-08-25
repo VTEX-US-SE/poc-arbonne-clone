@@ -1,5 +1,3 @@
-import type { PurchaseOption } from '../components/ProductDetails/ProductDetails.types'
-
 /**
  * The subscription plan as registered on the arbonnepoc account, and the
  * attachment field carrying the cadence. VTEX only generates a subscription
@@ -49,7 +47,7 @@ export function frequenciesFromDomain(
 }
 
 /** Shape `validateCart` recognises as a Checkout attachment. */
-export interface AttachmentProperty {
+interface AttachmentProperty {
   propertyID: string
   name: string
   value: Record<string, string>
@@ -85,10 +83,10 @@ export interface AttachmentProperty {
  * next sync pulled them apart.
  */
 export function replenishAttachment(
-  purchaseOption: PurchaseOption,
+  isReplenish: boolean,
   frequency: string
 ): AttachmentProperty[] {
-  if (purchaseOption !== 'replenish' || !frequency) {
+  if (!isReplenish || !frequency) {
     return []
   }
 

@@ -17,10 +17,10 @@ import { replenishAttachment } from '../../utils/replenish'
 import Skeleton from '../Skeleton/Skeleton'
 import styles from './ProductDetails.module.scss'
 import type {
-  ProductDetailsFrequency,
   ProductDetailsProps,
   PurchaseOption,
 } from './ProductDetails.types'
+import type { ReplenishFrequency } from '../../utils/replenish'
 import PurchaseOptions from './PurchaseOptions'
 import StickyBar from './StickyBar'
 
@@ -92,10 +92,8 @@ export default function ProductDetails({
   // product the ReplenishMe plan is not registered on -- including a set, whose
   // parent SKU carries the assembly attachment instead.
   const replenishFrequencies =
-    (
-      product as
-        { replenishFrequencies?: ProductDetailsFrequency[] } | undefined
-    )?.replenishFrequencies ?? []
+    (product as { replenishFrequencies?: ReplenishFrequency[] } | undefined)
+      ?.replenishFrequencies ?? []
 
   const selectedFrequency = frequency || (replenishFrequencies[0]?.value ?? '')
 
@@ -118,7 +116,10 @@ export default function ProductDetails({
             isVariantOf: product.isVariantOf,
             additionalProperty: [
               ...(product.additionalProperty ?? []),
-              ...replenishAttachment(purchaseOption, selectedFrequency),
+              ...replenishAttachment(
+                purchaseOption === 'replenish',
+                selectedFrequency
+              ),
             ],
             unitMultiplier: product.unitMultiplier,
           },
@@ -218,9 +219,7 @@ export default function ProductDetails({
           replenishFrequencies={replenishFrequencies}
           quantityLabel={quantityLabel}
           addToCartLabel={isCustomisableSet ? customizeLabel : addToCartLabel}
-          replenishCtaLabel={
-            isCustomisableSet ? customizeLabel : replenishCtaLabel
-          }
+          replenishCtaLabel={replenishCtaLabel}
           buyProps={buyProps}
           disabled={outOfStock}
           loading={isValidating}

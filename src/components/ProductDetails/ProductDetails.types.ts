@@ -1,13 +1,6 @@
-export type PurchaseOption = 'oneTime' | 'replenish'
+import type { ReplenishFrequency } from '../../utils/replenish'
 
-/**
- * One delivery cadence. `value` is the raw domain string VTEX validates the
- * cart attachment against, spacing included -- never trim it before sending.
- */
-export interface ProductDetailsFrequency {
-  value: string
-  label: string
-}
+export type PurchaseOption = 'oneTime' | 'replenish'
 
 export interface ProductDetailsProps {
   sizePropertyName?: string
@@ -65,7 +58,7 @@ export interface PurchaseOptionsProps
    * Empty hides the ReplenishMe option entirely -- the plan is not registered
    * on this product, so an attachment would be rejected at checkout.
    */
-  replenishFrequencies: ProductDetailsFrequency[]
+  replenishFrequencies: ReplenishFrequency[]
   purchaseOption: PurchaseOption
   onPurchaseOptionChange: (option: PurchaseOption) => void
   /** Already resolved to the first frequency when nothing has been picked. */

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import NextLink from 'next/link'
 import { BuyButton, QuantitySelector } from '@faststore/ui'
 import {
   Image_unstable as Image,
@@ -117,7 +118,16 @@ export default function ProductCard({
         .join(' ')}
       {...dataProps}
     >
-      <a className={styles.productCard__link} {...linkProps}>
+      {/* `useProductLink` is built to be spread onto a `next/link`, as core's
+          own card does. On a bare `<a>` every card click is a full document
+          reload, which cold-boots the cart store -- and a cart store that
+          boots before IndexedDB has flushed re-syncs an empty cart to
+          Checkout. `prefetch={false}` for the reason given in `Link.tsx`. */}
+      <NextLink
+        className={styles.productCard__link}
+        prefetch={false}
+        {...linkProps}
+      >
         <span className={styles.productCard__media}>
           {image && (
             <Image
@@ -130,7 +140,7 @@ export default function ProductCard({
           )}
         </span>
         <span className={styles.productCard__name}>{name}</span>
-      </a>
+      </NextLink>
 
       {gtin && (
         <p className={styles.productCard__refId}>

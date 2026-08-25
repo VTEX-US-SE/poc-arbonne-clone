@@ -17,6 +17,10 @@ export const fragment = gql(`
       assemblyOptions {
         id
       }
+      replenishFrequencies {
+        value
+        label
+      }
     }
   }
 `)

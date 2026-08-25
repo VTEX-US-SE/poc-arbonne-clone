@@ -13,9 +13,14 @@ import { RichText } from 'src/components/ui/RichText'
 import GalleryImage from './GalleryImage'
 import { setBuilderHref } from '../../utils/assemblySet'
 import { regionCodeFor } from '../../utils/locale'
+import { replenishAttachment } from '../../utils/replenish'
 import Skeleton from '../Skeleton/Skeleton'
 import styles from './ProductDetails.module.scss'
-import type { ProductDetailsProps } from './ProductDetails.types'
+import type {
+  ProductDetailsFrequency,
+  ProductDetailsProps,
+  PurchaseOption,
+} from './ProductDetails.types'
 import PurchaseOptions from './PurchaseOptions'
 import StickyBar from './StickyBar'
 
@@ -34,8 +39,8 @@ const KLARNA_BADGE_SRC =
  *
  * Everything real comes from the page's product -- the description already
  * contains the benefit bullets, "WHY IT'S DIFFERENT" and "GOOD FOR", so it
- * renders as HTML rather than being split into CMS fields. The purchase
- * options around it are mocked in code.
+ * renders as HTML rather than being split into CMS fields. Picking ReplenishMe
+ * attaches the subscription plan to the cart line -- see `utils/replenish`.
  */
 export default function ProductDetails({
   sizePropertyName = 'Volume',
@@ -48,9 +53,11 @@ export default function ProductDetails({
   oneTimeLabel,
   replenishTitle,
   replenishText,
-  replenishFrequencies,
 }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1)
+  const [purchaseOption, setPurchaseOption] =
+    useState<PurchaseOption>('oneTime')
+  const [frequency, setFrequency] = useState('')
   const [selectedImageIdx, setSelectedImageIdx] = useState(0)
   const [showStickyBar, setShowStickyBar] = useState(false)
   const { data } = usePDP()
@@ -81,6 +88,17 @@ export default function ProductDetails({
   )?.assemblyOptions
   const isCustomisableSet = Boolean(assemblyOptions?.length)
 
+  // Same cast, and for the same reason, as `assemblyOptions` above. Empty on a
+  // product the ReplenishMe plan is not registered on -- including a set, whose
+  // parent SKU carries the assembly attachment instead.
+  const replenishFrequencies =
+    (
+      product as
+        { replenishFrequencies?: ProductDetailsFrequency[] } | undefined
+    )?.replenishFrequencies ?? []
+
+  const selectedFrequency = frequency || (replenishFrequencies[0]?.value ?? '')
+
   const buyProps = useBuyButton(
     product && offer
       ? {
@@ -98,7 +116,10 @@ export default function ProductDetails({
             image: [product.image?.[0]],
             brand: product.brand,
             isVariantOf: product.isVariantOf,
-            additionalProperty: product.additionalProperty,
+            additionalProperty: [
+              ...(product.additionalProperty ?? []),
+              ...replenishAttachment(purchaseOption, selectedFrequency),
+            ],
             unitMultiplier: product.unitMultiplier,
           },
         }
@@ -207,6 +228,10 @@ export default function ProductDetails({
           onQuantityChange={setQuantity}
           onStickyChange={setShowStickyBar}
           ctaHref={builderHref}
+          purchaseOption={purchaseOption}
+          onPurchaseOptionChange={setPurchaseOption}
+          frequency={selectedFrequency}
+          onFrequencyChange={setFrequency}
         />
 
         {!isCustomisableSet && description}

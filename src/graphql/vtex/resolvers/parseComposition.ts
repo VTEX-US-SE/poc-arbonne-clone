@@ -38,8 +38,13 @@ const ITEM_RE = /^#([^[]+)\[(\d+)-(\d+)\]\[(\d+)\](.*)$/
  * Normalises either attachment shape into `{ fieldName, composition }` pairs.
  * Unparseable input yields an empty list rather than throwing -- a malformed
  * attachment should hide the set, not break the whole product query.
+ *
+ * Exported because every catalog attachment arrives in these same two shapes,
+ * not just assembly options -- `replenish.ts` reads the subscription plan's
+ * frequency domain through it. `composition` is whatever the field's domain
+ * holds; only assembly options put a composition string in there.
  */
-function readFields(
+export function readFields(
   attachment: RawAttachment
 ): Array<{ fieldName: string; composition: string }> {
   if (Array.isArray(attachment.fields)) {

@@ -42,3 +42,15 @@ vtex.env
 /.faststore
 .vscode/
 lighthouserc.js
+
+# Build output copied into `public/`. These ship in `@faststore/core/public`
+# (plus the Partytown lib) and every `yarn build` recreates them, so they are
+# never ours to commit. Named individually rather than ignoring `/public`, which
+# also holds real assets -- favicon, flags, fonts.
+/public/~partytown/
+/public/brandless-negative.png
+/public/brandless-neutral.png
+/public/brandless-positive.png
+/public/icons.svg
+/public/logo.svg
+/public/mockServiceWorker.js

@@ -58,24 +58,6 @@
       "widget": {
         "ui:widget": "draftjs-rich-text"
       }
-    },
-    "replenishFrequencies": {
-      "title": "Delivery Frequencies",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["value", "label"],
-        "properties": {
-          "value": {
-            "title": "Value",
-            "type": "string"
-          },
-          "label": {
-            "title": "Label",
-            "type": "string"
-          }
-        }
-      }
     }
   },
   "readOnly": false,

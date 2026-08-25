@@ -1,0 +1,19 @@
+extend type StoreProduct {
+  """
+  Delivery cadences the ReplenishMe subscription plan offers on this SKU, read
+  off its `vtex.subscription.replenishme` catalog attachment. Empty for a
+  product the plan is not registered on, which is what hides the ReplenishMe
+  purchase option on the PDP.
+  """
+  replenishFrequencies: [ArbReplenishFrequency!]!
+}
+
+"""
+One delivery cadence. `value` is the raw domain string VTEX validates the cart
+attachment against -- including its leading space -- and must be sent back
+unmodified; `label` is the display copy.
+"""
+type ArbReplenishFrequency {
+  value: String!
+  label: String!
+}

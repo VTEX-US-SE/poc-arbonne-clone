@@ -2,6 +2,7 @@ import { getAgentMessages, sendAgentMessage } from './agentChat'
 import { addComposedSet, type ComposedSetInput } from './composedSet'
 import { addRegistration, type RegistrationInput } from './registration'
 import { parseAttachment, type RawAttachment } from './parseComposition'
+import { replenishFrequencies } from './replenish'
 import { sponsorByArbonneId } from './sponsor'
 import { sponsorOfRecord } from './sponsorOfRecord'
 
@@ -52,6 +53,9 @@ const resolvers = {
           }
         })
         .filter(Boolean),
+
+    replenishFrequencies: (root: SkuRoot) =>
+      replenishFrequencies(root.attachments),
   },
 
   Mutation: {

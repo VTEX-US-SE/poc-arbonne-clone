@@ -1,5 +1,9 @@
 export type PurchaseOption = 'oneTime' | 'replenish'
 
+/**
+ * One delivery cadence. `value` is the raw domain string VTEX validates the
+ * cart attachment against, spacing included -- never trim it before sending.
+ */
 export interface ProductDetailsFrequency {
   value: string
   label: string
@@ -21,7 +25,6 @@ export interface ProductDetailsProps {
   oneTimeLabel?: string
   replenishTitle?: string
   replenishText?: string
-  replenishFrequencies?: ProductDetailsFrequency[]
 }
 
 export interface GalleryImageProps {
@@ -52,12 +55,22 @@ export interface PurchaseOptionsProps
       | 'oneTimeLabel'
       | 'replenishTitle'
       | 'replenishText'
-      | 'replenishFrequencies'
       | 'quantityLabel'
       | 'addToCartLabel'
       | 'replenishCtaLabel'
     > {
   onStickyChange: (stuck: boolean) => void
+  /**
+   * Cadences the SKU's subscription plan offers, from the catalog attachment.
+   * Empty hides the ReplenishMe option entirely -- the plan is not registered
+   * on this product, so an attachment would be rejected at checkout.
+   */
+  replenishFrequencies: ProductDetailsFrequency[]
+  purchaseOption: PurchaseOption
+  onPurchaseOptionChange: (option: PurchaseOption) => void
+  /** Already resolved to the first frequency when nothing has been picked. */
+  frequency: string
+  onFrequencyChange: (value: string) => void
 }
 
 export interface StickyBarProps

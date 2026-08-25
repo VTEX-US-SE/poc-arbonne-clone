@@ -12,6 +12,11 @@ import type { ButtonProps } from './Button.types'
  *
  * Without an `href` it renders `Button` instead -- a real `<button>`, for CTAs
  * that act rather than navigate. `<a href="#">` would be announced as a link.
+ *
+ * ponytail: a same-site `href` still renders a bare anchor, so every internal
+ * CTA is a full document reload. Core routes internal links through
+ * `<UILink as={NextLink}>`, but `LinkButton`'s types reject `as` and its source
+ * is not shipped -- confirm it forwards `as` at runtime before changing this.
  */
 export default function Button({
   variant = 'primary',

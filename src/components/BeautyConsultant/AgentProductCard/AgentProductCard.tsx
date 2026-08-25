@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import NextLink from 'next/link'
 import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
 
 import { safeProductHref } from '../../../utils/agentChat'
@@ -40,9 +41,9 @@ export default function AgentProductCard({ product }: AgentProductCardProps) {
   )
 
   return href ? (
-    <a className={styles.agentProductCard} href={href}>
+    <NextLink className={styles.agentProductCard} href={href} prefetch={false}>
       {content}
-    </a>
+    </NextLink>
   ) : (
     <article className={styles.agentProductCard} data-disabled>
       {content}

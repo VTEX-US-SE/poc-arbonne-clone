@@ -11,6 +11,10 @@ export interface ProductDetailsProps {
    */
   customizeLabel?: string
   priceLabel?: string
+  salePriceLabel?: string
+  pcPriceLabel?: string
+  /** Tooltip on the YOUR PRICE column. */
+  priceInfo?: string
   quantityLabel?: string
   addToCartLabel?: string
   replenishCtaLabel?: string
@@ -71,6 +75,8 @@ export interface StickyBarProps
     PurchaseSurfaceProps,
     Pick<ProductDetailsProps, 'priceLabel' | 'quantityLabel'> {
   /** Omitted for a customisable set, which has no price to show yet. */
-  formattedPrice?: string
+  price?: number
+  /** Suggested retail; struck through when above `price`. */
+  listPrice?: number
   buttonLabel?: string
 }

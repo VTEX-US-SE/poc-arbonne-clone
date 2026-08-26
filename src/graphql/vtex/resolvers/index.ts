@@ -2,6 +2,7 @@ import { getAgentMessages, sendAgentMessage } from './agentChat'
 import { addComposedSet, type ComposedSetInput } from './composedSet'
 import { addRegistration, type RegistrationInput } from './registration'
 import { parseAttachment, type RawAttachment } from './parseComposition'
+import { pcPrice, salePrice } from './pcPrice'
 import { replenishFrequencies } from './replenish'
 import { sponsorByArbonneId } from './sponsor'
 import { sponsorOfRecord } from './sponsorOfRecord'
@@ -56,6 +57,18 @@ const resolvers = {
 
     replenishFrequencies: (root: SkuRoot) =>
       replenishFrequencies(root.attachments),
+
+    pcPrice: (
+      root: Parameters<typeof pcPrice>[0],
+      _args: unknown,
+      ctx: Parameters<typeof pcPrice>[1]
+    ) => pcPrice(root, ctx),
+
+    salePrice: (
+      root: Parameters<typeof salePrice>[0],
+      _args: unknown,
+      ctx: Parameters<typeof salePrice>[1]
+    ) => salePrice(root, ctx),
   },
 
   Mutation: {

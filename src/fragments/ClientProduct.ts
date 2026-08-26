@@ -17,6 +17,8 @@ export const fragment = gql(`
       assemblyOptions {
         id
       }
+      pcPrice
+      salePrice
       replenishFrequencies {
         value
         label

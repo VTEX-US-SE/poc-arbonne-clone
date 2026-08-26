@@ -7,12 +7,12 @@ import {
   useProductLink_unstable as useProductLink,
   // @ts-ignore next-line
 } from '@faststore/core/experimental'
-import { usePriceFormatter } from 'src/sdk/product/useFormattedPrice'
 import { useSession } from 'src/sdk/session'
 
 import { setBuilderHref } from '../../utils/assemblySet'
 import { regionCodeFor } from '../../utils/locale'
 import Button from '../Button/Button'
+import Price from '../Price/Price'
 import styles from './ProductCard.module.scss'
 import type { ProductCardProps } from './ProductCard.types'
 
@@ -73,14 +73,13 @@ export default function ProductCard({
     },
   } = product
 
-  // Cast rather than relying on generated types: `assemblyOptions` reaches the
-  // list queries through our own fragment overrides.
+  // Cast rather than relying on generated types: `assemblyOptions` and
+  // `pcPrice` reach the list queries through our own fragment overrides.
   const assemblyOptions = (product as { assemblyOptions?: unknown[] })
     .assemblyOptions
   const isCustomisableSet = Boolean(assemblyOptions?.length)
+  const pcPrice = (product as { pcPrice?: number | null }).pcPrice
 
-  const formatPrice = usePriceFormatter({ decimals: true })
-  const formattedPrice = formatPrice(price)
   const outOfStock = availability === OUT_OF_STOCK
   const linkProps = useProductLink({
     index,
@@ -163,7 +162,13 @@ export default function ProductCard({
         </>
       ) : (
         <>
-          <p className={styles.productCard__price}>{formattedPrice}</p>
+          <Price
+            className={styles.productCard__price}
+            variant="card"
+            price={price}
+            listPrice={listPrice}
+            pcPrice={pcPrice}
+          />
 
           <div className={styles.productCard__cart}>
             <span className={styles.productCard__quantityLabel}>Quantity</span>

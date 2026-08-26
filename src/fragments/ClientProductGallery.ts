@@ -28,6 +28,7 @@ export const fragment = gql(`
             assemblyOptions {
               id
             }
+            pcPrice
           }
         }
       }

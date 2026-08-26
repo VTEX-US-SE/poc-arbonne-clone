@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import useAgentProductSearch from '../../../hooks/useAgentProductSearch'
 import {
   SEARCH_SHELF_HEADER,
-  searchTermForAgentMessage,
+  searchTermsForAgentMessage,
   shouldEnrichWithSearch,
 } from '../../../utils/agentProductSearch'
 import MessageBubble from '../MessageBubble/MessageBubble'
@@ -16,12 +16,12 @@ export default function EnrichedMessageBubble({
   index,
   enableSearchShelf,
 }: EnrichedMessageBubbleProps) {
-  const searchTerm =
+  const searchTerms =
     enableSearchShelf && shouldEnrichWithSearch(thread, index)
-      ? searchTermForAgentMessage(thread, index)
+      ? searchTermsForAgentMessage(thread, index)
       : undefined
 
-  const searchedProducts = useAgentProductSearch(searchTerm)
+  const searchedProducts = useAgentProductSearch(searchTerms)
 
   const enriched = useMemo<AgentChatMessage>(() => {
     if (message.products?.length) {

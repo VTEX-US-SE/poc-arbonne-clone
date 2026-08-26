@@ -4,7 +4,7 @@ import AgentProductCard from '../../BeautyConsultant/AgentProductCard/AgentProdu
 import useAgentProductSearch from '../../../hooks/useAgentProductSearch'
 import {
   SEARCH_SHELF_HEADER,
-  searchTermForAgentMessage,
+  searchTermsForAgentMessage,
   shouldEnrichWithSearch,
 } from '../../../utils/agentProductSearch'
 import type { AgentChatMessage } from '../../BeautyConsultant/BeautyConsultant.types'
@@ -37,12 +37,12 @@ export default function AgentProductShelf({
   enableSearchShelf,
   onAskAbout,
 }: AgentProductShelfProps) {
-  const searchTerm =
+  const searchTerms =
     enableSearchShelf && shouldEnrichWithSearch(thread, index)
-      ? searchTermForAgentMessage(thread, index)
+      ? searchTermsForAgentMessage(thread, index)
       : undefined
 
-  const searchedProducts = useAgentProductSearch(searchTerm)
+  const searchedProducts = useAgentProductSearch(searchTerms)
 
   const shelf = useMemo(
     () => enrichedMessage(message, searchedProducts),

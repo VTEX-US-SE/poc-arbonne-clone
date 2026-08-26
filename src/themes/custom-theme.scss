@@ -37,6 +37,8 @@ body:has([data-arb-assembly-set]) {
    store chrome without coupling the rule to a locale-specific URL. */
 body[data-arb-beauty-consultant],
 body:has([data-arb-beauty-consultant]) {
+  background-color: var(--arb-color-cream);
+
   [data-arb-header],
   [data-arb-mobile-tabbar],
   [data-arb-footer],

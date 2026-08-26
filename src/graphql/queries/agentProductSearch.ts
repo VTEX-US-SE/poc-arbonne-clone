@@ -5,7 +5,7 @@ export const agentProductSearchQuery = gql(`
     $term: String!
     $selectedFacets: [IStoreSelectedFacet!]
   ) {
-    search(first: 4, term: $term, selectedFacets: $selectedFacets) {
+    search(first: 8, term: $term, selectedFacets: $selectedFacets) {
       suggestions {
         products {
           slug

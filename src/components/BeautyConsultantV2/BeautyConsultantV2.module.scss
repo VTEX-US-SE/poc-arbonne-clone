@@ -3,6 +3,7 @@
 .beautyConsultantV2 {
   @include mixins.section-spacing;
 
+  margin-top: 0;
   margin-bottom: 0;
 
   --arb-bc-bg: var(--arb-color-cream);
@@ -133,12 +134,13 @@
     z-index: 3;
     display: grid;
     gap: var(--arb-consultant-gap-sm);
+    box-sizing: border-box;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc(50vw - 50%);
     padding-bottom: var(--fs-spacing-2);
-    background: linear-gradient(
-      180deg,
-      var(--arb-bc-bg) 72%,
-      rgb(250 246 244 / 0%) 100%
-    );
+    background: var(--arb-bc-bg);
+    border-bottom: 1px solid rgb(223 156 138 / 12%);
     text-align: center;
   }
 

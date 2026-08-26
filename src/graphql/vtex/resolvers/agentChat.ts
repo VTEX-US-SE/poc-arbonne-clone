@@ -7,6 +7,7 @@ interface WeniMessage {
   direction?: string
   text?: string
   created_on?: string
+  attachments?: unknown[]
 }
 
 interface WeniMessagesResponse {
@@ -18,6 +19,7 @@ export interface AgentMessage {
   direction: string
   text: string
   createdOn?: string
+  attachments: string[]
 }
 
 function contactIdFromUrn(urn: string): string | null {
@@ -62,6 +64,9 @@ export async function getAgentMessages(urn: string): Promise<AgentMessage[]> {
         direction: String(message.direction ?? ''),
         text: String(message.text ?? ''),
         createdOn: message.created_on,
+        attachments: Array.isArray(message.attachments)
+          ? message.attachments.map((attachment) => String(attachment))
+          : [],
       }))
   } catch {
     return []

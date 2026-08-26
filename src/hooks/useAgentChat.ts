@@ -7,7 +7,7 @@ import {
   agentMessagesQuery,
   sendAgentMessageMutation,
 } from '../graphql/queries/agentChat'
-import { parseAgentText } from '../utils/agentChat'
+import { parseAgentMessage } from '../utils/agentChat'
 
 const POLL_FAST = 1_000
 const POLL_IDLE = 5_000
@@ -20,6 +20,7 @@ interface AgentMessagesData {
     direction: string
     text: string
     createdOn?: string | null
+    attachments: string[]
   }>
 }
 
@@ -63,7 +64,9 @@ export default function useAgentChat({
   conversationPrefix: string
   errorMessage: string
 }) {
-  const [contactId, setContactId] = useState<string | null>(null)
+  const [contactId, setContactId] = useState(() =>
+    createContactId(conversationPrefix)
+  )
   const [pending, setPending] = useState<AgentChatMessage[]>([])
   const [waiting, setWaiting] = useState(false)
   const [sendError, setSendError] = useState<string | null>(null)
@@ -132,7 +135,7 @@ export default function useAgentChat({
           return {
             id: message.id,
             direction: 'out',
-            ...parseAgentText(message.text),
+            ...parseAgentMessage(message.text, message.attachments),
           }
         }),
     [data]

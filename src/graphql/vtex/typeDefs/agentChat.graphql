@@ -3,6 +3,7 @@ type ArbAgentMessage {
   direction: String!
   text: String!
   createdOn: String
+  attachments: [String!]!
 }
 
 extend type Query {

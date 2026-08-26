@@ -7,12 +7,18 @@ export default function ChatInput({
   value,
   placeholder,
   disabled = false,
+  variant = 'dark',
   onChange,
   onSubmit,
 }: ChatInputProps) {
   return (
     <form
-      className={styles.chatInput}
+      className={[
+        styles.chatInput,
+        variant === 'light' && styles['chatInput--light'],
+      ]
+        .filter(Boolean)
+        .join(' ')}
       role="search"
       onSubmit={(event) => {
         event.preventDefault()
@@ -22,11 +28,13 @@ export default function ChatInput({
       <Icon name="MagnifyingGlass" width={22} height={22} />
       <input
         className={styles.chatInput__field}
-        type="search"
+        type="text"
         value={value}
         maxLength={2_000}
         placeholder={placeholder}
         aria-label={placeholder}
+        enterKeyHint="search"
+        autoComplete="off"
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
       />

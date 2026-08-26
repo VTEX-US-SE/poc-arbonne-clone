@@ -40,7 +40,13 @@ body:has([data-arb-beauty-consultant]) {
   [data-arb-header],
   [data-arb-mobile-tabbar],
   [data-arb-footer],
-  .section-footer {
+  .section-footer,
+  footer {
+    display: none;
+  }
+
+  /* Drop any landing-page sections below the consultant (e.g. legal/footer). */
+  .section:has([data-arb-beauty-consultant]) ~ .section {
     display: none;
   }
 

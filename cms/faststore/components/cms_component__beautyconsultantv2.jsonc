@@ -1,0 +1,105 @@
+{
+  "$extends": ["#/$defs/base-component"],
+  "$componentKey": "BeautyConsultantV2",
+  "$componentTitle": "[ARB] Beauty Consultant v2",
+  "title": "[ARB] Beauty Consultant v2",
+  "description": "Split-layout Agentic CX: conversation on the left, product shelves on the right, search bar at the top",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "skipLazyLoadingSection": {
+      "title": "Render immediately",
+      "description": "Turn on when this is the first section on the landing page.",
+      "type": "boolean",
+      "default": true
+    },
+    "eyebrow": {
+      "title": "Eyebrow",
+      "description": "Small line above the headline. Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "headline": {
+      "title": "Headline",
+      "description": "Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "intro": {
+      "title": "Introduction",
+      "description": "Shown under the headline on the opening screen, and hidden once the conversation starts. Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "welcomeMessage": {
+      "title": "Welcome Message",
+      "description": "The consultant's first reply, which opens the conversation after the shopper writes. Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "placeholder": {
+      "title": "Search Placeholder",
+      "description": "Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "starterPrompts": {
+      "title": "Starter Prompts",
+      "description": "Suggested openers shown under the field. Leave empty to use the built-in set.",
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 6,
+      "items": {
+        "title": "Prompt",
+        "type": "string"
+      }
+    },
+    "logo": {
+      "title": "Logo",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": false,
+          "image": ["png", "jpg", "jpeg", "svg", "webp"]
+        }
+      }
+    },
+    "logoAlt": {
+      "title": "Logo Alt Text",
+      "type": "string"
+    },
+    "backgroundImage": {
+      "title": "Background Image",
+      "description": "Full-bleed image behind the consultation. Blank uses the cream brand background.",
+      "type": "string",
+      "widget": {
+        "ui:widget": "media-gallery",
+        "restrictMediaTypes": {
+          "video": false,
+          "image": ["png", "jpg", "jpeg", "webp"]
+        }
+      }
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "description": "Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "errorMessage": {
+      "title": "Unavailable Message",
+      "description": "Shown when the agent cannot be reached. Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "resetLabel": {
+      "title": "New Conversation Label",
+      "description": "Blank uses the built-in copy.",
+      "type": "string"
+    },
+    "conversationPrefix": {
+      "title": "Conversation ID Prefix",
+      "description": "Must begin with a letter. Coordinate changes with the Weni flow.",
+      "type": "string",
+      "default": "arb"
+    }
+  },
+  "readOnly": false,
+  "writeOnly": false,
+  "deprecated": false,
+  "$abstract": false
+}

@@ -25,29 +25,49 @@
   &:focus-within {
     background: rgb(255 255 255 / 20%);
     border-color: rgb(255 255 255 / 45%);
+    box-shadow:
+      0 1rem 2rem rgb(0 0 0 / 25%),
+      inset 0 1px 0 rgb(255 255 255 / 28%);
+  }
+
+  &:has(:disabled) {
+    opacity: 0.72;
   }
 
   &__field {
     flex: 1;
     min-width: 0;
+    padding: 0;
     color: var(--arb-color-white);
     font-family: var(--arb-font-body);
     font-size: var(--arb-consultant-type-ui, 1rem);
     line-height: 1.4;
+    appearance: none;
     background: transparent;
     border: 0;
     outline: 0;
+    box-shadow: none;
     /* Safari zooms the viewport on focus below 16px. */
     -webkit-text-size-adjust: 100%;
+
+    &:focus,
+    &:focus-visible {
+      outline: 0;
+      background: transparent;
+      box-shadow: none;
+    }
 
     &::placeholder {
       color: rgb(255 255 255 / 60%);
     }
 
-    /* The type="search" clear button renders as a dark glyph, invisible here. */
-    &::-webkit-search-cancel-button {
-      filter: invert(1);
-      opacity: 0.6;
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--arb-color-white);
+      caret-color: var(--arb-color-white);
+      transition: background-color 9999s ease-out;
+      -webkit-box-shadow: 0 0 0 1000px transparent inset;
     }
   }
 
@@ -71,6 +91,43 @@
     &:disabled {
       cursor: not-allowed;
       opacity: 0.4;
+    }
+  }
+
+  &--light {
+    position: relative;
+    z-index: 1;
+    color: var(--arb-color-text);
+    background: var(--arb-color-white);
+    border: 1px solid var(--arb-color-gray-line);
+    box-shadow: 0 0.5rem 1.25rem rgb(37 37 37 / 6%);
+
+    &:focus-within {
+      background: var(--arb-color-white);
+      border-color: var(--arb-color-green-soft);
+      box-shadow:
+        0 0.5rem 1.25rem rgb(37 37 37 / 6%),
+        0 0 0 3px rgb(36 99 70 / 12%);
+    }
+
+    .chatInput__field {
+      color: var(--arb-color-text);
+
+      &::placeholder {
+        color: var(--arb-color-gray-muted);
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-text-fill-color: var(--arb-color-text);
+        caret-color: var(--arb-color-text);
+      }
+    }
+
+    .chatInput__submit {
+      color: var(--arb-color-white);
+      border-color: transparent;
     }
   }
 }

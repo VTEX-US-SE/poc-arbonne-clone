@@ -7,6 +7,7 @@ export const agentMessagesQuery = gql(`
       direction
       text
       createdOn
+      attachments
     }
   }
 `)

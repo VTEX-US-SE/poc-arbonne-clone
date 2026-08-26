@@ -1,0 +1,31 @@
+.agentProductShelf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-spacing-2);
+
+  &__header {
+    margin: 0;
+    color: var(--arb-bc-text-muted, rgb(255 255 255 / 72%));
+    font-family: var(--arb-font-heading);
+    font-size: var(--arb-consultant-type-caption, 0.75rem);
+    font-weight: var(--fs-text-weight-bold);
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--fs-spacing-2);
+    padding: var(--fs-spacing-2);
+    background: var(--arb-bc-shelf-bg, rgb(255 255 255 / 12%));
+    border: 1px solid var(--arb-bc-shelf-border, rgb(255 255 255 / 18%));
+    border-radius: 1.25rem;
+    box-shadow: 0 0.75rem 1.75rem rgb(37 37 37 / 6%);
+
+    @media (min-width: 64rem) {
+      gap: var(--fs-spacing-3);
+    }
+  }
+}

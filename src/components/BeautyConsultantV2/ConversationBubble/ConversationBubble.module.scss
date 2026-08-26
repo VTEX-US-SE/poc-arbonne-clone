@@ -1,0 +1,42 @@
+.conversationBubble {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-spacing-1);
+  max-width: min(92%, 36rem);
+
+  &[data-direction='in'] {
+    align-self: flex-end;
+  }
+
+  &[data-direction='out'] {
+    align-self: flex-start;
+  }
+
+  &__body {
+    padding: var(--fs-spacing-2) var(--fs-spacing-3);
+    font-family: var(--arb-font-body);
+    font-size: var(--arb-consultant-type-body, 0.9375rem);
+    line-height: 1.55;
+    border-radius: 1.25rem;
+
+    p {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+  }
+
+  &[data-direction='in'] &__body {
+    color: var(--arb-bc-bubble-in-text, var(--arb-color-white));
+    background: var(--arb-bc-bubble-in-bg, var(--arb-color-green));
+    border: 1px solid rgb(36 99 70 / 18%);
+    border-bottom-right-radius: 0.35rem;
+  }
+
+  &[data-direction='out'] &__body {
+    color: var(--arb-bc-bubble-out-text, var(--arb-color-white));
+    background: var(--arb-bc-bubble-out-bg, rgb(255 255 255 / 12%));
+    border: 1px solid var(--arb-bc-bubble-out-border, rgb(255 255 255 / 18%));
+    border-bottom-left-radius: 0.35rem;
+    box-shadow: 0 0.5rem 1.25rem rgb(37 37 37 / 6%);
+  }
+}

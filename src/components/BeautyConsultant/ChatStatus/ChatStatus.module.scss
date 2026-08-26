@@ -14,6 +14,14 @@
     color: #ffc7c7;
   }
 
+  &--light {
+    color: var(--arb-color-gray-muted-text);
+
+    &[data-error] {
+      color: #b42318;
+    }
+  }
+
   button {
     padding: 0;
     color: inherit;

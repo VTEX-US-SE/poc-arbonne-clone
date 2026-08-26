@@ -53,14 +53,28 @@ function addUniqueName(names: string[], seen: Set<string>, value: string) {
   names.push(clean)
 }
 
+function forEachRegexMatch(
+  text: string,
+  pattern: RegExp,
+  onMatch: (match: RegExpExecArray) => void
+) {
+  const regex = new RegExp(pattern.source, pattern.flags)
+  let match = regex.exec(text)
+
+  while (match) {
+    onMatch(match)
+    match = regex.exec(text)
+  }
+}
+
 /** Pull product names the agent mentioned in plain-text replies. */
 export function extractProductNamesFromAgentText(text: string): string[] {
   const names: string[] = []
   const seen = new Set<string>()
 
-  for (const match of text.matchAll(/\*\*([^*\n]+)\*\*/g)) {
+  forEachRegexMatch(text, /\*\*([^*\n]+)\*\*/g, (match) => {
     addUniqueName(names, seen, match[1] ?? '')
-  }
+  })
 
   for (const line of text.split('\n')) {
     const trimmed = line.trim()
@@ -75,9 +89,9 @@ export function extractProductNamesFromAgentText(text: string): string[] {
     }
   }
 
-  for (const match of text.matchAll(BRAND_PREFIX)) {
+  forEachRegexMatch(text, BRAND_PREFIX, (match) => {
     addUniqueName(names, seen, match[1] ?? '')
-  }
+  })
 
   return names.slice(0, 6)
 }

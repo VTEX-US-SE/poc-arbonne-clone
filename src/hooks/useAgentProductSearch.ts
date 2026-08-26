@@ -40,18 +40,23 @@ function mergeProducts(current: AgentProduct[], incoming: AgentProduct[]) {
     merged.set(`${product.sku}-${product.seller}`, product)
   }
 
-  return [...merged.values()]
+  return Array.from(merged.values())
 }
 
 export default function useAgentProductSearch(terms: string | string[] | null | undefined) {
   const { channel, locale } = useSession()
   const normalized = useMemo(() => {
     const list = Array.isArray(terms) ? terms : terms ? [terms] : []
+    const trimmed = list.map((term) => term.trim()).filter(Boolean)
+    const unique: string[] = []
 
-    return [...new Set(list.map((term) => term.trim()).filter(Boolean))].slice(
-      0,
-      MAX_TERMS
-    )
+    for (const term of trimmed) {
+      if (!unique.includes(term)) {
+        unique.push(term)
+      }
+    }
+
+    return unique.slice(0, MAX_TERMS)
   }, [terms])
 
   const primary = normalized[0] ?? ''

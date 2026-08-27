@@ -7,6 +7,7 @@ import {
   buildShelfPreviewThread,
 } from '../../utils/beautyConsultantPreview'
 import { DEFAULT_BEAUTY_CONSULTANT_LOGO } from '../../utils/beautyConsultantBrand'
+import CartButton from '../CartButton/CartButton'
 import ChatInput from '../BeautyConsultant/ChatInput/ChatInput'
 import ChatStatus from '../BeautyConsultant/ChatStatus/ChatStatus'
 import ConversationBubble from './ConversationBubble/ConversationBubble'
@@ -160,11 +161,16 @@ export default function BeautyConsultantV2({
 
       <div className={styles.beautyConsultantV2__layout}>
         <header className={styles.beautyConsultantV2__header}>
-          <img
-            className={styles.beautyConsultantV2__logo}
-            src={logoSrc}
-            alt={filled(logoAlt, COPY.logoAlt)}
-          />
+          <div className={styles.beautyConsultantV2__headerTop}>
+            <img
+              className={styles.beautyConsultantV2__logo}
+              src={logoSrc}
+              alt={filled(logoAlt, COPY.logoAlt)}
+            />
+            <div className={styles.beautyConsultantV2__cart}>
+              <CartButton />
+            </div>
+          </div>
 
           <div className={styles.beautyConsultantV2__search}>
             <ChatInput

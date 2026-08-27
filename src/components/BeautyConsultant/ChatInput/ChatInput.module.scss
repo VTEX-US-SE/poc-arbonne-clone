@@ -71,6 +71,26 @@
     }
   }
 
+  &__camera {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    box-sizing: border-box;
+    width: calc(var(--arb-chat-input-height) - var(--fs-spacing-2));
+    height: calc(var(--arb-chat-input-height) - var(--fs-spacing-2));
+    padding: 0;
+    color: inherit;
+    cursor: default;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    opacity: 0.72;
+
+    &:disabled {
+      opacity: 0.4;
+    }
+  }
+
   &__submit {
     display: grid;
     flex: 0 0 auto;
@@ -125,6 +145,10 @@
         -webkit-text-fill-color: var(--arb-color-text);
         caret-color: var(--arb-color-text);
       }
+    }
+
+    .chatInput__camera {
+      color: var(--arb-color-gray-muted-text);
     }
 
     .chatInput__submit {

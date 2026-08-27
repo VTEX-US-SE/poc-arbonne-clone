@@ -1,5 +1,6 @@
 import { Icon } from '@faststore/ui'
 
+import CameraIcon from './CameraIcon'
 import styles from './ChatInput.module.scss'
 import type { ChatInputProps } from './ChatInput.types'
 
@@ -26,6 +27,15 @@ export default function ChatInput({
       }}
     >
       <Icon name="MagnifyingGlass" width={22} height={22} />
+      <button
+        className={styles.chatInput__camera}
+        type="button"
+        tabIndex={-1}
+        aria-hidden="true"
+        disabled={disabled}
+      >
+        <CameraIcon width={22} height={22} />
+      </button>
       <input
         className={styles.chatInput__field}
         type="text"

@@ -4,6 +4,111 @@
   '~@faststore/ui/src/components/molecules/Modal/styles.scss'
 );
 
+/* CartSidebar is a slide-over, but ModalContent always sets `data-fs-modal`.
+   Without this reset the centered-modal rules (top: 30vh, inset margins,
+   vertical transform) fight SlideOver — the footer and header controls sit
+   below the viewport and look unavailable. */
+[data-fs-modal][data-fs-slide-over] {
+  top: 0;
+  bottom: 0;
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  width: var(--fs-slide-over-partial-width-mobile);
+  max-width: var(--fs-slide-over-partial-max-width-notebook);
+  min-width: 0;
+  min-height: 0;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  border-radius: 0;
+
+  @include u.media('>=notebook') {
+    width: var(--fs-slide-over-partial-width-notebook);
+  }
+
+  /* Slide-over animation owns transform via data-fs-slide-over-state. */
+  &[data-fs-modal-state='in'],
+  &[data-fs-modal-state='out'] {
+    transform: unset;
+  }
+}
+
+/* CartSidebar is portaled outside `.theme`. Core styles set `> * { flex-shrink: 0 }`
+   and `overflow: auto` on the root, so with several items the list grows to full
+   content height and the footer (subtotal + checkout) is clipped below the panel. */
+[data-fs-modal][data-fs-slide-over][data-fs-cart-sidebar] {
+  --fs-cart-sidebar-bkg-color: var(--fs-color-neutral-0);
+  --fs-cart-sidebar-footer-box-shadow: none;
+  --fs-slide-over-partial-max-width-notebook: 480px;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 100dvh;
+
+  @include u.media('>=notebook') {
+    --fs-cart-sidebar-list-padding: var(--fs-spacing-3) var(--fs-spacing-7);
+    --fs-slide-over-header-padding: var(--fs-spacing-2) var(--fs-spacing-7);
+  }
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  > [data-fs-cart-sidebar-list] {
+    flex: 1 1 auto;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  > [data-fs-cart-sidebar-footer] {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: var(--fs-spacing-3);
+    background-color: var(--fs-cart-sidebar-footer-bkg-color, #ffffff);
+    box-shadow: var(--fs-cart-sidebar-footer-box-shadow);
+
+    @include u.media('>=notebook') {
+      padding: 0 var(--fs-spacing-7) var(--fs-spacing-4);
+    }
+
+    [data-fs-order-summary] {
+      --fs-order-summary-row-gap: var(--fs-grid-gap-0);
+
+      padding-top: var(--fs-spacing-4);
+      margin-bottom: var(--fs-spacing-3);
+      border-top: var(--fs-border-width) solid var(--fs-border-color);
+    }
+
+    [data-fs-button] {
+      --fs-button-primary-bkg-color: #246346;
+      --fs-button-primary-bkg-color-hover: #006837;
+      --fs-button-primary-bkg-color-active: #08482b;
+      --fs-button-primary-text-color: #ffffff;
+      --fs-button-primary-text-color-hover: #ffffff;
+      --fs-button-primary-text-color-active: #ffffff;
+
+      width: 100%;
+    }
+  }
+
+  [data-fs-slide-over-header] [data-fs-button-wrapper] {
+    color: #252525;
+  }
+}
+
+body:has([data-arb-beauty-consultant]) {
+  [data-fs-overlay] {
+    z-index: 20;
+  }
+
+  [data-fs-modal][data-fs-slide-over] {
+    z-index: 21;
+  }
+}
+
 .section-shopping-assistant {
   margin: 0;
 }
@@ -43,7 +148,7 @@ body:has([data-arb-beauty-consultant]) {
   [data-arb-mobile-tabbar],
   [data-arb-footer],
   .section-footer,
-  footer {
+  footer:not([data-fs-cart-sidebar-footer]) {
     display: none;
   }
 

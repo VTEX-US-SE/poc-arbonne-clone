@@ -55,7 +55,7 @@ export default function AccountButton({
         type="button"
       >
         <Icon name="User" width={24} height={24} />
-        <span>Login</span>
+        <span>Join</span>
       </button>
     )
   }

@@ -13,7 +13,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@faststore/cli": "^4.4.0",
+    "@faststore/cli": "^4.6.0",
     "graphql": "^16.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
